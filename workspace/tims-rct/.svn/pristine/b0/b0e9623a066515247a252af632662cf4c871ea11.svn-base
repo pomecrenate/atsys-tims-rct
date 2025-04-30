@@ -1,0 +1,234 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Bas1300e.jsp
+	// 설명 : 메뉴관리
+	// 작성자 : 최연재
+	// 일자 : 2025.04.21
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/bas1300e"/>
+<c:set var="svnmSearch" value="${svnm}/search"></c:set>
+<c:set var="svnmTree" value="${svnm}/tree"></c:set>
+
+<div class="x_panel_wrap"> 
+	<div class="x_panel">
+		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
+	<%-- 	<input type="hidden" name="cpCd"		id="cpCd"		value="<c:out value="${loginUser.cpCd}"/>" /> 
+			<input type="hidden" name="cpAdminYn"	id="cpAdminYn"	value="<c:out value="${loginUser.cpAdminYn}"/>" />
+			<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/> --%>
+		
+			<div class="search_condition">
+				<div class="condition_list">
+					<dl>
+						<dt><label for="qrySysCd">시스템구분</label></dt>
+						<dd>
+							<select class="form-control" id="qrySysCd" name="qrySysCd" required="required">
+								<option value="">선택</option>
+								<option value="SERVICE">관리자화면</option>
+								<option value="FRONT">사용자화면</option>								
+							</select>
+						</dd>
+					</dl>
+					<button data-action="searchList"  type="button" class="n_btn btn_md btn_search"><i class="fa fa-search"></i> 조회</button>
+				</div>			
+			</div>
+		</form>
+	</div>
+	<div class="x_panel">
+		<div class="col-md-3">
+			<div class="list_top">
+				<div class="tree_top">
+					<div class="form_control_wrap">
+						<input data-enter="searchTree" id="qrySearchTree" name="qrySearchTree" class="form-control" type="text" maxlength="80"/>
+						<button data-action="searchTree" class="n_btn btn_md btn_form_control" type="button"><i class="fas fa-search"></i></button>
+					</div>
+					<div class="btn_group">
+						<button data-action="treeOpen" type="button" class="n_btn btn_md btn_c07" title="전체열기"><i class="fas fa-folder-open"></i></button>
+						<button data-action="treeClose" type="button" class="n_btn btn_md btn_c07" title="전체닫기"><i class="fas fa-folder"></i></button>
+					</div>
+				</div>
+			</div>
+			<div id="tree" data-type="tree" data-url="" data-node-selected="treeSelected" data-node-unselected="treeUnSelected" style="height: 440px; overflow-y: auto"></div>
+		</div>	
+		<div class="col-md-9">
+			<div class="list_top">
+				<div class="lft-area"><p class="list_title">메뉴목록</p></div>	
+				<div class="rgt-area">
+					<div class="btn-group">
+						<button data-action="insertItem" type="button" class="n_btn btn_md btn_c01" id="isrtBtn"><i class="fas fa-plus"></i> 신규</button>
+						<button type="button" class="n_btn btn_md btn_c01" id="cnclBtn" hidden><i class="fas fa-minus"></i> 취소</button>
+						<button data-action="save" type="button" class="n_btn btn_md btn_c03"><i class="fas fa-check"></i> 저장</button>
+						<button data-action="deleteItem" type="button" class="n_btn btn_md btn_c05"> 삭제</button>
+					</div>
+				</div>
+			</div>
+			<div class="x_content">
+				<table class="table" id="menu-table" >
+					<thead>
+						<tr>
+							<th><input type="checkbox" /></th>
+							<th>No</th>
+							<th>메뉴ID</th>
+							<th>메뉴명</th>
+							<th>레벨</th>
+							<th>사용여부</th>
+							<th>상위ID</th>
+							<th>실행파일</th>
+							<th>&#9650;</th>
+							<th>&#9660;</th>
+						</tr>
+					</thead>
+					<tbody id="menu-tbody"> 
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	</div>
+	<div class="x_panel">
+		<form method="POST" id="detail" name="detail" data-sheet="mySheet">
+			<input type="hidden" name="sStatus" id="sStatus" value="I" />
+			<input type="hidden" name="hidSysCd" id="hidSysCd" />
+			<input type="hidden" name="menuCd" id="menuCd" />
+			<input type="hidden" name="sysCd" id="sysCd" value="${sysCd}" />
+<%-- 			<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/> --%>
+			
+			<p class="detail_title">상세내용</p>
+			<table class="view_table">
+				<caption>상세내용</caption>
+				<colgroup>
+					<col style="width:120px">
+					<col style="width:auto">
+					<col style="width:120px">
+					<col style="width:auto">
+					<col style="width:120px">
+					<col style="width:auto">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th><label for="sysMenuCd">메뉴 ID</label></th>
+						<td>
+							<input type="text" class="form-control" id="sysMenuCd" name="sysMenuCd" maxlength="200" required="required"/>
+						</td>
+						<th><label for="menuNm">메뉴명</label></th>
+						<td>
+							<input type="text" class="form-control" id="menuNm" name="menuNm" maxlength="80" required="required" />
+						</td>
+						<th><label for="menuUseYn">메뉴사용</label></th>
+						<td>
+							<select class="form-control" id="menuUseYn" name="menuUseYn" required="required">
+								<option value="">선택</option>
+								<option value="Y">사용</option>
+								<option value="N">미사용</option>	
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="menuLvl">메뉴레벨</label></th>
+						<td>
+							<input type="text" class="form-control" id="menuLvl" name="menuLvl" data-format="dfNumber" required="required"/>
+						</td>
+						<th><label for="menuSort">순서</label></th>
+						<td>
+							<input type="text" class="form-control" id="menuSort" name="menuSort" data-format="dfNumber" required="required"/>
+						</td>
+						<th><label for="menuUrl">실행파일</label></th>
+						<td>
+							<input type="text" class="form-control" id="menuUrl" name="menuUrl" data-pre="/" maxlength="300" />
+						</td>
+					</tr>
+					<tr>						
+						<th><label for="uprMenuCd">상위메뉴</label></th>
+						<td>
+							<input type="text" readonly class="form-control" id="uprMenuCd" name="uprMenuCd" maxlength="90" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('form#search #qrySysCd').multiselect('select', 'SERVICE');
+	searchList();
+})
+  
+function searchList() {
+	const sysCd = $('form#search').find('[name=qrySysCd]').val();
+	if(sysCd == '') {
+		alert('시스템구분을 선택해 주세요.');
+		$('form#search').find('[name=qrySysCd]').focus();
+		return;
+	}
+	
+	$("[data-type=tree]").each(function() {
+		$(this).data('url', '${svnmTree}?qrySysCd=' + sysCd);
+		$(this).initTreeView();
+	});
+}
+
+const columns = [
+	{ type: "checkbox", name: "check" },
+    { name: "menuSort"},
+    { name: "sysMenuCd" },
+    { name: "menuNm" },
+    { name: "menuLvl"},
+    { name: "menuUseYn" },
+    { name: "uprMenuCd" },
+    { name: "menuUrl"},
+    { html: "<button id='upId' type='button' class='n_btn btn_sm btn_c04'><i class='fas fa-arrow-up'></i></button>" },
+    { html: "<button id='downId' type='button' class='n_btn btn_sm btn_c04'><i class='fas fa-arrow-down'></i></button>" },
+]
+
+function treeSelected(event, data){
+	$("form#detail").find("[name='hidSysCd']").val(data.sysMenuCd);
+	const url = "${svnmSearch}?qryUprMenuCd=" + data.sysMenuCd;
+	const obj = TimsUtil.getObject(url, {}, true);
+	const result = obj.data;
+	RctUtil.renderTable("menu-tbody", columns, result);
+}
+
+document.querySelectorAll("#upId").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const row = this.closest("tr");
+    const prev = row.previousElementSibling;
+    if (prev) {
+      row.parentNode.insertBefore(row, prev);
+    }
+  });
+});
+
+document.querySelectorAll("#downId").forEach(btn => {
+  btn.addEventListener("click", function() {
+    const row = this.closest("tr");
+    const next = row.nextElementSibling;
+    if (next) {
+      row.parentNode.insertBefore(next, row);
+    }
+  });
+});
+
+function insertItem() {
+	const arr = $("#tree").getSelectedNode();
+	let upMenuId = "";
+	let menuLvl = '';
+	
+	if(arr && arr.length){
+		menuLvl = TimsUtil.parseInt(arr[0].menuLvl)+1;
+		upMenuId = arr[0].sysMenuCd;
+	} else {
+		alert("상위메뉴를 선택해 주세요.");
+		return;
+	}
+	
+	$("form#detail")[0].reset();
+}
+
+
+</script>

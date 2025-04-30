@@ -1,0 +1,25 @@
+/*************************************************************
+ 프로그램명 : Jdg1100eDao.java
+ 설명 : 외부 평가위원 관리
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.tims.jdg.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbExEvalJdgVo;
+
+@Repository
+@Mapper
+public interface Jdg1100eDao {
+    List<TbExEvalJdgVo> selectExJudgeList(Map<String, Object> so);
+    int selectExJudgeCount(Map<String, Object> so);
+    int selectMaxExJudgeIndex(String prefix);
+    int insertExJudge(TbExEvalJdgVo judge);
+    int deleteExJudge(Map<String, Object> so);
+}

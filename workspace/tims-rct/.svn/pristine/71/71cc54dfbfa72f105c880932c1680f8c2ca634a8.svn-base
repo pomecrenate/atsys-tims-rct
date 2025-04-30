@@ -1,0 +1,87 @@
+/*************************************************************
+ 프로그램명 : TbUsrBo.java
+ 설명 : 전체 사용자 공통 테이블
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.model;
+
+import com.atsys.base.model.BaseVo;
+
+public class TbUsrBo extends BaseVo {
+
+	private static final long serialVersionUID = -3171218098374287449L;
+
+    private String usrCd;		// 사용자 코드 (EX_JDG_CD/EMP_CD/APP_USR_CD)
+    private String usrId;		// 사용자 ID (USR_ID)
+    private String nm;			// 이름 (NM)
+    private String pw;			// 비밀번호 (PW)
+    private String org;			// 소속 (ORG)
+    private String mobPhone;	// 휴대폰 번호 (MOB_PHONE)
+    private String email;		// 이메일 (EMAIL)
+    private String usrType;		// 사용자 유형 (100: 내부, 200: 외부, 300: 지원자)
+
+	public String getUsrCd() {
+		return usrCd;
+	}
+
+	public void setUsrCd(String usrCd) {
+		this.usrCd = usrCd;
+	}
+
+    public String getUsrId() {
+        return usrId;
+	}
+
+    public void setUsrId(String usrId) {
+        this.usrId = usrId;
+	}
+
+    public String getNm() {
+        return nm;
+    }
+
+    public void setNm(String nm) {
+        this.nm = nm;
+    }
+
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
+
+    public String getOrg() {
+        return org;
+    }
+
+    public void setOrg(String org) {
+        this.org = org;
+    }
+
+    public String getMobPhone() {
+        return mobPhone;
+    }
+
+    public void setMobPhone(String mobPhone) {
+        this.mobPhone = mobPhone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsrType() {
+        return usrType;
+    }
+
+    public void setUsrType(String usrType) {
+        this.usrType = usrType;
+    }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+		<groupId>com.atsys</groupId>
+		<artifactId>tims-rct</artifactId>
+		<version>1.0.0</version>
+	</parent> 
+	<artifactId>tims-rct-webapp</artifactId>
+	<packaging>war</packaging> 
+	<name>tims-rct-webapp</name>   
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>tims-rct-main</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>tims-rct-main</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>tims-rct-main</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		
+        <!-- 운영/개발 환경 구분 빌드시 사용 , Option mvn -Pdev , mvn -Preal -->
+		<profile>
+			<id>Real</id>
+			<properties>
+				<environment>real</environment>
+            </properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+            	<environment>dev</environment>
+            </properties>
+		</profile>		
+	</profiles>
+	
+
+	<build>
+		<plugins>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-war-plugin</artifactId>
+                      <configuration>
+                             <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
+                             <webResources>
+                                     <webResource>
+                                          <directory>${basedir}/src/main/resources-dev</directory>
+                                     </webResource>
+                             </webResources>
+                      </configuration>
+               </plugin>
+		</plugins>		
+		<finalName>tims-rct-webapp</finalName>
+	</build>
+</project>

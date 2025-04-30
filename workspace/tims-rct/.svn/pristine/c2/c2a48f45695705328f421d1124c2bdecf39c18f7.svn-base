@@ -1,0 +1,106 @@
+package com.atsys.model;
+
+import java.io.Serializable;
+
+public class TbAppVo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7509806457787164367L;
+	
+	private String appCd; 
+	private String appStatus;
+	private String nm;
+	private String mobPhone;
+	private String updUsrCd;
+	private String updPgm;
+	private String updIp;
+	private String updDate; // 마지막 수정일자가 제출일자? 
+	private String qualYn;
+	private String notQualReason;
+	private String appUsrCd;
+	private String careerPeriod;
+	private String careerReason;
+	
+	
+	public String getAppCd() {
+		return appCd;
+	}
+	public String getAppStatus() {
+		return appStatus;
+	}
+	public String getNm() {
+		return nm;
+	}
+	public String getMobPhone() {
+		return mobPhone;
+	}
+	public String getUpdUsrCd() {
+		return updUsrCd;
+	}
+	public String getUpdPgm() {
+		return updPgm;
+	}
+	public String getUpdIp() {
+		return updIp;
+	}
+	public String getUpdDate() {
+		return updDate;
+	}
+	public String getQualYn() {
+		return qualYn;
+	}
+	public String getNotQualReason() {
+		return notQualReason;
+	} 
+	public void setAppCd(String appCd) {
+		this.appCd = appCd;
+	}
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	public void setMobPhone(String mobPhone) {
+		this.mobPhone = mobPhone;
+	}
+	public void setUpdUsrCd(String updUsrCd) {
+		this.updUsrCd = updUsrCd;
+	}
+	public void setUpdPgm(String updPgm) {
+		this.updPgm = updPgm;
+	}
+	public void setUpdIp(String updIp) {
+		this.updIp = updIp;
+	}
+	public void setUpdDate(String updDate) {
+		this.updDate = updDate;
+	}
+	public void setQualYn(String qualYn) {
+		this.qualYn = qualYn;
+	}
+	public void setNotQualReason(String notQualReason) {
+		this.notQualReason = notQualReason;
+	}
+	public String getAppUsrCd() {
+		return appUsrCd;
+	}
+	public String getCareerPeriod() {
+		return careerPeriod;
+	}
+	public String getCareerReason() {
+		return careerReason;
+	}
+	public void setAppUsrCd(String appUsrCd) {
+		this.appUsrCd = appUsrCd;
+	}
+	public void setCareerPeriod(String careerPeriod) {
+		this.careerPeriod = careerPeriod;
+	}
+	public void setCareerReason(String careerReason) {
+		this.careerReason = careerReason;
+	} 
+
+}

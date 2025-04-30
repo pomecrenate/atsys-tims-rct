@@ -1,0 +1,90 @@
+/*************************************************************
+ 프로그램명 : Jdg1100eController.java
+ 설명 : 외부 평가위원 관리
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.tims.jdg.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.TbExEvalJdgVo;
+import com.atsys.tims.jdg.service.Jdg1100eService;
+import com.atsys.nxf.app.vo.Pagination;
+
+@Controller
+@RequestMapping(value = "/jdg1100e")
+public class Jdg1100eController {
+    
+    private static final String ADM_PATH   = "tims/views/jdg/";
+    private final String viewList          = ADM_PATH + "Jdg1100e";
+    private final String insertPop       = ADM_PATH + "popup/Jdg1100p1";
+    
+    @Autowired
+    private ViewHelper viewHelper;
+    
+    @Autowired
+    private Jdg1100eService jdg1100eService;
+    
+    @RequestMapping
+    public ModelAndView init(HttpSession session) throws Exception {
+    	session.setAttribute("userRole", "ADMIN");
+        return viewHelper.createModelAndView(viewList);
+    }
+    
+    @RequestMapping(value="/search")
+    @ResponseBody
+    public Map<String, Object> getExJudgeList(@RequestBody Map<String, Object> so) throws Exception {
+    	Map<String, Object> result = new HashMap<>();
+        int pageIndex = Integer.parseInt(String.valueOf(so.getOrDefault("pageIndex", "1")));
+        so.put("currentPageNo", pageIndex);
+
+        List<TbExEvalJdgVo> judgeList = jdg1100eService.getExJudgeList(so);
+        int totalCount = jdg1100eService.getExJudgeCount(so);
+
+        Pagination page = new Pagination();
+        page.setCurrentPageNo(pageIndex);
+        page.setTotalRecordCount(totalCount);
+
+        result.put("list", judgeList);
+        result.put("paginationInfo", page.getPaginationInfo());
+        return result;
+    }
+
+    @RequestMapping(value="/popup/insertPop")
+    public String popupInsert() throws Exception {
+        return insertPop;
+    }
+
+    @RequestMapping(value="/insert")
+    @ResponseBody
+    public Map<String, Object> insertExJudge(@RequestBody List<Map<String, Object>> judges) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        int insertCnt = jdg1100eService.insertExJudge(judges);
+        result.put("insertCnt", insertCnt);
+        return result;
+    }
+
+    @RequestMapping(value="/delete")
+    @ResponseBody
+    public Map<String, Object> deleteExJudge(@RequestBody List<String> usrCds) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        int deleteCnt = jdg1100eService.deleteExJudge(usrCds);
+        result.put("deleteCnt", deleteCnt);
+        return result;
+    }
+}

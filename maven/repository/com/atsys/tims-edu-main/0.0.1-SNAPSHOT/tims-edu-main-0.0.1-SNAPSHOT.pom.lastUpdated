@@ -1,0 +1,20 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:36:35 KST 2025
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743669393873
+http\://www.dcm4che.org/maven2/.lastUpdated=1743669393300
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743669392474
+https\://repo1.maven.org/maven2/.lastUpdated=1743669395553
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743669392719
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743669395300
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact com.atsys\:tims-edu-main\:pom\:0.0.1-SNAPSHOT from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743669395615
+http\://repo.springsource.org/release/.error=Could not transfer artifact com.atsys\:tims-edu-main\:pom\:0.0.1-SNAPSHOT from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743669395808
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743669392464

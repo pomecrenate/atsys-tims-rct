@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:16:52 KST 2025
+hamcrest-core-2.1-sources.jar>mvn2s=
+hamcrest-core-2.1.pom>repo=
+hamcrest-core-2.1.jar>mvn2s=
+hamcrest-core-2.1.pom>mvn2s=

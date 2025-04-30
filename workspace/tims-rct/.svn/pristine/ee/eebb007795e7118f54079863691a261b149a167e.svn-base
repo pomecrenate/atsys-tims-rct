@@ -1,0 +1,17 @@
+package com.atsys.tims.evl.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.TbNtcVo;
+
+@Transactional(readOnly = true)
+public interface Evl1200eService { 
+	
+	List<TbNtcVo> selectList(Map<String, Object> so) throws Exception;
+
+	int selectTotalCount(Map<String, Object> so); 
+	
+}

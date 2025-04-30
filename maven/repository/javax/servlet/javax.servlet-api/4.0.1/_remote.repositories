@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:17:32 KST 2025
+javax.servlet-api-4.0.1.pom>mvn2s=
+javax.servlet-api-4.0.1.jar>mvn2s=
+javax.servlet-api-4.0.1-sources.jar>mvn2s=

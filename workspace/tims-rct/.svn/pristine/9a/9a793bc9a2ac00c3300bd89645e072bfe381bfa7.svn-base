@@ -1,0 +1,17 @@
+package com.atsys.tims.sys.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.MenuVo;
+
+@Repository
+@Mapper
+public interface MenuDao {
+
+	List<MenuVo> selectLrgMenu(Map<String, Object> so);
+
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.bas.dao.Bas1300eDao">
+	<select id="selectTreeList" resultType="com.atsys.model.TbSysMenuVo">
+		SELECT	MENU_CD
+				, SYS_MENU_CD
+				, UPR_MENU_CD
+				, MENU_NM
+				, SYS_CD
+				, MENU_LVL
+				, MENU_SORT
+				, MENU_URL
+				, MENU_USE_YN
+				<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		FROM	TB_SYS_MENU
+		WHERE	DEL_YN = 'N'
+		AND		SYS_CD = #{qrySysCd}
+		<if test="qryMenuNm != null and qryMenuNm != ''">
+		AND 	MENU_NM LIKE '%' || #{qryMenuNm} || '%'
+		</if>
+		<if test="qryUprMenuCd != null and qryUprMenuCd != ''">
+		AND 	UPR_MENU_CD = #{qryUprMenuCd} 
+		</if>
+		<if test="qryMenuLvl> 0">
+		AND  	MENU_LVL  = #{qryMenuLvl}
+		</if>
+		ORDER BY MENU_LVL ASC, MENU_SORT ASC
+	</select>
+	
+	<select id="selectList" resultType="com.atsys.model.TbSysMenuVo">
+		SELECT	*
+		FROM	(
+				SELECT	A.*
+						, ROWNUM AS RNUM
+				FROM	(				
+						SELECT	MENU_CD
+								, SYS_MENU_CD
+								, UPR_MENU_CD
+								, MENU_NM
+								, SYS_CD
+								, MENU_LVL
+								, MENU_SORT
+								, MENU_URL
+								, MENU_USE_YN
+								, (
+								SELECT 	A.MENU_NM 
+								FROM 	TB_SYS_MENU A 
+								WHERE 	A.SYS_MENU_CD = TB_SYS_MENU.UPR_MENU_CD
+								AND		A.DEL_YN = 'N'
+								) AS UPPER_MENU_NM
+								<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+						FROM	TB_SYS_MENU
+						WHERE	DEL_YN = 'N'
+						<if test="qryMenuNm != null and qryMenuNm != ''" >
+						AND 	MENU_NM LIKE '%' || #{qryMenuNm} || '%'
+						</if>
+						<if test="qryUprMenuCd != null and qryUprMenuCd != ''" >
+						AND 	UPR_MENU_CD = #{qryUprMenuCd} 
+						</if>
+						<if test="qryMenuLvl > 0" >
+						AND 	MENU_LVL  = #{qryMenuLvl}
+						</if>
+						ORDER BY 
+						<if test="qrySorts != null and qrySorts.size() > 0"> 
+							<foreach collection="qrySorts" item="sort" separator=", ">${sort.column} ${sort.order}</foreach>, 
+						</if>
+						MENU_LVL ASC, MENU_SORT ASC
+						) A
+				WHERE	ROWNUM <![CDATA[<=]]> #{end}
+				)
+		WHERE	RNUM >= #{start}
+	</select>
+	
+	<select id="selectTotalCount" resultType="int">
+		SELECT	COUNT(1) AS TOTCNT
+		FROM	TB_SYS_MENU
+		WHERE	DEL_YN = 'N'
+		<if test="qryMenuNm != null and qryMenuNm != ''">
+		AND 	MENU_NM LIKE '%' || #{qryMenuNm} || '%'
+		</if>
+		<if test="qryUprMenuCd != null and qryUprMenuCd != ''">
+		AND 	UPR_MENU_CD = #{qryUprMenuCd} 
+		</if>
+		<if test="qryMenuLvl> 0">
+		AND 	MENU_LVL = #{qryMenuLvl}
+		</if>
+	</select>
+</mapper>

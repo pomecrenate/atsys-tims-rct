@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /
+
+User-agent: Googlebot
+User-agent: Yeti
+User-agent: Daumoa
+Allow: /$
+Allow: /images/common/favicon.ico
+Disallow: /service/

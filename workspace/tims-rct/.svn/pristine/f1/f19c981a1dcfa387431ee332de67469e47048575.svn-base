@@ -1,0 +1,21 @@
+/*************************************************************
+ 프로그램명 : Bas1300eService.java
+ 설명 : 메뉴관리
+ 작성자 : 최연재
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.tims.bas.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.base.model.ITreeVo;
+import com.atsys.model.TbCmmVo;
+
+@Transactional (readOnly = true)
+public interface Bas1300eService {
+	
+	List<ITreeVo> selectTreeList(Object so) throws Exception;;
+}

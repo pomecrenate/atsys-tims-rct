@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:22:30 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668550074
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668550174
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact net.sf.uadetector\:uadetector-resources\:jar\:sources\:2014.10 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668550019
+http\://repo.springsource.org/release/.error=Could not transfer artifact net.sf.uadetector\:uadetector-resources\:jar\:sources\:2014.10 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668550010

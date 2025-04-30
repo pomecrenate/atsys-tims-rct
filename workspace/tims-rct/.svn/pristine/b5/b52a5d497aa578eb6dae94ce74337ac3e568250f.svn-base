@@ -1,0 +1,123 @@
+/*************************************************************
+ 프로그램명 : Jdg1100eServiceImpl.java
+ 설명 : 외부 평가위원 관리
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.tims.jdg.service.Impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.base.util.Utilities;
+import com.atsys.model.TbExEvalJdgVo;
+import com.atsys.tims.jdg.dao.Jdg1100eDao;
+import com.atsys.tims.jdg.service.Jdg1100eService;
+
+@Service("Jdg1100eService")
+public class Jdg1100eServiceImpl implements Jdg1100eService {
+
+    @Autowired
+    private Jdg1100eDao jdg1100eDao;
+
+    @Override
+    public List<TbExEvalJdgVo> getExJudgeList(Map<String, Object> so) throws Exception {
+        List<TbExEvalJdgVo> judgeList = jdg1100eDao.selectExJudgeList(so);
+        for (TbExEvalJdgVo judge : judgeList) {
+        	if (judge.getMobPhone() != null) {
+        		judge.setMobPhone(Utilities.getPhoneNumberFormat(judge.getMobPhone()));
+        	}
+            if (judge.getCreDate() != null) {
+                judge.setCreDate(Utilities.getDateFormat(judge.getCreDate()));
+            }
+            if (judge.getUpdDate() != null) {
+                judge.setUpdDate(Utilities.getDateFormat(judge.getUpdDate()));
+            }
+            if (judge.getCreUsrNm() == null) {
+                judge.setCreUsrNm("불명");
+            }
+            if (judge.getUpdUsrNm() == null) {
+                judge.setUpdUsrNm("불명");
+            }
+        }
+        return judgeList;
+    }
+    
+    @Override
+    public int getExJudgeCount(Map<String, Object> so) throws Exception {
+    	return jdg1100eDao.selectExJudgeCount(so);
+    }
+
+    @Override
+    @Transactional
+    public int insertExJudge(List<Map<String, Object>> judges) throws Exception {
+    	int insertCnt = 0;
+        for (Map<String, Object> judgeMap : judges) {
+        	TbExEvalJdgVo judge = new TbExEvalJdgVo();
+                
+        	String exJdgCd = Utilities.getPKCd();
+                
+        	// 외부 평가위원 ID 생성 - 다음 인덱스 조회
+        	String usrId = generateUsrId();
+                
+        	judge.setUsrCd(exJdgCd);
+        	judge.setUsrId(usrId);
+        	judge.setNm((String) judgeMap.get("nm"));
+        	judge.setOrg((String) judgeMap.get("org"));
+        	judge.setMobPhone((String) judgeMap.get("mobPhone"));
+        	judge.setEmail((String) judgeMap.get("email"));
+                
+        	insertCnt += jdg1100eDao.insertExJudge(judge);
+        }
+            
+        if(insertCnt > 0) {
+        	Utilities.regSearchHst("I", insertCnt);
+        }
+            
+        return insertCnt;
+    }
+
+    @Override
+    @Transactional
+    public int deleteExJudge(List<String> usrCds) throws Exception {
+        int deleteCnt = 0;
+        
+        for (String usrCd : usrCds) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("usrCd", usrCd);
+            deleteCnt += jdg1100eDao.deleteExJudge(params);
+        }
+        
+        if (deleteCnt > 0) {
+            Utilities.regSearchHst("D", deleteCnt);
+        }
+        
+        return deleteCnt;
+    }
+    
+    /**
+     * 외부 평가위원 ID 생성
+     * 형식: E + 생성연도 끝 2자리 + 인덱스 4자리(0001~9999)
+     * 
+     * @param index 인덱스 번호
+     * @return 생성된 사용자 ID
+     */
+    public String generateUsrId() {
+    	// 현재 연도의 끝 두 자리 가져오기
+        int year = Utilities.getYear();
+        String yearStr = String.valueOf(year).substring(2);
+        
+        // 'E' + 현재 연도 두자리 (예: 'E25')
+        String prefix = "E" + yearStr;
+        
+        // 해당 prefix로 시작하는 ID 중 최대 인덱스 조회
+        int maxIndex = jdg1100eDao.selectMaxExJudgeIndex(prefix);
+    	
+    	return prefix + String.format("%04d", maxIndex + 1);
+    }
+}

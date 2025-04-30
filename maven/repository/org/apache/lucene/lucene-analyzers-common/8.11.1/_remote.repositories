@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:54:40 KST 2025
+lucene-analyzers-common-8.11.1.jar>repo=
+lucene-analyzers-common-8.11.1-sources.jar>repo=
+lucene-analyzers-common-8.11.1.jar>mvn2s=
+lucene-analyzers-common-8.11.1.pom>mvn2s=
+lucene-analyzers-common-8.11.1.pom>repo=

@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div class="admin-sidebar">
+    <h3>관리자 메뉴</h3>
+    <ul>
+        <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">서비스 관리</a>
+            <ul class="sm-menu">
+                <li><a href="/service/srv1100e">공지사항 관리</a></li>
+                <li><a href="/service/srv1200e">FAQ 관리</a></li>
+                <li><a href="/service/srv1300e">자료실 관리</a></li>
+                <li><a href="/service/srv1400e">문의사항 관리</a></li>
+            </ul>
+        </li>
+        <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">채용 관리</a>
+            <ul class="sm-menu">
+                 <li><a href="/service/rct1100e">공고 관리</a></li>
+                 <!-- 
+                 <li><a href="#">지원자격</a></li>
+                 <li><a href="#">유의사항</a></li>
+                 <li><a href="#">지원방법</a></li>
+                 <li><a href="#">제출서류</a></li>
+                 <li><a href="#">전형절차</a></li>
+                 <li><a href="#">기타 및 서식</a></li> -->
+            </ul>
+        </li>
+        <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">접수 관리</a>
+            <ul class="sm-menu">
+                <li><a href="/service/rcp1100e">지원서 관리</a></li>
+            </ul>
+        </li>
+        <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">평가위원 관리</a>
+            <ul class="sm-menu">
+                 <li><a href="#">외부 평가위원 등록</a></li>
+            </ul> 
+        </li>
+         <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">평가·합격관리 관리</a>
+            <ul class="sm-menu">
+                <li><a href="#">평가 관리</a></li>
+                <li><a href="/service/evl1200e">합격 관리</a></li>
+            </ul>
+        </li>
+          <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">이력 관리</a>
+            <ul class="sm-menu">
+                <li><a href="#">관리자 조회이력</a></li>
+                <li><a href="#">관리자 발송이력</a></li>
+                <li><a href="#">관리자 접속이력</a></li>
+            </ul>
+        </li>
+        <li class="mid-menu">
+            <a href="javascript:void(0);" class="mid-menu-toggle">시스템 관리</a>
+            <ul class="sm-menu">
+                <li><a href="/service/sys1100e">코드 관리</a></li>
+                <li><a href="/service/sys1200e">알림 문구 관리</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script>
+	$(document).ready(function() {
+	    $(".submenu").hide(); 
+	
+	    $(".mid-menu-toggle").on("click", function() {
+	        $(this).next(".sm-menu").slideToggle(); 
+	    });
+	});
+</script>

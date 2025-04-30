@@ -1,0 +1,186 @@
+/*************************************************************
+  프로그램명 : CompletionPdfUtil.java
+  설명 : 수료증 pdf
+  작성자 : ghs
+  소속 : AT-SYS
+  일자 : 2018.11.01
+  프로그램설명
+  **프로그램이력**
+   수정일             작업근거                 유지보수담당
+ '18.11.01            신규작성                 AT-SYS ghs
+*************************************************************/
+package com.atsys.base.util;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
+
+@Component
+public class CompletionPdfUtil {
+	private static Logger LOGGER = Logger.getLogger(CompletionPdfUtil.class);
+	
+	private static String getRealPath(String path){
+		return Utilities.getRequest().getSession().getServletContext().getRealPath(Utilities.nullCheck(path));
+	}
+	
+	private static String nvl(String obj) {
+		if (obj == null) {
+		    return "";
+		}
+		
+		return obj;
+	}
+	
+	private static Font getFont(float height) throws Exception {
+		HttpServletRequest request = Utilities.getRequest();
+		String fontPath = request.getSession().getServletContext().getRealPath("/tiles/certificate/font/ChosunGs.ttf");
+		BaseFont baseFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+		return new Font(baseFont, height);
+	}
+	
+	private static Paragraph getNewLine(float height) throws Exception {
+		return new Paragraph(new Chunk(" ", getFont(height)));
+	}
+	
+	private static Image getImage(String imagePath, float width, float height) throws Exception {
+		Image bgImg  = Image.getInstance(imagePath);
+		
+		bgImg.setAlignment(Image.UNDERLYING);
+		bgImg.scaleAbsolute(width, height);
+		bgImg.setAbsolutePosition(0, 0);
+		
+		return bgImg;
+	}
+	
+	private static Chunk getChunk(String str, Font font) throws Exception {
+			return new Chunk(str, font);
+	}
+	
+	private static Paragraph getParagraph(float height, int align, float leftIndent, float rightIndent, Chunk...chunks) throws Exception {
+		Paragraph paragraph = new Paragraph();
+		
+		paragraph.add(new Chunk("", getFont(height)));
+		
+		for (Chunk chunk : chunks) {
+			paragraph.add(chunk);
+		}
+		
+		paragraph.setAlignment(align);
+		paragraph.setIndentationLeft(leftIndent);
+		paragraph.setIndentationRight(rightIndent);
+		
+		return paragraph;
+	}
+	
+//	private static Paragraph getParagraph(String str, Font font, int align) throws Exception {
+//		Paragraph paragraph = new Paragraph(new Chunk(str, font));
+//		
+//		paragraph.setAlignment(align);
+//		
+//		return paragraph;
+//	}
+//	
+//    private static Paragraph getParagraph(String str, Font font, int align, float leftIndent, float rightIndent) throws Exception {
+//        Paragraph paragraph = new Paragraph(new Chunk(str, font));
+//
+//        paragraph.setAlignment(align);
+//        paragraph.setIndentationLeft(leftIndent);
+//        paragraph.setIndentationRight(rightIndent);
+//
+//        return paragraph;
+//    }
+	
+//	public static void createPdf(HttpServletResponse response, Map<String, Object> so) throws Exception {
+//		CertificateService service = Utilities.getBean("certificateService");
+//		List<EgovMap> list = service.selectCertiInfoList(so);
+//		
+//		String bgImgPath = getRealPath("/tiles/certificate/images/bg_certificate.gif");
+//		String fontPath2 = getRealPath("/tiles/certificate/font/ChosunGs.ttf");
+//		BaseFont baseFont2 = BaseFont.createFont(fontPath2, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+//		
+//		// 내용에 사용될 폰트 크기
+//		Font font1 = new Font(baseFont2, 20, Font.BOLD);
+//		Font font2 = new Font(baseFont2, 18);
+//		Font font3 = new Font(baseFont2, 18);
+////		Font font4 = new Font(baseFont2, 29);
+//		
+//		String filePath = Utilities.getStorageRootPath() + Utilities.getTempFilePath() + "/";
+//		Utilities.createDirectory(filePath);
+//		String fileName = Utilities.getUniqId(10)+ ".pdf";
+//		
+//		Document document = null;
+//		OutputStream fs = null;
+//		try {
+//			fs = Files.newOutputStream(Paths.get(filePath + fileName));
+//			document = new Document(PageSize.A4, 20, 20, 77, 100);
+//			
+//			PdfWriter.getInstance(document, fs);
+//			
+//			document.open();
+//			
+//			for(EgovMap map : list) {
+//				// 배경이미지
+//				document.add(getImage(bgImgPath, 590, 840));
+//				
+//				// 수료번호
+//				document.add(getNewLine(30));
+//				document.add(getParagraph(100, Element.ALIGN_LEFT, 78, 0, getChunk(nvl(map.get("cmptNo").toString()), font1)));
+//				
+//				// 성명
+//				document.add(getNewLine(115));
+//				document.add(getParagraph(100, Element.ALIGN_LEFT, 194, 0, getChunk(nvl(map.get("usrNm").toString()), font2))); 
+//
+//				// 교육과정
+//				document.add(getNewLine(10));
+//				document.add(getParagraph(100, Element.ALIGN_LEFT, 194, 0, getChunk(nvl(map.get("crsNm").toString()), font2))); 
+//				
+//				// 교육시간
+//				document.add(getNewLine(10));
+//				document.add(getParagraph(100, Element.ALIGN_LEFT, 194, 0, getChunk(nvl(map.get("totEduTime").toString()), font2))); 
+//				
+//				// 수료일자 - 2024.03.05 추가
+//				document.add(getNewLine(10));
+//				document.add(getParagraph(100, Element.ALIGN_LEFT, 194, 0, getChunk(nvl(map.get("cmptDtm").toString()), font2)));
+//				
+//				// 발급일자
+//				document.add(getNewLine(50));
+//				document.add(getNewLine(50));
+//				document.add(getNewLine(31));
+//				document.add(getParagraph(100, Element.ALIGN_CENTER, 0, 0, getChunk(nvl(map.get("printDt").toString()), font3))); 
+//				
+//				// 원장명 및 직인
+////				document.add(getNewLine(14));
+////				document.add(getNewLine(12));
+////				document.add(getNewLine(12));
+////				document.add(getNewLine(8));
+////				document.add(getParagraph(20, Element.ALIGN_RIGHT, 0, 84, getChunk(nvl(map.get("envrSetnCnts").toString()), font4)));
+//				
+//				document.newPage();
+//			}
+//		} catch(IllegalStateException e) {
+//			LOGGER.info("info to IllegalStateException : " + e);
+//			throw e;
+//		} catch(Exception ex) {
+//			LOGGER.info("info to Exception : " + ex);
+//			throw ex;
+//		} finally {
+//			if(document != null && document.isOpen()) {
+//				document.close();
+//			}
+//			if(fs != null) {
+//				fs.close();
+//			}
+//		}
+//		
+//		String pdfFilePath = filePath + fileName;
+//		Utilities.downloadFile(response, pdfFilePath, "수료증_" + DateUtil.getTodayDateTime("yyyyMMddHHmmss") + ".pdf", "application/pdf;charset=UTF-8");
+//		Utilities.deleteFile(new File(pdfFilePath));
+//	}
+}

@@ -1,0 +1,223 @@
+/*************************************************************
+  프로그램명 : BaseVo.java
+  설명 : 공지사항
+  작성자 : 구탁수
+  소속 : AT-SYS
+  일자 : 2017.06.19
+  프로그램설명
+  **프로그램이력**
+   수정일             작업근거                 유지보수담당
+ '17.06.19            신규작성                 AT-SYS 구탁수 
+*************************************************************/
+package com.atsys.base.model;
+
+import java.util.Date;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.atsys.base.constants.DefaultDateTimePattern;
+import com.atsys.base.util.Utilities;
+import com.atsys.nxf.app.vo.BaseBean;
+
+
+/**
+ * @Class Name : BaseVO.java
+ * @Description : Base VO class
+ * @Modification Information
+ *
+ * @author frida
+ * @since 2013-04-22
+ * @version 1.0
+ * @see
+ *  
+ *  Copyright (C)  All right reserved.
+ */
+public class BaseVo extends BaseBean {
+
+	public static final long serialVersionUID = 5921535309666927626L;
+	
+	private String sStatus;
+	
+	private final Date sysDate = new Date();	 	
+	
+	private String delYn;
+	
+	private String creUsrCd;
+	private String creUsrNm;
+	private String crePgm;
+	private String creIp;
+	private String creDate;
+	
+	private String updUsrCd;
+	private String updUsrNm;
+	private String updPgm;
+	private String updIp;
+	private String updDate;
+
+	private String modified; 
+	
+	private String errorcode;
+	private String errormesg;
+	 
+	private int rnum;
+	
+	private String upldFileCd;
+
+	public String getUpldFileCd() {
+		return upldFileCd;
+	}
+
+	public void setUpldFileCd(String upldFileCd) {
+		this.upldFileCd = upldFileCd;
+	}
+
+	public String getDelYn() {
+		return delYn;
+	}
+
+	public void setDelYn(String delYn) {
+		this.delYn = delYn;
+	}
+
+	public String getUpdUsrCd() {
+		return updUsrCd;
+	}
+
+	public void setUpdUsrCd(String updUsrCd) {
+		this.updUsrCd = updUsrCd;
+	}
+
+	public String getUpdPgm() {
+		return updPgm;
+	}
+
+	public void setUpdPgm(String updPgm) {
+		this.updPgm = updPgm;
+	}
+
+	public String getUpdIp() {
+		return updIp;
+	}
+
+	public void setUpdIp(String updIp) {
+		this.updIp = updIp;
+	}
+
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public java.util.Date getSysdate() {
+		return sysDate;
+	}
+
+	public String getToday() {
+		return DefaultDateTimePattern.dPlain(sysDate);
+	}
+	
+	public boolean isNew(){
+		return false;
+	}
+
+	public String getErrorcode() {
+		return errorcode;
+	}
+
+	public void setErrorcode(String errorcode) {
+		this.errorcode = errorcode;
+	}
+
+	public String getErrormesg() {
+		return errormesg;
+	}
+
+	public void setErrormesg(String errormesg) {
+		this.errormesg = errormesg;
+	}
+
+	public int getRnum() {
+		return rnum;
+	}
+
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
+
+	public String getCreUsrCd() {
+		return creUsrCd;
+	}
+
+	public void setCreUsrCd(String creUsrCd) {
+		this.creUsrCd = creUsrCd;
+	}
+
+	public String getCrePgm() {
+		return crePgm;
+	}
+
+	public void setCrePgm(String crePgm) {
+		this.crePgm = crePgm;
+	}
+
+	public String getCreIp() {
+		return creIp;
+	}
+
+	public void setCreIp(String creIp) {
+		this.creIp = creIp;
+	}
+
+	public String getCreDate() {
+		return creDate;
+	}
+
+	public void setCreDate(String creDate) {
+		this.creDate = creDate;
+	}
+
+	public String getUpdDate() {
+		return updDate;
+	}
+
+	public void setUpdDate(String updDate) {
+		this.updDate = updDate;
+	}
+
+	public String getModified() {
+		return modified;
+	}
+
+	public void setModified(String modified) {
+		this.modified = modified;
+	}
+	
+	public String getCurrentTime(){
+		return Utilities.getDateString("")+Utilities.getTimeString("");
+	}
+
+	public String getsStatus() {
+		return sStatus;
+	}
+
+	public void setsStatus(String sStatus) {
+		this.sStatus = sStatus;
+	}
+
+	public String getCreUsrNm() {
+		return creUsrNm;
+	}
+
+	public void setCreUsrNm(String creUsrNm) {
+		this.creUsrNm = creUsrNm;
+	}
+
+	public String getUpdUsrNm() {
+		return updUsrNm;
+	}
+
+	public void setUpdUsrNm(String updUsrNm) {
+		this.updUsrNm = updUsrNm;
+	}
+}

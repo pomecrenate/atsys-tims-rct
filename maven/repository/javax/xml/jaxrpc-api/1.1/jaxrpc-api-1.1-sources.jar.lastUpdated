@@ -1,0 +1,26 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:18:42 KST 2025
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668454500
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668452520
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964273973
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668457224
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.error=
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact javax.xml\:jaxrpc-api\:jar\:sources\:1.1 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668457919
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668458370
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668452508
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1744964273962
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668455971
+https\://repo1.maven.org/maven2/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964322952
+https\://repo1.maven.org/maven2/.lastUpdated=1744964273885
+https\://repo.maven.apache.org/maven2/.lastUpdated=1744964274190
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://repo.springsource.org/release/.error=Could not transfer artifact javax.xml\:jaxrpc-api\:jar\:sources\:1.1 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=

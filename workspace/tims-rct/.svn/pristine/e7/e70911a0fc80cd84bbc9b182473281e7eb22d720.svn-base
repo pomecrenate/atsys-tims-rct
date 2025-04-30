@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.sys.dao.CodeCollectionDao">
+	
+	<sql id="sqlCodeColumnList"> 
+		SMALL_CD
+		, CD_NM
+		, DEL_YN
+	</sql> 
+
+	<sql id="sqlCodeWithIdColumnList"> 
+		SMALL_CD
+		, SMALL_CD || ' - ' || CD_NM AS CD_NM
+		, DEL_YN
+	</sql>
+
+	<sql id="sqlColumnsCOM_1">
+		LRG_CD
+		, SMALL_CD
+		, CD_NM
+		, SYS_CD
+		, SORT_ORDER
+		, CRE_DATE
+		, DEL_YN
+	</sql> 
+	
+	
+	<sql id="sqlColumnsNTC_1">
+		NTC_CD AS LRG_CD
+		, NTC_YEAR AS SMALL_CD
+		, NTC_YEAR || '년' AS CD_NM
+		, DEL_YN
+	</sql>
+	
+	<sql id="sqlColumnsNTC_2">
+		NTC_CD AS LRG_CD
+		, NTC_CD AS SMALL_CD
+		, NTC_NM AS CD_NM
+		, DEL_YN
+	</sql>
+	
+	
+	
+
+	<select id="selectList" resultType="com.atsys.model.CodeSelectionVo">
+		<if test="codeColls != null and codeColls.size() > 0">
+		SELECT 	T_CODE.SMALL_CD || ' ' || T_CODE.CD_NM AS CD_LBL
+			   	, T_CODE.* 
+		FROM 	(
+			<foreach collection="codeColls" item="code" separator=" UNION ALL ">
+				SELECT 	TC.*
+						, #{code.id, jdbcType=VARCHAR} AS ID
+				FROM   	(
+				<choose>		
+					<when test='code.cls == "CMM_0"'>
+						SELECT  A.*
+								, TO_NUMBER(A.SORT_ORDER) AS ORDERED_RNO
+						FROM	(
+								SELECT	<include refid="sqlColumnsCOM_1"/>
+								FROM  	TB_CMM
+								WHERE 	DEL_YN = 'N'
+								AND   	SMALL_CD = '00000000'
+								) A	
+					</when>								
+					<when test='code.cls == "CMM_1"'>
+						SELECT  A.*
+								, TO_NUMBER(A.SORT_ORDER) AS ORDERED_RNO
+						FROM	(
+								SELECT	<include refid="sqlColumnsCOM_1"/>
+								FROM  	TB_CMM
+								WHERE 	DEL_YN = 'N'
+								AND   	SMALL_CD != '00000000'
+								AND		LRG_CD = #{code.cdg}
+								) A	
+					</when>
+					<when test='code.cls == "NTC_1"'>
+						SELECT <include refid="sqlColumnsNTC_1"/>
+								, ROW_NUMBER() OVER(ORDER BY A.NTC_YEAR) AS ORDERED_RNO
+						FROM	(
+								SELECT *
+							    FROM   TB_NTC
+							    WHERE  DEL_YN = 'N' 
+								) A
+					</when>
+					<when test='code.cls == "NTC_2"'>
+						SELECT <include refid="sqlColumnsNTC_2"/>
+								, ROW_NUMBER() OVER(ORDER BY A.NTC_YEAR) AS ORDERED_RNO
+						FROM	(
+								SELECT *
+							    FROM   TB_NTC
+							    WHERE  DEL_YN = 'N' 
+								) A
+					</when>
+					<otherwise>
+						SELECT  A.*
+								, TO_NUMBER(A.SORT_ORDER) AS ORDERED_RNO
+						FROM	(
+								SELECT	<include refid="sqlColumnsCOM_1"/>
+								FROM  	TB_CMM
+								WHERE 	LRG_CD = #{code.cdg, jdbcType=VARCHAR}
+								AND		DEL_YN = 'N'
+								AND   	SMALL_CD != '00000000'
+								<choose>
+									<when test='code.cond == "COND_CD1"'>
+								AND   	COND_CD1 = #{code.smd, jdbcType=VARCHAR}
+									</when>
+									<when test='code.cond == "COND_CD2"'>
+								AND   	COND_CD2 = #{code.smd, jdbcType=VARCHAR}
+									</when>
+									<when test='code.cond == "COND_CD3"'>
+								AND  	COND_CD3 = #{code.smd, jdbcType=VARCHAR}
+									</when>
+									<when test='code.cond == "COND_CD4"'>
+								AND   	COND_CD4 = #{code.smd, jdbcType=VARCHAR}
+									</when>
+									<when test='code.cond == "COND_CD5"'>
+								AND   	COND_CD5 = #{code.smd, jdbcType=VARCHAR}
+									</when>
+								</choose>
+								) A	
+					</otherwise>
+				</choose>
+						) TC
+				<where>
+					<if test='code.use != null and code.use != "A"'>
+				AND   	DEL_YN = #{code.use, jdbcType=VARCHAR}
+					</if>
+					<if test="code.inc != null and code.inc.size() > 0">
+				AND   	SMALL_CD IN (<foreach collection="code.inc" item="smallCd" separator=", ">#{smallCd, jdbcType=VARCHAR}</foreach>)
+					</if>
+					<if test="code.exc != null and code.exc.size() > 0">
+				AND   	SMALL_CD NOT IN (<foreach collection="code.exc" item="smallCd" separator=", ">#{smallCd, jdbcType=VARCHAR}</foreach>)
+					</if>
+					<if test="code.rels != null and code.rels.size() > 0">
+						<foreach collection="code.rels" item="rel" open="" close="">
+				AND 	${rel.column} IN <if test="rel != null and rel.val.size() > 0"><foreach collection="rel.val" item="val" separator=", " open="(" close=")">#{val}</foreach></if> 
+						</foreach>
+					</if>
+				</where>
+			</foreach> 
+				) T_CODE
+		ORDER BY ID, ORDERED_RNO
+		</if>
+	</select>
+
+	<sql id="getCodeName1">
+		SELECT CD_NM
+		FROM   TB_CMM
+		WHERE  LRG_CD = 
+	</sql>
+	
+	<sql id="getCodeName2">
+		AND	SMALL_CD = 
+	</sql>
+	
+</mapper>

@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:54:40 KST 2025
+https\://repo.maven.apache.org/maven2/.lastUpdated=1724636667792
+http\://0.0.0.0/.error=Could not transfer artifact com.google.firebase\:firebase-admin\:jar\:6.8.1 from/to maven-default-http-blocker (http\://0.0.0.0/)\: Blocked mirror for repositories\: [central-repo (http\://central.maven.org/maven2/, default, releases+snapshots), springsource-repo (http\://repo.springsource.org/release, default, releases+snapshots), Dcm4Che (http\://www.dcm4che.org/maven2/, default, releases+snapshots), datanucleus (http\://www.datanucleus.org/downloads/maven2/, default, releases+snapshots), enonic (http\://repo.enonic.com/public/, default, releases+snapshots)]
+https\://maven.egovframe.go.kr/maven/.error=Could not transfer artifact com.google.firebase\:firebase-admin\:jar\:6.8.1 from/to egovframe (https\://maven.egovframe.go.kr/maven/)\: No PSK available. Unable to resume.
+@default-egovframe-https\://maven.egovframe.go.kr/maven/.lastUpdated=1724636646821
+@default-maven-default-http-blocker-http\://0.0.0.0/.lastUpdated=1724636642939
+https\://repo1.maven.org/maven2/.lastUpdated=1744962880985

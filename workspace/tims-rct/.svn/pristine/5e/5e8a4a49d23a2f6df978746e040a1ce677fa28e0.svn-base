@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<title>TIMS-BASE</title>
+	<meta http-equiv="X-UA-Compatible" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="css/common.css" />
+</head>
+<body>
+<div id="wrap">
+	<div class="bg_check">
+		<p class="text_blue">서비스 점검중입니다.</p>
+		<p class="text01">점검일 : 2019.00.00~2019.00.00</p>
+		<p class="text02">보다 안정적인 서비스를 제공해 드리기 위한 점검중이오니 양해 부탁드립니다.</p>
+	</div>
+</div>
+<!-- //wrap -->
+</body>
+</html>

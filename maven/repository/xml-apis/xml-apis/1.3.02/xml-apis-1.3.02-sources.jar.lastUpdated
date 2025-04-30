@@ -1,0 +1,22 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:28 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668483586
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668486700
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668485242
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668483516
+https\://repo1.maven.org/maven2/.lastUpdated=1743668488199
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668483809
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668487693
+https\://maven.egovframe.go.kr/maven/.error=
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact xml-apis\:xml-apis\:jar\:sources\:1.3.02 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668488296
+http\://repo.springsource.org/release/.error=Could not transfer artifact xml-apis\:xml-apis\:jar\:sources\:1.3.02 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668488731
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668483506

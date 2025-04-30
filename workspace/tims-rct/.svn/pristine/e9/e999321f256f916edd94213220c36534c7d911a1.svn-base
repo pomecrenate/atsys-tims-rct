@@ -1,0 +1,9 @@
+package com.atsys.tims.rcp.service;
+
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional(readOnly = true)
+public interface Rcp1100eService {
+	
+ 
+}

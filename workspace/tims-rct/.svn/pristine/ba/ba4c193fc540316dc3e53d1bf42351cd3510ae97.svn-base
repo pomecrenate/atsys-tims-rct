@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rct.dao.Rct1100eDao">
+	<insert id="insertNtc">
+		<selectKey keyProperty="ntcCd" resultType="String" order="BEFORE" >
+        	SELECT	FN_GET_PK_CD() AS ntcCd
+        	FROM	DUAL
+	    </selectKey>   
+		INSERT INTO TB_NTC 
+		(
+			NTC_CD,
+			NTC_NUM,
+			NTC_TYPE,
+			NTC_YEAR,
+			NTC_SMT,
+			NTC_NM,
+			NTC_STATUS,
+			REQUIRED_CNT,
+			NTC_START_DATE,
+			REG_START_DATE,
+			REG_END_DATE,
+			HIRING_DATE,
+			RSCH_START_DATE,
+			RSCH_END_DATE
+			<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		)	
+		VALUES 
+		(
+			#{ntcCd}
+			, #{ntcNum} || LPAD(ntc_num_seq.NEXTVAL, 3, '0')
+			, #{ntcType}
+			, #{ntcYear}
+			, #{ntcSmt}
+			, NVL(FN_GET_CODE_NM('RCT002', #{ntcType}), '') || " " || #{ntcYear} || '년도 ' || NVL(FN_GET_CODE_NM('RCT001', #{ntcSmt}), '') || ' 채용공고'
+			, #{ntcStatus}
+			, #{requiredCnt}
+			, TO_DATE(#{ntcStartDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{regStartDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{regEndDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{hiringDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{rschStartDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{rschEndDate}, 'YYYY-MM-DD HH24:MI')
+			<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		)  
+	</insert>
+	
+	<insert id="insertStep">
+		INSERT INTO TB_NTC_STEP 
+		(
+			STEP_CD,
+			NTC_CD,
+			STEP,
+			STEP_START_DATE,
+			STEP_END_DATE,
+			STEP_ANN_DATE
+			<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		)
+		VALUES
+		(
+			FN_GET_PK_CD()
+			, #{ntcCd}
+			, #{step}
+			, TO_DATE(#{stepStartDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{stepEndDate}, 'YYYY-MM-DD HH24:MI')
+			, TO_DATE(#{stepAnnDate}, 'YYYY-MM-DD HH24:MI')
+			<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		)
+	</insert>
+	<select id="selectList" resultType="com.atsys.model.TbNtcVo">
+		SELECT * 
+		FROM	(
+				  SELECT A.*
+						 , ROWNUM AS RNUM 
+				  FROM 	 (
+			   		 	SELECT    NTC_CD
+			   				      , NTC_NM
+							      , NTC_NUM 
+							      , NTC_STATUS 
+							      , NTC_START_DATE 
+							      , REG_START_DATE 
+							      , REG_END_DATE  
+							      , DEL_YN 
+						 FROM     TB_NTC
+						 WHERE 	  DEL_YN = 'N'
+						 ORDER BY NTC_NM 
+						 ) A
+				   WHERE ROWNUM <![CDATA[<=]]> #{end}
+			    ) 
+		WHERE	RNUM >= #{start}
+	</select>
+</mapper>

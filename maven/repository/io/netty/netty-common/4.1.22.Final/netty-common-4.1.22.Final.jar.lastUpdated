@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Aug 26 10:44:28 KST 2024
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1724636646848
+https\://repo.maven.apache.org/maven2/.lastUpdated=1724636668636
+http\://0.0.0.0/.error=Could not transfer artifact io.netty\:netty-common\:jar\:4.1.22.Final from/to maven-default-http-blocker (http\://0.0.0.0/)\: Blocked mirror for repositories\: [central-repo (http\://central.maven.org/maven2/, default, releases+snapshots), springsource-repo (http\://repo.springsource.org/release, default, releases+snapshots), Dcm4Che (http\://www.dcm4che.org/maven2/, default, releases+snapshots), datanucleus (http\://www.datanucleus.org/downloads/maven2/, default, releases+snapshots), enonic (http\://repo.enonic.com/public/, default, releases+snapshots)]
+https\://maven.egovframe.go.kr/maven/.error=
+@default-maven-default-http-blocker-http\://0.0.0.0/.lastUpdated=1724636642998

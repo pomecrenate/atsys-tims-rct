@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+
+<header>	 
+	<div class="px-content container_wrap">
+		<div class="page-header">
+			<div class="page_title">
+				관리자헤더
+			</div>
+			<form id="submitForm" name="submitForm" method="POST">
+				<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/>
+			</form>   
+			<div class="global_menu"> 
+				<ul class="menu_list">
+					<li class="menu01"><a href="javascript:;" onclick="frontHome(); return false;" title="HOME"></a></li> 
+				</ul>
+			</div> 
+		</div>
+</header>
+
+<script>
+	function frontHome() {
+		location.replace("/");
+	}
+</script>

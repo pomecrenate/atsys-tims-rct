@@ -1,0 +1,7 @@
+@charset "UTF-8"; 
+@import 'main.css'; 
+@import 'layout.css';
+@import 'reset.css'; 
+@import '../front/common.css';  
+@import 'form.css';
+ 

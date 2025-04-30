@@ -1,0 +1,26 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:18:42 KST 2025
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668542647
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668541135
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964208259
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668545445
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.error=
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact antlr\:antlr\:jar\:sources\:2.7.7 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668546061
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668546529
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668541125
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1744964208241
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668544080
+https\://repo1.maven.org/maven2/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964322750
+https\://repo1.maven.org/maven2/.lastUpdated=1744964208163
+https\://repo.maven.apache.org/maven2/.lastUpdated=1744964208294
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://repo.springsource.org/release/.error=Could not transfer artifact antlr\:antlr\:jar\:sources\:2.7.7 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=

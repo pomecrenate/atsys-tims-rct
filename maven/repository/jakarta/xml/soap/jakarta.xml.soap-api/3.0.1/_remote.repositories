@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:17:18 KST 2025
+jakarta.xml.soap-api-3.0.1-sources.jar>mvn2s=
+jakarta.xml.soap-api-3.0.1.jar>mvn2s=
+jakarta.xml.soap-api-3.0.1.pom>mvn2s=

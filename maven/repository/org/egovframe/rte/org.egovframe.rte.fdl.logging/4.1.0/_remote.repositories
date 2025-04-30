@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:36 KST 2025
+org.egovframe.rte.fdl.logging-4.1.0-sources.jar>egovframe=
+org.egovframe.rte.fdl.logging-4.1.0.pom>egovframe=
+org.egovframe.rte.fdl.logging-4.1.0.jar>egovframe=

@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:15:14 KST 2025
+org.egovframe.rte.ptl.mvc-4.3.0.pom>egovframe=
+org.egovframe.rte.ptl.mvc-4.3.0.jar>egovframe=
+org.egovframe.rte.ptl.mvc-4.3.0-sources.jar>egovframe=

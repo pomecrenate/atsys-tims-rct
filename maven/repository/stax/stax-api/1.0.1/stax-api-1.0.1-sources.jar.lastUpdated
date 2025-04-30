@@ -1,0 +1,22 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:22:18 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668532391
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668535351
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668533891
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668532325
+https\://repo1.maven.org/maven2/.lastUpdated=1743668537554
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668532441
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668537001
+https\://maven.egovframe.go.kr/maven/.error=
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact stax\:stax-api\:jar\:sources\:1.0.1 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668537643
+http\://repo.springsource.org/release/.error=Could not transfer artifact stax\:stax-api\:jar\:sources\:1.0.1 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668538088
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668532312

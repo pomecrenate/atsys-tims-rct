@@ -1,0 +1,22 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:22:55 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668569465
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668572701
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668571218
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668569388
+https\://repo1.maven.org/maven2/.lastUpdated=1743668574521
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668569742
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668573935
+https\://maven.egovframe.go.kr/maven/.error=
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact ibsheet\:ibsheet7\:jar\:sources\:1.1.121 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668574614
+http\://repo.springsource.org/release/.error=Could not transfer artifact ibsheet\:ibsheet7\:jar\:sources\:1.1.121 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668575044
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668569379

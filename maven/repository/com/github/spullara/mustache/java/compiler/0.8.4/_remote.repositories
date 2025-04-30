@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:22:38 KST 2025
+compiler-0.8.4.jar>repo=
+compiler-0.8.4.pom>repo=
+compiler-0.8.4-sources.jar>repo=

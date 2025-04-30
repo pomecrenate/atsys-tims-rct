@@ -1,0 +1,72 @@
+package com.atsys.tims.sys.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.atsys.base.util.Utilities;
+import com.atsys.model.TbCmmVo;
+import com.atsys.tims.sys.dao.Sys1100eDao;
+import com.atsys.tims.sys.service.Sys1100eService;
+
+@Service("sys1100eService")
+public class Sys1100eServiceImpl implements Sys1100eService{
+
+	@Autowired
+	Sys1100eDao sys1100eDao;
+	
+	@Override
+	public Map<String, Object> save(TbCmmVo vo) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		int insertCnt = 0; 
+		int updateCnt = 0;
+			
+ 		if(vo.getsStatus().equals("I")){
+ 			insertCnt += sys1100eDao.insert(vo);
+ 		}else if(vo.getsStatus().equals("U")){
+			updateCnt += sys1100eDao.update(vo);
+		
+			// 대분류 사용안함 처리시 하위 공통코드도 사용안함 처리
+//			if(vo.getUseYn().equals("N") && vo.getCmmCdDiv().equals("01")) {
+//				bas1100eDao.updateUseYn(vo);
+		}
+		
+		if(insertCnt > 0) {
+			Utilities.regSearchHst("I", insertCnt);
+		}
+		if(updateCnt > 0) {
+			Utilities.regSearchHst("U", updateCnt);
+		}
+		
+		map.put("insertCnt", insertCnt);
+		map.put("updateCnt", updateCnt);
+		
+		return map;
+			
+	}
+
+	@Override
+	public int selectTotalCount(Object so) throws Exception {
+		return 0;
+	}
+
+	@Override
+	public List<TbCmmVo> selectTbCommonCdList(Object so) throws Exception {
+		return sys1100eDao.selectList(so);
+	}
+
+	@Override
+	public int selectSmallCdTotalCount(Object so) throws Exception {
+		return 0;
+	}
+
+	@Override
+	public List<TbCmmVo> selectSmallCdList(Object so) throws Exception {
+		return sys1100eDao.selectSmallCdList(so);
+	}
+}
+

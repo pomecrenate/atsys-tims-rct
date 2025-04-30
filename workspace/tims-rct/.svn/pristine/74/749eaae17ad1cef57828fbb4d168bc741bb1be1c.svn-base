@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rcp.dao.Rcp1100eDao">
+
+	<select id="selectList" resultType="com.atsys.model.TbAppVo">
+		SELECT * 
+		  FROM (
+			  SELECT T.*
+					   , ROWNUM AS RNUM 
+			    FROM (
+			   			SELECT A.APP_CD
+			   				   , A.NTC_CD
+							   , A.NTC_FIELD_CD
+							   , A.NM
+							   , A.HANJA_NM 
+							   , A.APP_STATUS
+							   , A.MOB_PHONE 
+							   , B.COLLEGE_CD  
+							   , B.DEPT_CD 
+							   , B.MAJOR_NM
+							   , B.STAFF_TYPE
+							   , TO_CHAR(A.UPD_DATE, 'YYYY-MM-DD HH24:MI:SS') AS UPD_DATE
+							   , A.DEL_YN 
+						FROM   TB_APP A
+						JOIN   TB_NTC_FIELD B
+						ON     A.NTC_FIELD_CD = B.FIELD_CD 
+						WHERE A.DEL_YN = 'N'
+						ORDER BY A.APP_CD, B.FIELD_CD
+					 ) T
+			   WHERE	ROWNUM <![CDATA[<=]]> #{end}
+			   ) 
+		WHERE	RNUM >= #{start}
+	
+	</select>
+	
+	<select id="selectTotalCount" resultType="int">
+		SELECT	COUNT(1) AS TOT_CNT
+		FROM 	 TB_APP A JOIN   TB_NTC_FIELD B
+						    ON   A.NTC_FIELD_CD = B.FIELD_CD 
+	</select>
+	
+	
+	<update id="updateQualYnAndReason">
+		UPDATE	TB_APP
+		SET		QUAL_YN = #{qualYn}
+				, NOT_QUAL_REASON = #{notQualReason}
+				<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE	APP_CD = #{appCd}
+		AND		DEL_YN = 'N' 
+	</update>
+</mapper>

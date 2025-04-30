@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Aug 26 10:44:01 KST 2024
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1724636641183
+https\://repo.maven.apache.org/maven2/.lastUpdated=1724636641212
+http\://0.0.0.0/.error=Could not transfer artifact org.apache.tiles\:tiles-request-mustache\:pom\:1.0.7 from/to maven-default-http-blocker (http\://0.0.0.0/)\: Blocked mirror for repositories\: [central-repo (http\://central.maven.org/maven2/, default, releases+snapshots), springsource-repo (http\://repo.springsource.org/release, default, releases+snapshots), Dcm4Che (http\://www.dcm4che.org/maven2/, default, releases+snapshots), datanucleus (http\://www.datanucleus.org/downloads/maven2/, default, releases+snapshots), enonic (http\://repo.enonic.com/public/, default, releases+snapshots), apache.snapshots (http\://repository.apache.org/snapshots, default, snapshots)]
+https\://maven.egovframe.go.kr/maven/.error=
+@default-maven-default-http-blocker-http\://0.0.0.0/.lastUpdated=1724636641163

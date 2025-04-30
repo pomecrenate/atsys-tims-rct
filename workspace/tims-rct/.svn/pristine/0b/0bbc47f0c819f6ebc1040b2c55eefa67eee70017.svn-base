@@ -1,0 +1,15 @@
+package com.atsys.tims.rcp.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.atsys.tims.rcp.dao.Rcp1100eDao;
+import com.atsys.tims.rcp.service.Rcp1100eService;
+
+@Service("Rcp1100eService")
+public class Rcp1100eServiceImpl implements Rcp1100eService{
+	
+	@Autowired
+	private Rcp1100eDao rcp1100eDao;
+ 
+}

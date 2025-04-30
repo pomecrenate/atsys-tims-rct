@@ -1,0 +1,178 @@
+
+window["RctUtil"] = {
+	renderTable : function(tbodyId, columns, data, onClick, paginationInfo) {
+		const tbody = document.getElementById(tbodyId);
+		if (!tbody) return;
+		
+		tbody.innerHTML = ""; // 기존 내용 초기화
+		
+		data.forEach((row, index) => {
+		  const tr = document.createElement("tr");
+		
+		  if (typeof onClick === "function") {
+		    tr.addEventListener("click", (event, param) => onClick(event, param));
+		  }
+		
+		  columns.forEach((col, i) => {
+			if (col.type === "hidden") {
+				return;
+			} 
+			const td = document.createElement("td");
+			if(col.type === "checkbox") {
+				if(col.value === null || col.value === undefined) {
+					const check = document.createElement("input");
+					check.type = "checkbox";
+					
+					td.appendChild(check);
+				} else {
+					td.textContent = row[col.name] ?? "";
+				}
+			} else if( col.type === "button") {
+				const btn = document.createElement("button");
+				btn.className = "n_btn btn_md btn_c02";
+				btn.textContent = col.btnText; 
+			    btn.setAttribute("data-url", col.btnUrl); 
+							
+				td.appendChild(btn);
+			} else {
+			  td.textContent = row[col.name] ?? "";
+			}
+			tr.appendChild(td);
+		  }); 
+		  tbody.appendChild(tr);
+		});
+		
+		//페이징 처리
+		if (paginationInfo) {
+			this.renderPagination(paginationInfo);
+		}
+	},    
+	insertRow : function(columns, tableSelector) {
+		const $tr = $('<tr/>');
+	    columns.forEach(col => {
+	      const $td = $('<td/>');
+	
+		  if(col.type === "checkbox" && col.value == null){
+				$td.append('&nbsp;')
+				$tr.append($td);
+				return;
+		  }
+	      if (col.type === 'select') {
+	        const $select = $('<select/>').attr('name', col.name);
+	        col.options.forEach(opt => {
+	          $select.append($('<option/>').val(opt).text(opt));
+	        });
+	        $td.append($select);
+	      } else if(col.type === "") {
+			$td.append('&nbsp;')
+		  } else if(col.type === 'textarea') {
+			const $textarea = $('<textarea/>').attr('name', col.name);
+			$td.append($textarea);
+		  } else {
+	        const $input = $('<input/>', {
+	          type: col.type,
+	          name: col.name || '',
+	          class: col.class || '',
+	          value: col.value || '',	
+	          readonly: col.readonly && true    
+	        });
+	        $td.append($input);
+	        if(col.button === true) {
+				const $button = $('<button/>').attr('type', "button");
+				const $i = $('<i/>').attr('class', "fas fa-search");
+				$button.append($i);
+				$td.append($button);
+			}
+	      }
+	      $tr.append($td);
+	    });
+	
+	    $(tableSelector + ' tbody').prepend($tr);
+	},
+	getTableData: function(tableSelector) {
+	 const row = {};
+	 const $firstRow = $(tableSelector+ ' tbody tr').first();
+	 let isValid = true;
+	 
+	 $firstRow.find('td').each(function () {
+	    const input = $(this).find('input, select');
+	    
+	    if(input.val() === null || input.val() === '') {
+			alert(input.attr('name') + "입력 필요")
+			isValid = false;
+			return false;
+		}
+	    let value;
+	    if (input.attr('type') === 'checkbox') {
+	      value = input.prop('checked') ? 'N' : 'Y';
+	    } else {
+	      value = input.val();
+	    }
+	    
+	
+	    if (input.length > 0) {
+	      const name = input.attr('name');
+	      if (name) row[name] = value;
+	    }
+	  });
+	
+	  if(!isValid){
+		return isValid;
+	  }
+	  return row;
+	},
+	getTableDataList: function(tableSelector) {
+		
+	  const data = [];
+	
+	  $(tableSelector+ ' tbody tr').each(function () {
+	    const row = {};
+	    $(this).find('input').each(function () {
+	      const name = $(this).attr('name');
+	      if (!name) return;
+	
+	      let value;
+	      if ($(this).attr('type') === 'checkbox') {
+	        value = $(this).prop('checked') ? 'N' : 'Y';
+	      } else {
+	        value = $(this).val();
+	      }
+	
+	      row[name] = value;
+	    });
+	
+	    data.push(row);
+	  });
+	
+	  return data;
+	},
+	renderPagination : function(paginationInfo) { 
+	    let html = '';  
+	    
+	    /*처음|이전*/
+	    if ( paginationInfo.currentPageNo > 1) {
+	        html += `<a href="#" class="page-first" data-page="1">처음</a>`;
+	        html += `<a href="#" class="page-prev" data-page="${ paginationInfo.currentPageNo - 1}">이전</a>`;
+	    }  
+	
+		/*페이지번호 링크*/
+	    for (let i = paginationInfo.firstPageNoOnPageList; i <= paginationInfo.lastPageNoOnPageList; i++) {
+	        html += `<a href="#" class="page-link ${i === paginationInfo.currentPageNo ? 'active' : ''}" data-page="${i}">${i}</a>`;
+	    } 
+	    
+	    /*다음|마지막 항목*/
+	    if (paginationInfo.currentPageNo  < paginationInfo.totalPageCount) {
+			 html += `<a href="#" class="page-next" data-page="${paginationInfo.currentPageNo + 1}">다음</a>`;
+			 html += `<a href="#" class="page-end" data-page="${paginationInfo.totalPageCount}">마지막</a>`;
+		}
+	
+	    $('.x_pagination').html(html);
+	},
+	loadPageData: function(url, params) { 
+        const ajax = TimsUtil.getObject(url, params, true);
+        const data = ajax.list;
+        const paginationInfo = ajax.paginationInfo;  
+
+        this.renderTable("pass_tbody", tbColNms, data, (event), paginationInfo)  
+	} 
+};

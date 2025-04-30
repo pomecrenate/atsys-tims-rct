@@ -1,0 +1,179 @@
+package com.atsys.model;
+
+import com.atsys.base.model.BaseVo;
+
+public class Rcp1100eVo extends BaseVo {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2554773413341276957L;
+	
+	// TB_APP에서 가져온 컬럼
+	private String appCd;
+    private String ntcCd;
+    private String ntcFieldCd;
+    private String appUsrCd;
+    private String nm;
+    private String appStatus;
+    private String appStatusNm;
+    private String mobPhone;
+    private String qualYn;
+    private String notQualReason;
+    private String careerPeriod;
+    private String careerReason; 
+    private String subDate; 
+    
+    // TB_APP_USR에서 가져온 컬럼
+    private String birthDate; 
+    
+    // TB_NTC_FILED에서 가져온 컬럼
+    private String collegeCd;
+    private String deptCd;
+    private String majorNm;
+    private String staffType;
+    private String staffTypeNm;
+    
+    // TB_NTC에서 가져온 컬럼
+    private String ntcYear;
+    private String ntcSmt;
+    private String ntcNm;
+    
+	public String getAppCd() {
+		return appCd;
+	}
+	public void setAppCd(String appCd) {
+		this.appCd = appCd;
+	}
+	public String getNtcCd() {
+		return ntcCd;
+	}
+	public void setNtcCd(String ntcCd) {
+		this.ntcCd = ntcCd;
+	}
+	public String getNtcFieldCd() {
+		return ntcFieldCd;
+	}
+	public void setNtcFieldCd(String ntcFieldCd) {
+		this.ntcFieldCd = ntcFieldCd;
+	}
+	public String getAppUsrCd() {
+		return appUsrCd;
+	}
+	public void setAppUsrCd(String appUsrCd) {
+		this.appUsrCd = appUsrCd;
+	}
+	public String getNm() {
+		return nm;
+	}
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	public String getAppStatus() {
+		return appStatus;
+	}
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
+	public String getAppStatusNm() {
+		return appStatusNm;
+	}
+	public void setAppStatusNm(String appStatusNm) {
+		this.appStatusNm = appStatusNm;
+	}
+	public String getMobPhone() {
+		return mobPhone;
+	}
+	public void setMobPhone(String mobPhone) {
+		this.mobPhone = mobPhone;
+	}
+	public String getQualYn() {
+		return qualYn;
+	}
+	public void setQualYn(String qualYn) {
+		this.qualYn = qualYn;
+	}
+	public String getNotQualReason() {
+		return notQualReason;
+	}
+	public void setNotQualReason(String notQualReason) {
+		this.notQualReason = notQualReason;
+	}
+	public String getCareerPeriod() {
+		return careerPeriod;
+	}
+	public void setCareerPeriod(String careerPeriod) {
+		this.careerPeriod = careerPeriod;
+	}
+	public String getCareerReason() {
+		return careerReason;
+	}
+	public void setCareerReason(String careerReason) {
+		this.careerReason = careerReason;
+	}
+	public String getSubDate() {
+		return subDate;
+	}
+	public void setSubDate(String subDate) {
+		this.subDate = subDate;
+	} 
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+	public String getCollegeCd() {
+		return collegeCd;
+	}
+	public void setCollegeCd(String collegeCd) {
+		this.collegeCd = collegeCd;
+	}
+	public String getDeptCd() {
+		return deptCd;
+	}
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
+	}
+	public String getMajorNm() {
+		return majorNm;
+	}
+	public void setMajorNm(String majorNm) {
+		this.majorNm = majorNm;
+	}
+	public String getStaffType() {
+		return staffType;
+	}
+	public void setStaffType(String staffType) {
+		this.staffType = staffType;
+	}
+	public String getStaffTypeNm() {
+		return staffTypeNm;
+	}
+	public void setStaffTypeNm(String staffTypeNm) {
+		this.staffTypeNm = staffTypeNm;
+	}
+	public String getNtcYear() {
+		return ntcYear;
+	}
+	public void setNtcYear(String ntcYear) {
+		this.ntcYear = ntcYear;
+	}
+	public String getNtcSmt() {
+		return ntcSmt;
+	}
+	public void setNtcSmt(String ntcSmt) {
+		this.ntcSmt = ntcSmt;
+	}
+	public String getNtcNm() {
+		return ntcNm;
+	}
+	public void setNtcNm(String ntcNm) {
+		this.ntcNm = ntcNm;
+	}
+    
+    
+    
+	
+
+}

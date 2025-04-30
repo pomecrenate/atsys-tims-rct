@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:41 KST 2025
+org.egovframe.rte.fdl.property-4.1.0.jar>egovframe=
+org.egovframe.rte.fdl.property-4.1.0.pom>egovframe=
+org.egovframe.rte.fdl.property-4.1.0-sources.jar>egovframe=

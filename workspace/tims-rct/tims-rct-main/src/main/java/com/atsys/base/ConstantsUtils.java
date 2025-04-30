@@ -1,0 +1,733 @@
+/*************************************************************
+  프로그램명 : CONSTANTS.java
+  설명 : 공지사항
+  작성자 : 구탁수
+  소속 : AT-SYS
+  일자 : 2017.06.19
+  프로그램설명
+  **프로그램이력**
+   수정일             작업근거                 유지보수담당
+ '17.06.19            신규작성                 AT-SYS 구탁수
+*************************************************************/
+package com.atsys.base;
+
+/**
+ *
+ * */
+
+/**
+ * @Class Name : CONSTANTS.java
+ * @Description : CONSTANTS class
+ * @Modification Information
+ *
+ * @author frida
+ * @since 2013. 5. 10.
+ * @version 1.0
+ * @see
+ *
+ * 		Copyright (C) All right reserved.
+ */
+public final class ConstantsUtils {
+
+	public static String getFinalExam() {
+		return FINAL_EXAM;
+	}
+
+	public static String getMiddleExam() {
+		return MIDDLE_EXAM;
+	}
+
+	// 목록에 표시할 Row수
+	public static final String[] ROW_SIZE_OPTIONS = { "10", "20", "50", "100" };
+
+	// 공통 파라메터 변수
+	private static final String PARAM_PREFIX = "_"; // Method Name Prefix
+	private static final String PARAM_METHOD = PARAM_PREFIX + "method"; // Method
+	private static final String PARAM_SYSTEM_DIV = PARAM_PREFIX + "sd"; // 시스템구분
+	private static final String PARAM_MENU_ID = PARAM_PREFIX + "ms"; // 메뉴 일련번호
+	private static final String PARAM_PROGRAM_ID = PARAM_PREFIX + "ps"; // 프로그램 일련번호
+
+	private static final String SERVICE_BASE_PATH_NAME = "serviceBathPath";
+	private static final String ADM_SERVICE_BASE_PATH = "/service";
+	private static final String FRT_SERVICE_BASE_PATH = "/front";
+	
+	//pdf뷰어 경로
+	private static final String PDF_VIEWER_PATH = "/pdf/web/viewer.html?file=";
+
+	private static final String REQ_PREFIX = "tims.";
+	private static final String REQ_MENU_SEARCH_OBJ = REQ_PREFIX + "mso";
+	private static final String REQ_VIEW_LAYOUT = "view.layout";
+	private static final String REQ_VIEW_LAYOUT_VAL = "#{request.getAttribute('" + REQ_VIEW_LAYOUT + "')}";
+
+	// select tag의 label/value 컬럼 정의
+	private static final String OPT_CD_VALUE = "smallDiv";
+	private static final String OPT_CD_LABEL = "codeNm";
+
+	// select tag의 default option type 정의
+	private static final String DEFAULT_OPTION_TYPE_ALL = "A";
+	private static final String DEFAULT_OPTION_TYPE_SELECT = "S";
+
+	private static final String DELIMETER = ""; // 분리형 문자
+	private static final String VAL_YES = "Y"; // 'Y' 문자
+	private static final String VAL_NO = "N"; // 'N' 문자
+	private static final String CHAR_PATH_SEPARATOR = "/"; // '/' 문자(경로)
+
+	private static final String DELIMETER_INPUT_DEFAULT = "&nbsp;&nbsp;";
+
+	// 첨부파일
+	private static final int FILE_UPLOAD_SIZE = 50;
+	private static final String EXCEPT_FILE_TYPE = "jsp^cgi^php^asp^aspx^exe^com^html^htm^cab^php3^pl^java^class^js^css";
+	private static final String ACCESS_FILE_TYPE = "hwp^doc^docx^xls^xlsx^ppt^pptx^pdf^txt^gif^jpg^jpeg^png^wmv^mp4^mp3^swf^ai^fla^flv^cell^asf^zip^alz^mpg^avi^mov^m2t";
+
+	// 이미지 업로드 용량 - MB
+	private static final int IMAGE_UPLOAD_SIZE = 10;
+	private static final String IMAGE_UPLOAD_TYPE = "jpg^JPG^jpeg^JPEG^gif^GIF^png^PNG^bmp^BMP";
+
+	// 메일서버에 접근이 허용된 계정 정보
+	private static final String MAIL_AUTH_ID = ""; // ID
+	private static final String MAIL_AUTH_PW = ""; // PW
+	private static final String SMTP_HOST    = ""; // HOST
+
+	private static final String ADM_VIEW_ROOT = "tims/views";
+	private static final String ADM_CONTENXT = "SERVICE";
+	private static final String FRONT_VIEW_ROOT = "tims/front";
+	private static final String FRONT_MAIN_ROOT = "tims/main";
+	private static final String FRONT_CONTENXT = "FRONT";
+	private static final String TTR_CONTENXT = "TUTOR";
+	private static final String USR_GENERAL_MENU = "FRT0000";
+	private static final String SESSION_L_U_KEY = "SESSION_L_U_KEY";
+	private static final String PAGENATION_INFO = "pagination";
+	private static final String TOTAL_RECORD_COUNT = "Total";
+	private static final String PROGRAM_ID = "programId";
+	private static final String SYSTEM_ID = "systemId";
+	private static final String DATA = "Data";
+
+	private static final String XLS_PATH = "tims/common/";
+	private static final String EXCEL_FORM = XLS_PATH + "DirectDown2Excel";
+
+	private static final String FILE_KEY_PARAM = "file_key";
+	private static final String FILE_SEQ_PARAM = "file_seq";
+	private static final String TYPE_VIDEO = "VOD";
+	private static final String TYPE_AUDIO = "AOD";
+
+	private static final String UPLOAD_STATUS_TEMP = "A";
+	private static final String UPLOAD_STATUS_SAVE = "S";
+	private static final String BAT_SERVER = "batch_server";
+
+	private static final String ITEM_CNTS_PRG = "KR1401PYOUNGGA000001";
+	private static final String ITEM_EXAM = "KR1401PYOUNGGA000002";
+	private static final String ITEM_TASK = "KR1401PYOUNGGA000003";
+	private static final String ITEM_ATNDN = "KR1401PYOUNGGA000005";
+	private static final String ITEM_CMPT = "KR1401PYOUNGGA000004";
+	
+	private static final String FINAL_EXAM = "KR1401PYOUNGGA000002";
+	private static final String MIDDLE_EXAM = "KR1401PYOUNGGA000006";
+	private static final String CONTENTS_PROGRESS = "KR1401PYOUNGGA000001";
+	private static final int MAX_EXAM_ATTEMPT_COUNT = 10;
+	
+	private static final String RSA_INSTANCE = "RSA";
+
+	private static final String GROUP_ADMIN = "KR1401GROUP000000000"; // 관리자
+	private static final String GROUP_TUTOR = "GP000000000002"; // 강사
+
+	private static final String GROUP_TUTOR_TYPE_CD = "01"; // 강사유형
+	private static final String GROUP_ADMIN_TYPE_CD = "02"; // 관리자유형
+	
+	private static final long MILLISECOND_OF_DAY = 3600L * 24L * 1000L; // 하루
+
+	private static final String DEFAULT_LANGAUGE = "ko";
+
+	private static final int DEFAULT_CONTWIN_WIDTH = 1024;
+	private static final int DEFAULT_CONTWIN_HEIGHT = 768;
+
+	private static final int DEFAULT_EXAM_QUESTIONS = 20;
+
+	private static final String DEFAULT_ZIP_ENCODE = "EUC-KR";
+	
+	private static final String LECTURE_THUMBNAIL_EXTENTION = "jpg";
+	
+	private static final int MINIMUM_STUDY_MINITUE = 0;
+	
+	private static final boolean CONTENTS_AUTO_COMPLETE =  true;
+	
+	private static final boolean EXAM_USE_PAPER_QUESTION = false;
+	
+	private static final boolean CONTENT_USE_OPEN_LECTURE = true;
+	
+	private static final boolean VOD_USE_HTTP = false;
+
+	private static final String NEW_CONTENTS = "NEW_CONTENTS";
+	
+	private static final String SEND_SYS_USR_CD = "system"; // Web, Push 발신자 정보
+	private static final String SEND_SYS_USR_NM = "system"; // Web, Push 발신자 정보
+	private static final String SEND_SYS_LOGIN_ID = "system"; // Web, Push 발신자 정보
+	
+	// 신규, 수정, 삭제 flag
+	private static final String INSERT_FLAG = "I"; // 신규
+	private static final String UPDATE_FLAG = "U"; // 수정
+	private static final String DELETE_FLAG = "D"; // 삭제
+	private static final String COPY_FLAG = "C"; // 복사
+
+	// 수강상태유형
+	private static final String ATND_STATS_CD_01 = "01"; // 승인(입과)
+	private static final String ATND_STATS_CD_02 = "02"; // 취소
+	private static final String ATND_STATS_CD_03 = "03"; // 승인대기
+	private static final String ATND_STATS_CD_04 = "04"; // 반려
+
+	// 템플릿(확정)
+	private static final String CRS_QNA_TMPT_CD = "21FRE9MOU0ODX2O3NKMW"; // 학습 문의 등록
+	private static final String CRS_QNA_ANS_TMPT_CD = "JYUZJUC40AF0LH8DA4FV"; // 학습 문의 답변 등록
+	private static final String CRS_NOTICE_TMPT_CD = "8J1WIL93NY4Q0Z00CJCM"; // 학습 공지사항
+	private static final String CRS_TEXT_TMPT_CD = "F9BK5XSYKGR071KW54VN"; // 학습 자료 알림
+	private static final String QNA_ANS_TMPT_CD = "184CC9883DAFOKJODJHC"; // 1:1문의 답변등록
+	private static final String CRS_ATND_APPVL_CD = "Z58WTDJCEPHSLPVV0LZP"; // 수강신청 승인
+	private static final String CRS_ATND_COMP_CD = "HULFROQOZ74U1UF51C59"; // 수강신청 반려
+	private static final String TTR_LECT_TMPT_CD = "NY26EDXXFIHNH8XLBUII"; // 강의신청 안내
+	private static final String TTR_AUTH_TMPT_CD = "D53T2BHKK0B2M3PZQJ16"; // 강사권한 취득안내
+	private static final String EDU_INFO_TMPT_CD = "4ZTSEHZCX5UAL4WSZDBD"; // 교육정보 등록안내
+	private static final String EDU_APPRV_TMPT_CD = "RIYB9LDQCNGJULP2U8G3"; // 교육정보 승인안내
+	private static final String ATND_WAIT_INFO_TMPT_CD = "OELPWBIJZHPVEZM0M3QC"; // 수강신청 대기자 승인(입과)안내
+	private static final String LEARN_ATND_TYPE01 = "L3Z2TJYIDXAU7MYFLULR"; // 수강신청 대기과정의 수강신청 자동 취소 안내
+	private static final String LEARN_ATND_TYPE02 = "GK6GOWLZE46FJIKY6U56"; // 학습 시작 사전 안내
+	private static final String LECT_TTR_TYPE01 = "UFE7242NSBW33L64ZJSP"; // 강의평점 및 강의후기 작성 요청 안내
+	
+	// 학습종료 배치 템플릿
+	private static final String LEARN_END_ONLINE_TYPE01 = "EXMUH9N7RGZ83VBQPCXN"; // 과제와 시험이 없는 온라인 학습 종료 D-1
+	private static final String LEARN_END_ONLINE_TYPE02 = "CUOY8RTNO6FZQMKAHIW6"; // 과제가 있고 시험이 없는 온라인 학습 종료 D-1
+	private static final String LEARN_END_ONLINE_TYPE03 = "X7CKRPNEFM2OD8J8IP9S"; // 과제가 없고 시험만 있는 온라인 학습 종료 D-1
+	private static final String LEARN_END_ONLINE_TYPE04 = "GTHW0K9WKXG9HS4K4038"; // 과제와 시험이 있는 온라인 학습 종료 D-1
+	private static final String LEARN_END_ONLINE_TYPE05 = "3ABNPSBGZXJKWC8AFB5U"; // 과제와 시험이 없는 온라인 학습 종료 D-7
+	private static final String LEARN_END_ONLINE_TYPE06 = "ACDDQKPJDA6K5Q402JI9"; // 과제가 있고 시험이 없는 온라인 학습 종료 D-7
+	private static final String LEARN_END_ONLINE_TYPE07 = "J49DTDOS5J8M5NMWVADM"; // 과제가 없고 시험만 있는 온라인 학습 종료 D-7
+	private static final String LEARN_END_ONLINE_TYPE08 = "RYB5B06E39PBV2UPLC94"; // 과제와 시험이 있는 온라인 학습 종료 D-7
+	private static final String LEARN_END_ONLINE_TYPE09 = "XMYZVJ4F7UPELZZAVR68"; // 과제와 시험이 없는 온라인 학습 종료 D-15
+	private static final String LEARN_END_ONLINE_TYPE10 = "E3IQE6EW8A7MCSUE1XIN"; // 과제가 있고 시험이 없는 온라인 학습 종료 D-15
+	private static final String LEARN_END_ONLINE_TYPE11 = "SIOFT66QIYTAFAQ5RPZ3"; // 과제가 없고 시험만 있는 온라인 학습 종료 D-15
+	private static final String LEARN_END_ONLINE_TYPE12 = "2SJGEOPHDIDFUGRM6BWN"; // 과제와 시험이 있는 온라인 학습 종료 D-15
+	private static final String LEARN_END_OFFLINE_TYPE01 = "PR1CN3PVV0GM1VROMU8W"; // 과제와 시험이 없는 오프라인 학습 종료 D-1
+	private static final String LEARN_END_OFFLINE_TYPE02 = "RX6WIOUBJ7BYIJ5YXOH1"; // 과제가 있고 시험이 없는 오프라인 학습 종료 D-1
+	private static final String LEARN_END_OFFLINE_TYPE03 = "ETH3TXVDA398KCOY7JBG"; // 과제가 없고 시험만 있는 오프라인 학습 종료 D-1
+	private static final String LEARN_END_OFFLINE_TYPE04 = "EK0HMW8LQMY0EJY60EWR"; // 과제와 시험이 있는 오프라인 학습 종료 D-1
+	private static final String LEARN_END_OFFLINE_TYPE05 = "MLDVD0LFOEQ140353JDK"; // 과제와 시험이 없는 오프라인 학습 종료 D-7
+	private static final String LEARN_END_OFFLINE_TYPE06 = "FXXD0ULS0ZUY9HWCP7WA"; // 과제가 있고 시험이 없는 오프라인 학습 종료 D-7
+	private static final String LEARN_END_OFFLINE_TYPE07 = "CEEV4YX111DFKT3U45O6"; // 과제가 없고 시험만 있는 오프라인 학습 종료 D-7
+	private static final String LEARN_END_OFFLINE_TYPE08 = "RLA4V4EUHUGK9R7Y5N4T"; // 과제와 시험이 있는 오프라인 학습 종료 D-7
+	private static final String LEARN_END_OFFLINE_TYPE09 = "HH7E1V4GZY1E51MBN4Y0"; // 과제와 시험이 없는 오프라인 학습 종료 D-15
+	private static final String LEARN_END_OFFLINE_TYPE10 = "I168HXHTMJF74UNZ8VYB"; // 과제가 있고 시험이 없는 오프라인 학습 종료 D-15
+	private static final String LEARN_END_OFFLINE_TYPE11 = "V42OLW9X4P49191Q0LPP"; // 과제가 없고 시험만 있는 오프라인 학습 종료 D-15
+	private static final String LEARN_END_OFFLINE_TYPE12 = "WDDZWXAU9F14KC85GTSP"; // 과제와 시험이 있는 오프라인 학습 종료 D-15
+	
+	public static String getLectTtrType01() {
+		return LECT_TTR_TYPE01;
+	}
+
+	public static String getLearnAtndType02() {
+		return LEARN_ATND_TYPE02;
+	}
+
+	public static String getLearnAtndType01() {
+		return LEARN_ATND_TYPE01;
+	}
+
+	public static String getAtndWaitInfoTmptCd() {
+		return ATND_WAIT_INFO_TMPT_CD;
+	}
+
+	public static String getLearnEndOnlineType01() {
+		return LEARN_END_ONLINE_TYPE01;
+	}
+
+	public static String getLearnEndOnlineType02() {
+		return LEARN_END_ONLINE_TYPE02;
+	}
+
+	public static String getLearnEndOnlineType03() {
+		return LEARN_END_ONLINE_TYPE03;
+	}
+
+	public static String getLearnEndOnlineType04() {
+		return LEARN_END_ONLINE_TYPE04;
+	}
+
+	public static String getLearnEndOnlineType05() {
+		return LEARN_END_ONLINE_TYPE05;
+	}
+
+	public static String getLearnEndOnlineType06() {
+		return LEARN_END_ONLINE_TYPE06;
+	}
+
+	public static String getLearnEndOnlineType07() {
+		return LEARN_END_ONLINE_TYPE07;
+	}
+
+	public static String getLearnEndOnlineType08() {
+		return LEARN_END_ONLINE_TYPE08;
+	}
+
+	public static String getLearnEndOnlineType09() {
+		return LEARN_END_ONLINE_TYPE09;
+	}
+
+	public static String getLearnEndOnlineType10() {
+		return LEARN_END_ONLINE_TYPE10;
+	}
+
+	public static String getLearnEndOnlineType11() {
+		return LEARN_END_ONLINE_TYPE11;
+	}
+
+	public static String getLearnEndOnlineType12() {
+		return LEARN_END_ONLINE_TYPE12;
+	}
+
+	public static String getLearnEndOfflineType01() {
+		return LEARN_END_OFFLINE_TYPE01;
+	}
+
+	public static String getLearnEndOfflineType02() {
+		return LEARN_END_OFFLINE_TYPE02;
+	}
+
+	public static String getLearnEndOfflineType03() {
+		return LEARN_END_OFFLINE_TYPE03;
+	}
+
+	public static String getLearnEndOfflineType04() {
+		return LEARN_END_OFFLINE_TYPE04;
+	}
+
+	public static String getLearnEndOfflineType05() {
+		return LEARN_END_OFFLINE_TYPE05;
+	}
+
+	public static String getLearnEndOfflineType06() {
+		return LEARN_END_OFFLINE_TYPE06;
+	}
+
+	public static String getLearnEndOfflineType07() {
+		return LEARN_END_OFFLINE_TYPE07;
+	}
+
+	public static String getLearnEndOfflineType08() {
+		return LEARN_END_OFFLINE_TYPE08;
+	}
+
+	public static String getLearnEndOfflineType09() {
+		return LEARN_END_OFFLINE_TYPE09;
+	}
+
+	public static String getLearnEndOfflineType10() {
+		return LEARN_END_OFFLINE_TYPE10;
+	}
+
+	public static String getLearnEndOfflineType11() {
+		return LEARN_END_OFFLINE_TYPE11;
+	}
+
+	public static String getLearnEndOfflineType12() {
+		return LEARN_END_OFFLINE_TYPE12;
+	}
+
+	public static String getContentsProgress() {
+		return CONTENTS_PROGRESS;
+	}
+
+	public static String getItemCntsPrg() {
+		return ITEM_CNTS_PRG;
+	}
+
+	public static String getItemExam() {
+		return ITEM_EXAM;
+	}
+
+	public static String getItemTask() {
+		return ITEM_TASK;
+	}
+
+	public static String getItemAtndn() {
+		return ITEM_ATNDN;
+	}
+
+	public static String getItemCmpt() {
+		return ITEM_CMPT;
+	}
+
+	public static String getAtndStatsCd01() {
+		return ATND_STATS_CD_01;
+	}
+
+	public static String getAtndStatsCd02() {
+		return ATND_STATS_CD_02;
+	}
+
+	public static String getAtndStatsCd03() {
+		return ATND_STATS_CD_03;
+	}
+
+	public static String getAtndStatsCd04() {
+		return ATND_STATS_CD_04;
+	}
+
+	public static String getInsertFlag() {
+		return INSERT_FLAG;
+	}
+
+	public static String getUpdateFlag() {
+		return UPDATE_FLAG;
+	}
+
+	public static String getDeleteFlag() {
+		return DELETE_FLAG;
+	}
+	
+	public static String getCopyFlag() {
+		return COPY_FLAG;
+	}
+
+	public static String getQnaAnsTmptCd() {
+		return QNA_ANS_TMPT_CD;
+	}
+
+	public static String getCrsQnaAnsTmptCd() {
+		return CRS_QNA_ANS_TMPT_CD;
+	}
+
+	public static String getCrsNoticeTmptCd() {
+		return CRS_NOTICE_TMPT_CD;
+	}
+
+	public static String getSendSysUsrCd() {
+		return SEND_SYS_USR_CD;
+	}
+
+	public static String getSendSysUsrNm() {
+		return SEND_SYS_USR_NM;
+	}
+
+	public static String getSendSysLoginId() {
+		return SEND_SYS_LOGIN_ID;
+	}
+
+	public static final String[] getRowSizeOptions() {
+		return ROW_SIZE_OPTIONS;
+	}
+
+	public static final String getParamPrefix() {
+		return PARAM_PREFIX;
+	}
+
+	public static final String getParamMethod() {
+		return PARAM_METHOD;
+	}
+
+	public static final String getParamSystemDiv() {
+		return PARAM_SYSTEM_DIV;
+	}
+
+	public static final String getParamMenuId() {
+		return PARAM_MENU_ID;
+	}
+
+	public static final String getParamProgramId() {
+		return PARAM_PROGRAM_ID;
+	}
+
+	public static final String getServiceBasePathName() {
+		return SERVICE_BASE_PATH_NAME;
+	}
+
+	public static final String getAdmServiceBasePath() {
+		return ADM_SERVICE_BASE_PATH;
+	}
+
+	public static final String getFrtServiceBasePath() {
+		return FRT_SERVICE_BASE_PATH;
+	}
+
+	public static final String getReqPrefix() {
+		return REQ_PREFIX;
+	}
+
+	public static final String getReqMenuSearchObj() {
+		return REQ_MENU_SEARCH_OBJ;
+	}
+
+	public static final String getReqViewLayout() {
+		return REQ_VIEW_LAYOUT;
+	}
+
+	public static final String getReqViewLayoutVal() {
+		return REQ_VIEW_LAYOUT_VAL;
+	}
+
+	public static final String getOptCdValue() {
+		return OPT_CD_VALUE;
+	}
+
+	public static final String getOptCdLabel() {
+		return OPT_CD_LABEL;
+	}
+
+	public static final String getDefaultOptionTypeAll() {
+		return DEFAULT_OPTION_TYPE_ALL;
+	}
+
+	public static final String getDefaultOptionTypeSelect() {
+		return DEFAULT_OPTION_TYPE_SELECT;
+	}
+
+	public static final String getDelimeter() {
+		return DELIMETER;
+	}
+
+	public static final String getValYes() {
+		return VAL_YES;
+	}
+
+	public static final String getValNo() {
+		return VAL_NO;
+	}
+
+	public static final String getCharPathSeparator() {
+		return CHAR_PATH_SEPARATOR;
+	}
+
+	public static final String getDelimeterInputDefault() {
+		return DELIMETER_INPUT_DEFAULT;
+	}
+
+	public static final int getFileUploadSize() {
+		return FILE_UPLOAD_SIZE;
+	}
+
+	public static final String getExceptFileType() {
+		return EXCEPT_FILE_TYPE;
+	}
+	
+	public static final String getAccessFileType() {
+		return ACCESS_FILE_TYPE;
+	}
+	
+	public static final int getImageUploadSize() {
+		return IMAGE_UPLOAD_SIZE;
+	}
+
+	public static final String getImageUploadType() {
+		return IMAGE_UPLOAD_TYPE;
+	}
+
+	public static final String getMailAuthId() {
+		return MAIL_AUTH_ID;
+	}
+
+	public static final String getMailAuthPw() {
+		return MAIL_AUTH_PW;
+	}
+
+	public static final String getSmtpHost() {
+		return SMTP_HOST;
+	}
+
+	public static final String getAdmViewRoot() {
+		return ADM_VIEW_ROOT;
+	}
+
+	public static final String getAdmContenxt() {
+		return ADM_CONTENXT;
+	}
+
+	public static final String getFrontViewRoot() {
+		return FRONT_VIEW_ROOT;
+	}
+	
+	public static final String getFrontMainRoot() {
+		return FRONT_MAIN_ROOT;
+	}
+	
+	public static final String getFrontContenxt() {
+		return FRONT_CONTENXT;
+	}
+
+	public static final String getTtrContenxt() {
+		return TTR_CONTENXT;
+	}
+
+	public static final String getUsrGeneralMenu() {
+		return USR_GENERAL_MENU;
+	}
+
+	public static final String getSessionLUKey() {
+		return SESSION_L_U_KEY;
+	}
+
+	public static final String getPagenationInfo() {
+		return PAGENATION_INFO;
+	}
+
+	public static final String getTotalRecordCount() {
+		return TOTAL_RECORD_COUNT;
+	}
+
+	public static final String getProgramId() {
+		return PROGRAM_ID;
+	}
+
+	public static final String getSystemId() {
+		return SYSTEM_ID;
+	}
+
+	public static final String getData() {
+		return DATA;
+	}
+
+	public static final String getXlsPath() {
+		return XLS_PATH;
+	}
+
+	public static final String getExcelForm() {
+		return EXCEL_FORM;
+	}
+
+	public static final String getFileKeyParam() {
+		return FILE_KEY_PARAM;
+	}
+
+	public static final String getFileSeqParam() {
+		return FILE_SEQ_PARAM;
+	}
+
+	public static final String getTypeVideo() {
+		return TYPE_VIDEO;
+	}
+
+	public static final String getTypeAudio() {
+		return TYPE_AUDIO;
+	}
+
+	public static final String getUploadStatusTemp() {
+		return UPLOAD_STATUS_TEMP;
+	}
+
+	public static final String getUploadStatusSave() {
+		return UPLOAD_STATUS_SAVE;
+	}
+
+	public static final String getBatServer() {
+		return BAT_SERVER;
+	}
+
+	public static final String getRsaInstance() {
+		return RSA_INSTANCE;
+	}
+
+	public static final String getGroupAdmin() {
+		return GROUP_ADMIN;
+	}
+
+	public static final String getGroupTutor() {
+		return GROUP_TUTOR;
+	}
+
+	public static final String getGroupAdminType() {
+		return GROUP_ADMIN_TYPE_CD;
+	}
+
+	public static final String getGroupTutorType() {
+		return GROUP_TUTOR_TYPE_CD;
+	}
+	
+	public static final long getMillisecondOfDay() {
+		return MILLISECOND_OF_DAY;
+	}
+
+	public static String getDefaultLangauge() {
+		return DEFAULT_LANGAUGE;
+	}
+
+	public static int getDefaultContwinWidth() {
+		return DEFAULT_CONTWIN_WIDTH;
+	}
+
+	public static int getDefaultContwinHeight() {
+		return DEFAULT_CONTWIN_HEIGHT;
+	}
+
+	public static int getDefaultExamQuestions() {
+		return DEFAULT_EXAM_QUESTIONS;
+	}
+
+	public static String getDefaultZipEncode() {
+		return DEFAULT_ZIP_ENCODE;
+	}
+
+	public static int getMaxExamAttemptCount() {
+		return MAX_EXAM_ATTEMPT_COUNT;
+	}
+
+	public static String getLectureThumbnailExtention() {
+		return LECTURE_THUMBNAIL_EXTENTION;
+	}
+
+	public static int getMinimumStudyMinitue() {
+		return MINIMUM_STUDY_MINITUE;
+	}
+
+	public static boolean isContentsAutoComplete() {
+		return CONTENTS_AUTO_COMPLETE;
+	}
+
+	public static boolean isExamUsePaperQuestion() {
+		return EXAM_USE_PAPER_QUESTION;
+	}
+
+	public static boolean isContentUseOpenLecture() {
+		return CONTENT_USE_OPEN_LECTURE;
+	}
+
+	public static boolean isVodUseHttp() {
+		return VOD_USE_HTTP;
+	}
+
+	public static String getNewContents() {
+		return NEW_CONTENTS;
+	}
+
+	public static String getPdfViewerPath() {
+		return PDF_VIEWER_PATH;
+	}
+
+	public static String getCrsTextTmptCd() {
+		return CRS_TEXT_TMPT_CD;
+	}
+
+	public static String getCrsAtndAppvlCd() {
+		return CRS_ATND_APPVL_CD;
+	}
+
+	public static String getCrsAtndCompCd() {
+		return CRS_ATND_COMP_CD;
+	}
+
+	public static String getTtrLectTmptCd() {
+		return TTR_LECT_TMPT_CD;
+	}
+
+	public static String getTtrAuthTmptCd() {
+		return TTR_AUTH_TMPT_CD;
+	}
+	
+	public static String getCrsQnaTmptCd() {
+		return CRS_QNA_TMPT_CD;
+	}
+	
+	public static String getEduInfoTmptCd() {
+		return EDU_INFO_TMPT_CD;
+	}
+
+	public static String getEduApprvTmptCd() {
+		return EDU_APPRV_TMPT_CD;
+	}
+
+	
+}

@@ -1,0 +1,22 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:05 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668460294
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668463460
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668461986
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668460239
+https\://repo1.maven.org/maven2/.lastUpdated=1743668465312
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668460521
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668464709
+https\://maven.egovframe.go.kr/maven/.error=
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact bouncycastle\:bcmail-jdk14\:jar\:sources\:138 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668465415
+http\://repo.springsource.org/release/.error=Could not transfer artifact bouncycastle\:bcmail-jdk14\:jar\:sources\:138 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668465878
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668460226

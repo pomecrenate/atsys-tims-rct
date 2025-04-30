@@ -1,0 +1,15 @@
+package com.atsys.tims.sys.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.MenuVo;
+
+@Transactional(readOnly=true)
+public interface MenuService {
+
+	List<MenuVo> selectLrgMenu(Map<String, Object> so) throws Exception;
+
+}

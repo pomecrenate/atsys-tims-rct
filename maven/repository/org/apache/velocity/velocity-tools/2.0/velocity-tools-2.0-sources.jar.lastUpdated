@@ -1,0 +1,22 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:22:45 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668559955
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668563130
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668561633
+https\://repo1.maven.org/maven2/.error=
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668559902
+https\://repo1.maven.org/maven2/.lastUpdated=1743668564973
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668560198
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668564435
+https\://maven.egovframe.go.kr/maven/.error=
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact org.apache.velocity\:velocity-tools\:jar\:sources\:2.0 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668565078
+http\://repo.springsource.org/release/.error=Could not transfer artifact org.apache.velocity\:velocity-tools\:jar\:sources\:2.0 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+https\://repo.maven.apache.org/maven2/.error=
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668565522
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668559890

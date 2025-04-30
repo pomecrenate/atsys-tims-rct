@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.jdg.dao.Jdg1100eDao">
+    <!-- 외부 평가위원 목록 조회 -->
+    <select id="selectExJudgeList" parameterType="map" resultType="com.atsys.model.TbExEvalJdgVo">
+        SELECT * 
+          FROM (
+                SELECT T.*
+                       , ROWNUM AS RNUM 
+                FROM (
+                        SELECT A.EX_JDG_CD					AS USR_CD,
+                               A.USR_ID,
+                               A.NM,
+                               A.ORG,
+                               A.MOB_PHONE,
+                               A.EMAIL,
+                               A.CRE_DATE,
+                               A.UPD_DATE,
+                               FN_GET_ERP_NM(A.CRE_USR_CD)	AS CRE_USR_NM,
+                               FN_GET_ERP_NM(A.UPD_USR_CD)	AS UPD_USR_NM
+                          FROM TB_EX_EVAL_JDG A
+                         WHERE A.DEL_YN = 'N'
+                        <if test="keyword != null and keyword != ''">
+                           AND
+                           <choose>
+                               <when test="searchCriteria == 'id'">
+                                   A.USR_ID LIKE '%' || #{keyword} || '%'
+                               </when>
+                               <otherwise>
+                                   A.NM LIKE '%' || #{keyword} || '%'
+                               </otherwise>
+                           </choose>
+                        </if>
+                         ORDER BY A.CRE_DATE DESC
+                     ) T
+               WHERE ROWNUM <![CDATA[<=]]> #{end}
+               ) 
+        WHERE RNUM >= #{start}
+    </select>
+
+    <!-- 외부 평가위원 목록 개수 조회 -->
+    <select id="selectExJudgeCount" parameterType="map" resultType="int">
+        SELECT COUNT(1) AS TOT_CNT
+          FROM TB_EX_EVAL_JDG A
+         WHERE A.DEL_YN = 'N'
+        <if test="keyword != null and keyword != ''">
+           AND
+           <choose>
+               <when test="searchCriteria == 'id'">
+                   A.USR_ID LIKE '%' || #{keyword} || '%'
+               </when>
+               <otherwise>
+                   A.NM LIKE '%' || #{keyword} || '%'
+               </otherwise>
+           </choose>
+        </if>
+    </select>
+    
+    <!-- 외부 평가위원 최대 인덱스 조회 -->
+    <select id="selectMaxExJudgeIndex" parameterType="string" resultType="int">
+        SELECT NVL(MAX(TO_NUMBER(SUBSTR(USR_ID, 4))), 0) AS MAX_INDEX
+        FROM TB_EX_EVAL_JDG
+        WHERE USR_ID LIKE #{prefix} || '%'
+          AND DEL_YN = 'N'
+    </select>
+
+    <!-- 외부 평가위원 등록 -->
+    <insert id="insertExJudge" parameterType="com.atsys.model.TbExEvalJdgVo">
+        INSERT INTO TB_EX_EVAL_JDG (
+            		  EX_JDG_CD
+            		, USR_ID
+            		, NM
+            		, PW
+            		, ORG
+            		, MOB_PHONE
+            		, EMAIL
+            <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+        ) VALUES (
+            		  #{usrCd}
+            		, #{usrId}
+            		, #{nm}
+            		, #{pw}
+            		, #{org}
+            		, #{mobPhone}
+            		, #{email}
+            <include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+        )
+    </insert>
+
+    <!-- 외부 평가위원 삭제 -->
+    <update id="deleteExJudge" parameterType="map">
+        UPDATE TB_EX_EVAL_JDG
+           SET DEL_YN = 'Y'
+               <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+         WHERE EX_JDG_CD = #{usrCd}
+    </update>
+</mapper>

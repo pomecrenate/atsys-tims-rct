@@ -1,0 +1,234 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Bas1100e.jsp
+	// 설명 : 코드관리
+	// 작성자 : 최연재
+	// 일자 : 2025.04.09
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/bas1100e"/>
+<c:set var="svnmSave" value="${svnm}/save"/>
+<c:set var="svnmSearchLeft" value="${svnm}/searchLeft"/>
+<c:set var="svnmSearchRight" value="${svnm}/searchRight"/>
+<c:set var="svnmUpdCodePop" value="${svnm}/popup/update"/>
+
+<div class="x_panel_wrap">
+	<div class="x_panel_title">
+		코드관리
+	</div>
+	<div class="x_panel">
+		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
+	<%-- 	<input type="hidden" name="cpCd"		id="cpCd"		value="<c:out value="${loginUser.cpCd}"/>" /> 
+			<input type="hidden" name="cpAdminYn"	id="cpAdminYn"	value="<c:out value="${loginUser.cpAdminYn}"/>" />
+			<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/> --%>
+		
+			<div class="search_condition">
+				<div class="condition_list">
+					<dl>
+						<dt><label for="qryLrgCd">대분류코드</label></dt>
+						<dd><input class="form-control" id="qryLrgCd" name="qryLrgCd" required></input></dd>
+					</dl>
+					<dl>
+						<dt><label for="qryLrgCdNm">대분류코드명</label></dt>
+						<dd><input class="form-control" id="qryLrgCdNm" name="qryLrgCdNm" required></input> </dd>
+					</dl>
+					<dl>
+						<dt><label for="qrySmallCd">소분류코드</label></dt>
+						<dd><input class="form-control" id="qrySmallCd" name="qrySmallCd"></input></dd>
+					</dl>
+					<dl>
+						<dt><label for="qrySmallCdNm">소분류코드명</label></dt>
+						<dd><input class="form-control" id="qrySmallCdNm" name="qrySmallCdNm"></input></dd>
+					</dl>
+					<button data-action="searchLft"  type="button" class="n_btn btn_md btn_search"><i class="fa fa-search"></i> 조회</button>
+				</div>			
+			</div>
+		</form>
+	</div>
+	<div class="x_panel">
+	<div class="col-md-5">
+		<div class="list_top">
+			<div class="lft-area">
+				<p class="list_title">대분류</p>
+			</div> 
+			<div class="rgt-area">
+				<div class="btn-group">
+					<button data-action="insertLarge" type="button" class="n_btn btn_md btn_c01" id="isrtLgrBtn"><i class="fas fa-plus"></i> 신규</button>
+					<button type="button" class="n_btn btn_md btn_c01" id="cnclLgrBtn" hidden><i class="fas fa-minus"></i> 취소</button>
+					<button data-action="saveLft" type="button" class="n_btn btn_md btn_c03"><i class="fas fa-check"></i> 저장</button>
+					<button data-action="deleteLft" type="button" class="n_btn btn_md btn_c05">삭제</button>
+				</div>
+			</div>
+		</div>
+		<div class="x_content">
+			<div class="content_list" id="content_list">
+				<table class="table" id="lft-table">
+					<thead>
+						<tr>
+							<th><input type="checkbox" /></th>
+							<th>대분류코드</th>
+							<th>대분류코드명</th>					
+							<th>사용여부</th>
+						</tr>
+					</thead>
+					<tbody id="lft-tbody"> 
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-md-7">
+		<div class="list_top">
+			<div class="lft-area">
+				<p class="list_title">소분류</p>
+			</div> 
+			<div class="rgt-area">
+				<div class="btn-group">
+					<button data-action="insertSmall" type="button" class="n_btn btn_md btn_c01" id="isrtSmallBtn"><i class="fas fa-plus"></i> 신규</button>
+					<button type="button" class="n_btn btn_md btn_c01" id="cnclSmallBtn" hidden><i class="fas fa-minus"></i> 취소</button>
+					<button data-action="saveRgt" type="button" class="n_btn btn_md btn_c03"><i class="fas fa-check"></i> 저장</button>
+					<button data-action="deleteRgt" type="button" class="n_btn btn_md btn_c05">삭제</button>
+				</div>
+			</div>
+		</div>
+		<div class="x_content">
+			<div class="content_list" id="content_list">
+			<input type=hidden name="lrgCdNm" id="lrgCdNm" />
+				<table class="table" id="rgt-table" >
+					<thead>
+						<tr>
+							<th><input type="checkbox" /></th>
+							<th>대분류코드명</th>
+							<th>소분류코드</th>
+							<th>소분류코드명</th>
+							<th>사용여부</th>
+							<th>정렬순서</th>
+						</tr>
+					</thead>
+					<tbody id="rgt-tbody"> 
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script>
+const LargeColumns = [
+	{ type: "checkbox", name: "check"},
+    { type: "text", name: "lrgCd" },
+    { type: "text", name: "cdNm" },
+    { type: "checkbox", name: "delYn", value:"N" },
+  ];
+  
+  const SmallColumns = [
+    { type: "checkbox", name: "check" },
+    { type: "text", name: "lrgCdNm", value: "", readonly: true},
+    { type: "text", name: "smallCd" },
+    { type: "text", name: "cdNm" },
+    { type: "checkbox", name: "delYn", value:"N" },
+    { type: "", name: "sortOrder" }
+  ];
+  
+  //   { type: "select", name: "useYn", options: ["Y", "N"] },
+
+$(document).ready(function() {
+	searchLft();
+ })
+  
+function searchLft() {
+	const param = $('#search').serializeArray();
+ 	const ajax = TimsUtil.getObject("${svnmSearchLeft}", param, false);
+ 	const data = ajax.data;
+ 	RctUtil.renderTable("lft-tbody", LargeColumns, data, (event) => {
+ 		searchRgt(event)
+ 	})
+ 	const $firstRow = $('#lft-tbody tr:first');
+    if ($firstRow.length > 0) {
+      $firstRow.trigger('click'); // click 이벤트 발생
+    }
+}
+
+function searchRgt(event) {
+	$('#isrtSmallBtn').show();
+	$('#cnclSmallBtn').hide();
+	const clickedTr = event.currentTarget; // 지금 클릭된 tr
+	const tds = clickedTr.querySelectorAll("td");
+	const rowData = Array.from(tds).map(td => td.textContent);
+	const param = $('#search').serializeArray();
+	const item = param.find(item => item.name === 'qryLrgCd');
+	item.value = rowData[1];
+	$('#lrgCdNm').val(rowData[2]);
+	const ajax = TimsUtil.getObject("${svnmSearchRight}", param, false);
+	const data = ajax.data;
+   	RctUtil.renderTable("rgt-tbody", SmallColumns, data)
+}
+
+$('#cnclLgrBtn').on('click', function() {
+	 $('#lft-table tbody tr:first').remove();
+	 $('#isrtLgrBtn').show();
+	 $('#cnclLgrBtn').hide();
+});
+
+$('#cnclSmallBtn').on('click', function() {
+	 $('#rgt-table tbody tr:first').remove();
+	 $('#isrtSmallBtn').show();
+	 $('#cnclSmallBtn').hide();
+});
+
+function insertLarge() {
+	$('#isrtLgrBtn').hide();
+	$('#cnclLgrBtn').show();
+	RctUtil.insertRow(LargeColumns, '#lft-table');
+  };
+  
+function insertSmall() {
+	$('#isrtSmallBtn').hide();
+	$('#cnclSmallBtn').show();
+	SmallColumns.find(col => col.name === "lrgCdNm").value = $('#lrgCdNm').val();
+	RctUtil.insertRow(SmallColumns, '#rgt-table');
+};
+
+function saveLft() {
+	$('#isrtLgrBtn').show();
+	$('#cnclLgrBtn').hide();
+	const data = RctUtil.getTableData('#lft-table');
+	data["smallCd"] = "00000000";
+	data["sStatus"] = "I";
+	if(data){
+		const obj = TimsUtil.getObject("${svnmSave}", data, true)
+		if(obj.insertCnt === 1) {
+	 		alert("정상적으로 저장되었습니다.")
+		} else {
+			alert("오류가 발생했습니다.")
+		}
+	}
+	searchLft();
+}
+
+function saveRgt() {
+	$('#isrtSmallBtn').show();
+	$('#cnclSmallBtn').hide();
+	const data = RctUtil.getTableData('#rgt-table');
+	data["lrgCdNm"] = $('#lrgCdNm').val();
+	data["sStatus"] = "I";
+	if(data){
+		const obj = TimsUtil.getObject("${svnmSave}", data, true)
+		if(obj.insertCnt === 1) {
+	 		alert("정상적으로 저장되었습니다.")
+		} else {
+			alert("오류가 발생했습니다.")		
+		}
+	}
+	searchLft();
+}
+
+
+</script>

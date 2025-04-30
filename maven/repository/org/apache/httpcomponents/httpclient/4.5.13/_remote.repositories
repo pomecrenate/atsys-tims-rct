@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:54:40 KST 2025
+httpclient-4.5.13.jar>repo=
+httpclient-4.5.13.jar>mvn2s=
+httpclient-4.5.13.pom>repo=
+httpclient-4.5.13-sources.jar>repo=
+httpclient-4.5.13.pom>mvn2s=

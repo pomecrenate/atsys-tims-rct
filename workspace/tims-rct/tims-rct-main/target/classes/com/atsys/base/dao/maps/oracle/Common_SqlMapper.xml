@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.base.dao.common.CommonDao">
+
+	<sql id="allLogColumns">
+		<include refid="com.atsys.base.dao.common.CommonDao.insertColumns"/>
+		<include refid="com.atsys.base.dao.common.CommonDao.updateColumns"/>
+	</sql>
+
+	<sql id="insertColumns">
+			, DEL_YN
+			, CRE_USR_CD
+			, CRE_PGM
+			, CRE_IP
+			, CRE_DATE
+	</sql>
+
+	<sql id="updateColumns">
+			, UPD_USR_CD
+			, UPD_PGM
+			, UPD_IP
+			, UPD_DATE
+	</sql>
+
+	<sql id="insertLog">
+			, 'N'
+			, #{creUsrCd}
+			, #{crePgm}
+			, #{creIp}
+			, SYSDATE
+			, #{updUsrCd}
+			, #{updPgm}
+			, #{updIp}
+			, SYSDATE
+	</sql>
+
+	<sql id="updateLog">
+			, UPD_USR_CD = #{updUsrCd}
+			, UPD_PGM = #{updPgm}
+			, UPD_IP = #{updIp}
+			, UPD_DATE = SYSDATE
+	</sql>
+
+</mapper>

@@ -1,0 +1,25 @@
+package com.atsys.tims.sys.dao;
+
+import java.util.List;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbCmmVo;
+
+@Repository
+@Mapper
+public interface Sys1100eDao {
+
+	public int insert(Object vo);
+	
+	public int update(Object vo);
+	
+	// 대분류조회
+	public List<TbCmmVo> selectList(Object so);
+	public int selectTotalCount(Object so);	
+	
+	//소분류조회
+	public List<TbCmmVo> selectSmallCdList(Object so);
+	public int selectSmallCdTotalCount(Object so);	
+}

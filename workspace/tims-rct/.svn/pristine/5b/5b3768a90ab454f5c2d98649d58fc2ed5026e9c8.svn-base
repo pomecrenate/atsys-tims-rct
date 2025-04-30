@@ -1,0 +1,30 @@
+package com.atsys.tims.sys.controller;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.atsys.tims.sys.service.MenuService;
+
+@Controller
+@RequestMapping(value="/menu")
+public class MenuController {
+	
+	@Resource(name="menuService")
+	private MenuService menuService;
+	 
+	@RequestMapping("/lrgMenu")  
+	public @ResponseBody Object subMenu(HttpSession session, @RequestBody Map<String, Object> so, Model model) throws Exception {
+		session.setAttribute("userRole", "ADMIN");
+		return menuService.selectLrgMenu(so);
+	}
+
+
+}

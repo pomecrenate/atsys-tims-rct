@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:54:40 KST 2025
+aopalliance-1.0.jar>repo=
+aopalliance-1.0.pom>mvn2s=
+aopalliance-1.0-sources.jar>repo=
+aopalliance-1.0.pom>repo=
+aopalliance-1.0.jar>mvn2s=

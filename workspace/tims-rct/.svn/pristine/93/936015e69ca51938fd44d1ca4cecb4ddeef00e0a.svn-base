@@ -1,0 +1,107 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Rct1101e.jsp
+	// 설명 : 공고관리-초빙(임용)분야
+	// 작성자 : 최연재
+	// 일자 : 2025.04.21
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/rct1101e"></c:set>   
+
+ <div class="x_panel_wrap">	
+	<div class="x_panel_title">공고 관리</div> 	
+	<div class="list_top">
+		<div class="rgt-area">
+			<button data-action="searchNtc" type="button" class="n_btn btn_md btn_c05">공고불러오기</button>
+			<button class="n_btn btn_md btn_c02" data-url="rct1100e" type="button">돌아가기</button>
+		</div>
+	</div>
+	<div class="btn_tab">
+		<ul>			
+			<li class="active"><button data-action="moveTab" type="button">초빙(임용)분야</button></li>
+			<li><button data-action="moveTab" type="button">지원자격</button></li>
+			<li><button data-action="moveTab" type="button">유의사항</button></li>
+			<li><button data-action="moveTab" type="button">지원방법</button></li>
+			<li><button data-action="moveTab" type="button">제출서류</button></li>
+			<li><button data-action="moveTab" type="button">전형절차</button></li>
+			<li><button data-action="moveTab" type="button">기타및서식</button></li>
+		</ul>			
+	</div>		
+	<div class="x_panel">
+		<div class="x_content">		
+			<div class="content_list" id="content_list">
+				<table class="table" id="f-table">
+					<div class="list_top">
+						<div class="rgt-area">
+							<div class="btn-group">
+								<button data-action="insert" type="button" class="n_btn btn_md btn_c01" id="isrtBtn"><i class="fas fa-plus"></i> 신규</button>
+								<button type="button" class="n_btn btn_md btn_c01" id="cnclBtn" hidden><i class="fas fa-minus"></i> 취소</button>
+								<button data-action="delete" type="button" class="n_btn btn_md btn_c05">삭제</button>
+							</div>
+						</div>
+					</div>
+					<thead>
+						<tr>
+							<th><input type="checkbox" value=""></th>
+							<th>순번</th>
+							<th>대학명</th>
+							<th>학과(부)명</th>
+							<th>교직원구분</th>
+							<th>전공분야(교)<br>관련분야(직)</th>
+							<th>담당과목(교)<br>우대사항(직)</th>	
+							<th>채용예정인원수</th>
+							<th>비고(지원자격)</th>
+						</tr>
+					</thead>
+					<tbody> 
+			            <tr>
+			                <td><input type="checkbox" value=""></td>
+							<td>1</td>
+							<td>공과대학</td>
+							<td>기계공학과</td>
+							<td>연구전담</td>
+							<td>기계 연구 전공1</td>
+							<td>메카트로닉스개론</td>
+							<td>1</td>
+							<td>기계공학과 박사학위</td>
+			            </tr> 
+					</tbody>
+				</table> 
+			</div>
+		</div> 
+	</div>
+</div>
+
+
+<script>  
+const columns = [
+	  { type: "checkbox"},
+	  { type: "text", name: "sort" },
+	  { type: "text", name: "collegeNm", readonly: true },
+	  { type: "text", name: "deptNm", readonly: true, button: true },
+	  { type: "select", name: "staffType", options: ["일반", "교양"] }, // 페이지 진입할때 미리 옵션에 들어갈 값을 가져와서 변수로 세팅
+	  { type: "text", name: "majorNm" },
+	  { type: "textarea", name: "subjectNm" },
+	  { type: "text", name: "requiredCnt" },
+	  { type: "textarea", name: "requirements" },
+];
+
+function insert() {
+	$('#isrtBtn').hide();
+	$('#cnclBtn').show();
+	RctUtil.insertRow(columns, '#f-table');
+ };
+  
+$('#cnclBtn').on('click', function() {
+	 $('#f-table tbody tr:first').remove();
+	 $('#isrtBtn').show();
+	 $('#cnclBtn').hide();
+});
+
+</script>
+

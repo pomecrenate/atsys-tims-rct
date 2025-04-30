@@ -1,0 +1,28 @@
+/*************************************************************
+ 프로그램명 : Rct1100eDao.java
+ 설명 : 공고관리
+ 작성자 : 최연재
+ 일자 : 2025.04.29
+*************************************************************/
+package com.atsys.tims.rct.dao;
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbNtcStepVo;
+import com.atsys.model.TbNtcVo;
+
+@Repository
+@Mapper 
+public interface Rct1100eDao {
+
+	public int insertNtc(TbNtcVo vo);
+	
+	public int insertStep(TbNtcStepVo vo);
+	
+	public List<TbNtcVo> selectList(Map<String, Object> map);
+}

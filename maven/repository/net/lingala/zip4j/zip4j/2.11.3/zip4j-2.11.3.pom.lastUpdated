@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:53:47 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1724636621387
+https\://repo.maven.apache.org/maven2/.lastUpdated=1724636621427
+http\://0.0.0.0/.error=Could not transfer artifact net.lingala.zip4j\:zip4j\:pom\:2.11.3 from/to maven-default-http-blocker (http\://0.0.0.0/)\: Blocked mirror for repositories\: [central-repo (http\://central.maven.org/maven2/, default, releases+snapshots), springsource-repo (http\://repo.springsource.org/release, default, releases+snapshots), Dcm4Che (http\://www.dcm4che.org/maven2/, default, releases+snapshots), datanucleus (http\://www.datanucleus.org/downloads/maven2/, default, releases+snapshots), enonic (http\://repo.enonic.com/public/, default, releases+snapshots)]
+https\://maven.egovframe.go.kr/maven/.error=
+@default-maven-default-http-blocker-http\://0.0.0.0/.lastUpdated=1724636621364
+https\://repo1.maven.org/maven2/.lastUpdated=1744962827766

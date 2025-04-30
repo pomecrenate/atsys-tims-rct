@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8" />
+	<title>TIMS-BASE</title>
+	<meta http-equiv="X-UA-Compatible" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body {
+			background-color:black;
+			letter-spacing: -.15em;	
+			margin:0px;
+		}
+		.logo{	width:250px;
+				padding-top: 5px;
+			    padding-bottom: 5px;
+			    padding-left: 10px;
+			    padding-right: 10px;
+		}
+		.main {
+			width:100%;
+			height:880px;
+			margin: 0 auto;
+			background-image: url(./../images/main_slide1.jpg);
+			background-repeat: round;
+		}
+		.title {
+			color: #ffc600;
+		    text-align: center;
+		    line-height: 1.2em;
+		    margin-top: 0px;
+		    padding-top: 150px;
+		    font-size: 45px;
+		    font-weight: 500;
+		}
+		.contents {
+			height: 250px;
+		    color: #fff;
+		    text-align: center;
+		    font-weight: 500;
+		    line-height: 1.33333em;
+		    margin-bottom: 40px;
+		}
+		p{
+			display: block;
+		    margin-block-start: 0.5em;
+		    margin-block-end: 0.5em;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		}
+		.contents span{
+		    display: block;
+		    color: white;
+		    text-align: center;
+		    font-weight: 500;
+		    line-height: 1.33333em;
+		    font-size: 28px;
+		}
+		.dayBox{
+			background-color: rgba(70,70,70,0.7); 
+		    padding: 5px 0 5px;
+		    border-radius: 25px;
+		    border-bottom: 3px solid rgba(40,40,40,0.7);
+		    transition: all .2s linear;
+	    	position: relative;
+	    	width: 450px;
+	    	margin-bottom: 15px;
+	    	height: 90px;
+		}
+		.day span{
+		    display: block;
+		    color: #ffc600;
+		    text-align: center;
+		    font-weight: 500;
+		    line-height: 1.33333em;
+		    font-size: 26px;
+		}
+	
+	@media screen and (max-width:1024px) {
+		.logo	{	width:180px;	}
+		.main 	{	height:600px;	}
+		.title 	{	font-size: 35px;	padding-top: 100px;	}
+		.contents {	height: 200px;	}
+		.contents span{	font-size: 23px;	}
+		.dayBox{	width: 400px;	height: 76px;	}
+		.day span{	font-size: 23px;	}
+	
+	@media screen and (max-width:768px) {
+		.logo	{	width:120px;	}
+		.main 	{	height:400px;	}
+		.title 	{	font-size: 25px;	padding-top: 50px;	}
+		.contents {	height: 120px;	}
+		.contents span{	font-size: 18px;	}
+		.dayBox{	width: 250px;	height: 60px;	}
+		.day span{	font-size: 18px;	}
+	}
+
+	</style>
+</head>
+<body>
+	<div class="main">
+		<!-- <img class="logo" alt="로고" src="./../images/logo_duty.png"> -->
+		<center>
+		<h3 class="title">홈페이지 점검 안내</h2>
+		<p class="contents">
+			<!-- <span>홈페이지 기능개선을 위하여 아래와 같이</span> -->
+			<!-- <span>점검을 실시하오니 홈페이지 이용에 참고부탁드리겠습니다.</span> -->
+			<span>공단 전산시스템 데이터 백업 및 이관 작업으로 인해</span>
+			<span>서비스가 아래 점검 기간동알 홈페이지 시스템이  중단됩니다.</span>
+			<span>&nbsp;</span>
+			<span>홈페이지 서비스 이용에 불편을 드린점 양해 바라며,</span>
+			<span>시스템의 안정적 운영을 위해 최선을 다하겠습니다.</span>
+		</p>
+		<div class="dayBox">
+			<p class="day">
+				<span>점검기간</span>
+				<span>2020.01.31(금) 18:00 ~ 02.02(일) 18:00</span>
+			</p>
+		</div>
+		</center>
+	</div>
+</body>
+</html>

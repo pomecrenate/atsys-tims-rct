@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:40 KST 2025
+javax.mail-1.5.0.pom>repo=
+javax.mail-1.5.0.jar>repo=
+javax.mail-1.5.0-sources.jar>repo=

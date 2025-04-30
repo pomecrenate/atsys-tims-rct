@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<persist-set db-product="Oracle" table="USERVO" master-table="COM060T">
+    <out-column-list>
+        <out-column alias="user_id" is_key="false" type="java.lang.String" column="USER_ID" size="20" sql_type="VARCHAR2" is_null="false" comment="사용자ID" method_name="userId" schema="USERVO" parent="true" />
+        <out-column alias="nm" is_key="false" type="java.lang.String" column="NM" size="50" sql_type="VARCHAR2" is_null="true" comment="사용자명" method_name="nm" schema="USERVO" parent="true" />
+        <out-column alias="passwd" is_key="false" type="java.lang.String" column="PASSWD" size="0" sql_type="VARCHAR2" is_null="true" comment="패스워드" method_name="passwd" schema="USERVO" parent="true" />
+        <out-column alias="user_div" is_key="false" type="java.lang.String" column="USER_DIV" size="3" sql_type="VARCHAR2" is_null="true" comment="사용자구분(COM16)" method_name="userDiv" schema="USERVO" parent="true" />
+        <out-column alias="emp_div" is_key="false" type="java.lang.String" column="EMP_DIV" size="3" sql_type="CHAR" is_null="true" comment="" method_name="empDiv" schema="USERVO" parent="false" />
+        <out-column alias="emp_id" is_key="false" type="java.lang.String" column="EMP_ID" size="15" sql_type="VARCHAR2" is_null="true" comment="직번" method_name="empId" schema="USERVO" parent="true" />
+        <out-column alias="ssn1" is_key="false" type="java.lang.String" column="SSN1" size="16" sql_type="VARCHAR2" is_null="true" comment="주민번호" method_name="ssn1" schema="USERVO" parent="true" />
+        <out-column alias="ssn2" is_key="false" type="java.lang.String" column="SSN2" size="16" sql_type="VARCHAR2" is_null="true" comment="주민번호" method_name="ssn2" schema="USERVO" parent="true" />
+        <out-column alias="dept_cd1" is_key="false" type="java.lang.String" column="DEPT_CD1" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="deptCd1" schema="USERVO" parent="false" />
+        <out-column alias="dept_cd" is_key="false" type="java.lang.String" column="DEPT_CD" size="10" sql_type="VARCHAR2" is_null="true" comment="부서코드" method_name="deptCd" schema="USERVO" parent="true" />
+        <out-column alias="major_cd" is_key="false" type="java.lang.String" column="MAJOR_CD" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="majorCd" schema="USERVO" parent="false" />
+        <out-column alias="rank_cd" is_key="false" type="java.lang.String" column="RANK_CD" size="9" sql_type="VARCHAR2" is_null="true" comment="직급" method_name="rankCd" schema="USERVO" parent="true" />
+        <out-column alias="zip1" is_key="false" type="java.lang.String" column="ZIP1" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="zip1" schema="USERVO" parent="false" />
+        <out-column alias="zip2" is_key="false" type="java.lang.String" column="ZIP2" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="zip2" schema="USERVO" parent="false" />
+        <out-column alias="add1" is_key="false" type="java.lang.String" column="ADD1" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="add1" schema="USERVO" parent="false" />
+        <out-column alias="add2" is_key="false" type="java.lang.String" column="ADD2" size="0" sql_type="VARCHAR2" is_null="true" comment="" method_name="add2" schema="USERVO" parent="false" />
+        <out-column alias="webmail_id" is_key="false" type="java.lang.String" column="WEBMAIL_ID" size="60" sql_type="VARCHAR2" is_null="true" comment="메일ID" method_name="webmailId" schema="USERVO" parent="true" />
+        <out-column alias="tel_no" is_key="false" type="java.lang.String" column="TEL_NO" size="20" sql_type="VARCHAR2" is_null="true" comment="전화번호" method_name="telNo" schema="USERVO" parent="true" />
+        <out-column alias="hphone" is_key="false" type="java.lang.String" column="HPHONE" size="20" sql_type="VARCHAR2" is_null="true" comment="핸드폰" method_name="hphone" schema="USERVO" parent="true" />
+        <out-column alias="status" is_key="false" type="java.lang.String" column="STATUS" size="1" sql_type="VARCHAR2" is_null="true" comment="" method_name="status" schema="USERVO" parent="false" />
+        <out-column alias="cre_dt" is_key="false" type="java.lang.String" column="CRE_DT" size="8" sql_type="VARCHAR2" is_null="true" comment="신설일자" method_name="creDt" schema="USERVO" parent="true" />
+        <out-column alias="abo_dt" is_key="false" type="java.lang.String" column="ABO_DT" size="8" sql_type="VARCHAR2" is_null="true" comment="폐지일자" method_name="aboDt" schema="USERVO" parent="true" />
+    </out-column-list>
+    <select-sql>
+<![CDATA[
+SELECT COM060T.USER_ID                                           AS USER_ID      ,
+       COM060T.NM                                                AS NM           ,
+       NULL                                                      AS PASSWD       ,
+       COM060T.USER_DIV                                          AS USER_DIV     ,-- 사용자구분(COM16)
+       '722'                                                     AS EMP_DIV      ,-- 교직원구분(COM15)-참고용
+       COM060T.EMP_ID                                            AS EMP_ID       ,
+       COM060T.SSN1                                              AS SSN1         ,
+       COM060T.SSN2                                              AS SSN2         ,
+       NULL                                                      AS DEPT_CD1     ,
+       COM060T.DEPT_CD                                           AS DEPT_CD      ,
+       NULL                                                      AS MAJOR_CD     ,
+       COM060T.RANK_CD                                           AS RANK_CD      ,
+       NULL                                                      AS ZIP1         ,
+       NULL                                                      AS ZIP2         ,
+       NULL                                                      AS ADD1         ,
+       NULL                                                      AS ADD2         ,
+       COM060T.WEBMAIL_ID                                        AS WEBMAIL_ID   ,
+       COM060T.TEL_NO                                            AS TEL_NO       ,
+       COM060T.HPHONE                                            AS HPHONE       ,
+       DECODE(NVL(COM060T.ABO_DT,'19000101'),'19000101','2','1') AS STATUS       , -- 1 재직, 2 퇴직, 3 휴직
+       TO_CHAR(COM060T.CRE_DT,'YYYYMMDD')                        AS CRE_DT       ,
+       TO_CHAR(COM060T.ABO_DT,'YYYYMMDD')                        AS ABO_DT
+  FROM COM060T
+]]>
+    </select-sql>
+    <meta-select-sql>
+<![CDATA[
+SELECT COM060T.USER_ID                                           AS USER_ID      ,
+       COM060T.NM                                                AS NM           ,
+       NULL                                                      AS PASSWD       ,
+       COM060T.USER_DIV                                          AS USER_DIV     ,-- 사용자구분(COM16)
+       '722'                                                     AS EMP_DIV      ,-- 교직원구분(COM15)-참고용
+       COM060T.EMP_ID                                            AS EMP_ID       ,
+       COM060T.SSN1                                              AS SSN1         ,
+       COM060T.SSN2                                              AS SSN2         ,
+       NULL                                                      AS DEPT_CD1     ,
+       COM060T.DEPT_CD                                           AS DEPT_CD      ,
+       NULL                                                      AS MAJOR_CD     ,
+       COM060T.RANK_CD                                           AS RANK_CD      ,
+       NULL                                                      AS ZIP1         ,
+       NULL                                                      AS ZIP2         ,
+       NULL                                                      AS ADD1         ,
+       NULL                                                      AS ADD2         ,
+       COM060T.WEBMAIL_ID                                        AS WEBMAIL_ID   ,
+       COM060T.TEL_NO                                            AS TEL_NO       ,
+       COM060T.HPHONE                                            AS HPHONE       ,
+       DECODE(NVL(COM060T.ABO_DT,'19000101'),'19000101','2','1') AS STATUS       , -- 1 재직, 2 퇴직, 3 휴직
+       TO_CHAR(COM060T.CRE_DT,'YYYYMMDD')                        AS CRE_DT       ,
+       TO_CHAR(COM060T.ABO_DT,'YYYYMMDD')                        AS ABO_DT
+  FROM COM060T
+]]>
+    </meta-select-sql>
+</persist-set>

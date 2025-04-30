@@ -1,0 +1,16 @@
+package com.atsys.tims.rcp.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.TbAppVo;
+
+@Transactional(readOnly = true)
+public interface Rcp1100eService {
+
+	List<TbAppVo> selectList(Map<String, Object> so);
+
+	int selectTotalCount(Map<String, Object> so); 
+}

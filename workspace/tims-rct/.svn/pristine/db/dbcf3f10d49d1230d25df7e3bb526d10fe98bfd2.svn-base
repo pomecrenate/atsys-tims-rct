@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.bas.dao.Bas1300eDao">
+	<select id="selectTreeList" resultType="com.atsys.model.TbSysMenuVo">
+		SELECT	MENU_CD
+				, SYS_MENU_CD
+				, UPR_MENU_CD
+				, MENU_NM
+				, SYS_CD
+				, MENU_LVL
+				, MENU_SORT
+				, MENU_URL
+				, MENU_USE_YN
+				<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		FROM	TB_SYS_MENU
+		WHERE	DEL_YN = 'N'
+		AND		SYS_CD = #{qrySysCd}
+		<if test="qryMenuNm != null and qryMenuNm != ''">
+		AND 	MENU_NM LIKE '%' || #{qryMenuNm} || '%'
+		</if>
+		<if test="qryUprMenuCd != null and qryUprMenuCd != ''">
+		AND 	UPR_MENU_CD = #{qryUprMenuCd} 
+		</if>
+		<if test="qryMenuLvl> 0">
+		AND  	MENU_LVL  = #{qryMenuLvl}
+		</if>
+		ORDER BY MENU_LVL ASC, MENU_SORT ASC
+	</select>
+</mapper>

@@ -1,0 +1,38 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eDao.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.dao;
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.Rcp1100eVo;
+import com.atsys.model.TbAppCareerVo;
+import com.atsys.model.TbAppVo;
+
+@Repository
+@Mapper 
+public interface Rcp1100eDao {
+
+	public List<Rcp1100eVo> selectList(Map<String, Object> so);
+
+	public int selectTotalCount(Map<String, Object> so);
+
+	public int updateQualYnAndReason(TbAppVo vo);
+
+	public TbAppVo selectQualData(TbAppVo vo);
+
+	public List<TbAppCareerVo> selectCareerList(TbAppCareerVo vo);
+
+	public int updateCareerPeriodAndReason(TbAppVo vo);
+
+	public TbAppVo selectCareerData(TbAppVo vo);
+
+}

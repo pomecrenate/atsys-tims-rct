@@ -1,0 +1,67 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eController.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ui.ViewHelper; 
+import com.atsys.tims.rcp.service.Rcp1100eService; 
+
+@Controller
+@RequestMapping(value = "/rcp1100e")
+public class Rcp1100eController {
+	
+	private static final String ADM_PATH   = "tims/views/rcp/"; 
+	private final String viewList		   = ADM_PATH + "Rcp1100e";
+	private final String qualSelectPop     = ADM_PATH + "popup/" + "Rcp1100p1"; // 자격미달여부관리 팝업
+	private final String careerRecogPop    = ADM_PATH + "popup/" + "Rcp1100p2"; // 경력산정 팝업
+	private final String upldFileListPop   = ADM_PATH + "popup/" + "Rcp1100p3"; // 첨부파일조회 팝업
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@Autowired
+	Rcp1100eService rcp1100eService;
+	
+	@RequestMapping
+	public ModelAndView init(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception { 
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN"); 
+		return viewHelper.createModelAndView(viewList);
+	}
+	
+	@RequestMapping(value="/popup/qualynSelect")
+	public ModelAndView popupQualynSelect(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN");
+		return viewHelper.createModelAndViewPopup(qualSelectPop);
+	} 
+	
+	@RequestMapping(value="/popup/careerRecog")
+	public ModelAndView popupCareerRecog(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN");
+		return viewHelper.createModelAndViewPopup(careerRecogPop);
+	} 
+	
+	@RequestMapping(value="/popup/upldFileList")
+	public ModelAndView popupUpldFileList(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN");
+		return viewHelper.createModelAndViewPopup(upldFileListPop);
+	}  
+}

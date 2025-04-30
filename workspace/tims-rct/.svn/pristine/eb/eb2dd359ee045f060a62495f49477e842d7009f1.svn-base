@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+                            
+    
+    
+    
+    
+    
+    <wb-module deploy-name="TEST-1.0.0">
+        <wb-resource deploy-path="/" source-path="/target/generated-sources/annotations"/>
+                                                        
+        
+        
+        
+        
+        
+        <property name="java-output-path" value="/test/build/classes"/>
+                                        
+        
+        
+        
+        <property name="context-root" value="tims-rct"/>
+                                                    
+    
+    
+    
+    
+    
+    </wb-module>
+                        
+
+
+
+
+
+</project-modules>

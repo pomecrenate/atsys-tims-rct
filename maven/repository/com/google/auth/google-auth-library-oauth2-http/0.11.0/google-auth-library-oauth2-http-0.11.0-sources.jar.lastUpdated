@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:19:58 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668398556
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668398692
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact com.google.auth\:google-auth-library-oauth2-http\:jar\:sources\:0.11.0 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668398474
+http\://repo.springsource.org/release/.error=Could not transfer artifact com.google.auth\:google-auth-library-oauth2-http\:jar\:sources\:0.11.0 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668398450

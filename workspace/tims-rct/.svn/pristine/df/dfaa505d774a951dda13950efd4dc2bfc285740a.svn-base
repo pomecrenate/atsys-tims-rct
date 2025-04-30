@@ -1,0 +1,108 @@
+package com.atsys.model;
+
+import com.atsys.base.model.BaseVo;
+
+public class TbNtcBo extends BaseVo{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8147549430309350379L;
+	
+	private String regStartDate;
+	private String regEndDate;
+	private String rschStartDate;
+	private String rschEndDate;
+	private String stepStartDate1;
+	private String stepEndDate1;
+	private String stepStartDate2;
+	private String stepEndDate2;
+	private String stepStartDate3;
+	private String stepEndDate3;
+	private String stepAnnDate1;
+	private String stepAnnDate2;
+	private String stepAnnDate3;
+	
+	
+	public String getRegStartDate() {
+		return regStartDate;
+	}
+	public void setRegStartDate(String regStartDate) {
+		this.regStartDate = regStartDate;
+	}
+	public String getRegEndDate() {
+		return regEndDate;
+	}
+	public void setRegEndDate(String regEndDate) {
+		this.regEndDate = regEndDate;
+	}
+	public String getRschStartDate() {
+		return rschStartDate;
+	}
+	public void setRschStartDate(String rschStartDate) {
+		this.rschStartDate = rschStartDate;
+	}
+	public String getRschEndDate() {
+		return rschEndDate;
+	}
+	public void setRschEndDate(String rschEndDate) {
+		this.rschEndDate = rschEndDate;
+	}
+	public String getStepStartDate1() {
+		return stepStartDate1;
+	}
+	public void setStepStartDate1(String stepStartDate1) {
+		this.stepStartDate1 = stepStartDate1;
+	}
+	public String getStepEndDate1() {
+		return stepEndDate1;
+	}
+	public void setStepEndDate1(String stepEndDate1) {
+		this.stepEndDate1 = stepEndDate1;
+	}
+	public String getStepStartDate2() {
+		return stepStartDate2;
+	}
+	public void setStepStartDate2(String stepStartDate2) {
+		this.stepStartDate2 = stepStartDate2;
+	}
+	public String getStepEndDate2() {
+		return stepEndDate2;
+	}
+	public void setStepEndDate2(String stepEndDate2) {
+		this.stepEndDate2 = stepEndDate2;
+	}
+	public String getStepStartDate3() {
+		return stepStartDate3;
+	}
+	public void setStepStartDate3(String stepStartDate3) {
+		this.stepStartDate3 = stepStartDate3;
+	}
+	public String getStepEndDate3() {
+		return stepEndDate3;
+	}
+	public void setStepEndDate3(String stepEndDate3) {
+		this.stepEndDate3 = stepEndDate3;
+	}
+	public String getStepAnnDate1() {
+		return stepAnnDate1;
+	}
+	public void setStepAnnDate1(String stepAnnDate1) {
+		this.stepAnnDate1 = stepAnnDate1;
+	}
+	public String getStepAnnDate2() {
+		return stepAnnDate2;
+	}
+	public void setStepAnnDate2(String stepAnnDate2) {
+		this.stepAnnDate2 = stepAnnDate2;
+	}
+	public String getStepAnnDate3() {
+		return stepAnnDate3;
+	}
+	public void setStepAnnDate3(String stepAnnDate3) {
+		this.stepAnnDate3 = stepAnnDate3;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+}

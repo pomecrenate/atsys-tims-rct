@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 16:54:40 KST 2025
+javax.servlet.jsp-api-2.3.3-sources.jar>repo=
+javax.servlet.jsp-api-2.3.3.jar>repo=
+javax.servlet.jsp-api-2.3.3.jar>mvn2s=
+javax.servlet.jsp-api-2.3.3.pom>repo=
+javax.servlet.jsp-api-2.3.3.pom>mvn2s=

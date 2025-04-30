@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.evl.dao.Evl1100eDao">
+
+	<select id="selectList" resultType="com.atsys.model.TbNtcStepVo">
+		SELECT * 
+		  FROM (
+				SELECT T.*
+					   , ROWNUM AS RNUM 
+			    FROM (
+			   			SELECT A.NTC_CD
+							   , FN_GET_CODE_NM('RCT003', A.NTC_STATUS) AS NTC_STATUS_NM 
+							   , A.NTC_NM 
+							   , B.STEP_CD 
+							   , B.STEP 
+							   , TO_CHAR(B.STEP_START_DATE, 'YYYY-MM-DD HH24:MI:SS') AS STEP_START_DATE
+							   , TO_CHAR(B.STEP_END_DATE, 'YYYY-MM-DD HH24:MI:SS') AS STEP_END_DATE
+						FROM   TB_NTC A
+						JOIN   TB_NTC_STEP B
+						ON     A.NTC_CD = B.NTC_CD 
+						WHERE  A.DEL_YN = 'N' 
+						<if test="qryNtcYear != null and qryNtcYear != ''">
+							AND A.NTC_YEAR = #{qryNtcYear}
+						</if>
+						<if test="qryNtcSmt != null and qryNtcSmt != ''">
+							AND A.NTC_SMT = #{qryNtcSmt}
+						</if>
+						ORDER BY A.NTC_CD, B.STEP
+					 ) T
+			   WHERE	ROWNUM <![CDATA[<=]]> #{end}
+			   ) 
+		WHERE	RNUM >= #{start}	 
+	</select> 
+	
+	<select id="selectTotalCount" resultType="int">
+		SELECT	COUNT(1) AS TOT_CNT
+		FROM 	TB_NTC A 
+		JOIN    TB_NTC_STEP B
+		ON      A.NTC_CD = B.NTC_CD 
+		WHERE   A.DEL_YN = 'N'
+		<if test="qryNtcYear != null and qryNtcYear != ''">
+			AND A.NTC_YEAR = #{qryNtcYear}
+		</if>
+		<if test="qryNtcSmt != null and qryNtcSmt != ''">
+			AND A.NTC_SMT = #{qryNtcSmt}
+		</if>
+	</select>
+
+</mapper>

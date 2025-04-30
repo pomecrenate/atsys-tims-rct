@@ -1,0 +1,36 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eServiceImpl.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.atsys.model.TbAppVo;
+import com.atsys.tims.rcp.dao.Rcp1100eDao;
+import com.atsys.tims.rcp.service.Rcp1100eService;
+
+@Service("Rcp1100eService")
+public class Rcp1100eServiceImpl implements Rcp1100eService{
+	
+	@Autowired
+	private Rcp1100eDao rcp1100eDao;
+
+	@Override
+	public List<TbAppVo> selectList(Map<String, Object> so) {
+		List<TbAppVo> list = rcp1100eDao.selectList(so);
+		return list;
+	}
+
+	@Override
+	public int selectTotalCount(Map<String, Object> so) { 
+		return rcp1100eDao.selectTotalCount(so);
+	} 
+ 
+}

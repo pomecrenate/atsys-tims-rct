@@ -1,0 +1,26 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Apr 18 17:18:42 KST 2025
+http\://www.dcm4che.org/maven2/.lastUpdated=1743668515072
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668513283
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-main/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964219751
+http\://www.datanucleus.org/downloads/maven2/.error=
+http\://repo.enonic.com/public/.lastUpdated=1743668518150
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.error=
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact org.apache.ant\:ant-launcher\:jar\:sources\:1.8.2 from/to central-repo (http\://central.maven.org/maven2/)\: \uC54C\uB824\uC9C4 \uD638\uC2A4\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4 (central.maven.org)
+https\://maven.google.com/.error=
+https\://mvnrepository.com/artifact/.lastUpdated=1743668518791
+https\://mvnrepository.com/artifact/.error=
+https\://maven.google.com/.lastUpdated=1743668519224
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668513267
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1744964219731
+http\://www.datanucleus.org/downloads/maven2/.lastUpdated=1743668516568
+https\://repo1.maven.org/maven2/.error=
+file\://D\:\\tims-rct\\workspace\\tims-rct\\tims-rct-webapp/src/main/webapp/WEB-INF/lib/.lastUpdated=1744964322834
+https\://repo1.maven.org/maven2/.lastUpdated=1744964219649
+https\://repo.maven.apache.org/maven2/.lastUpdated=1744964220003
+http\://repo.enonic.com/public/.error=
+http\://www.dcm4che.org/maven2/.error=
+http\://repo.springsource.org/release/.error=Could not transfer artifact org.apache.ant\:ant-launcher\:jar\:sources\:1.8.2 from/to springsource-repo (http\://repo.springsource.org/release)\: \uC54C\uB824\uC9C4 \uD638\uC2A4\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4 (repo.springsource.org)
+https\://repo.maven.apache.org/maven2/.error=

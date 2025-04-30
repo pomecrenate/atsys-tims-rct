@@ -1,0 +1,131 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : evl1200e.jsp
+	// 설명 : 합격관리
+	// 작성자 : 백세진
+	// 일자 : 2025.04.11
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/evl1200e"/>  
+<c:set var="svnmSearch" value="${svnm}/search"/>
+
+ 
+ <div class="x_panel_wrap">
+	<div class="x_panel_title">합격 관리</div> 
+	<div class="x_panel">		  
+		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
+			<input type="hidden" id="ntcYear" name="ntcYear" />
+			<input type="hidden" id="ntcSmt" name="ntcSmt" />
+		
+			<div class="search_condition">
+				<button data-action="search" type="button" class="n_btn btn_md btn_search"><i class="fas fa-search"></i> 조회</button>
+				<div class="condition_list">
+					<dl>
+						<dt><label for="qryNtcYear">채용연도</label></dt>
+						<dd>
+							<select class="form-control" id="qryNtcYear" name="qryNtcYear" required></select>
+						</dd>
+					</dl>
+					<dl>
+						<dt><label for="qryNtcSmt">채용학기</label></dt>
+						<dd>
+							<select class="form-control" id="qryNtcSmt" name="qryNtcSmt" required></select>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</form>
+	</div>
+		
+	<div class="x_content">
+		<div class="description"> ※ 리스트를 클릭하시면 상세내역 확인 및 수정 가능합니다.</div>
+		<div class="content_list" id="content_list">
+			<table class="table" id="pass_table">
+				<thead>
+					<tr>
+						<th>공고상태</th>
+						<th>공고명</th>
+						<th>차수</th>
+						<th>평가발표일시</th>
+						<th>임용예정일</th>
+						<th>최종합격관리</th>
+						<th>심사일정관리</th> 
+					</tr>
+				</thead>
+				<tbody id="pass_tbody"> 
+			    </tbody>
+			</table> 
+		</div>
+	</div> 
+	
+	<div class="x_pagination"> 
+	</div>
+		
+</div>
+
+<script>
+const btnUrlMap = {
+	    finalMgtBtn: "evl1201e",
+	    schMgtBtn: "evl1202e"
+	};
+
+const tbColNms = [
+	  { type: "text", name: "ntcStatus" },
+	  { type: "text", name: "ntcNm" },
+	  { type: "text", name: "step" },
+	  { type: "text", name: "stepAnnDate" },
+	  { type: "text", name: "hiringDate" },
+	  { type: "button", name: "finalMgtBtn", btnText: "최종합격관리", btnUrl: btnUrlMap.finalMgtBtn },
+	  { type: "button", name: "schMgtBtn", btnText: "심사일정관리", btnUrl: btnUrlMap.schMgtBtn }
+];
+
+
+$(document).ready(function() { 
+	setMultiSelect("", {cls: "NTC_1", id: "ccNtcYear", cdg : ""}, "search", "qryNtcYear", {type:"", selectAll:"Y", multiYn:"N"});
+	setMultiSelect("", {cls: "CMM_1", id: "ccNtcSmt", cdg : "RCT001"}, "search", "qryNtcSmt", {type:"", selectAll:"Y", multiYn:"N"});
+ 
+	RctUtil.loadPageData("${svnmSearch}", ""); 
+})
+
+	/* 버튼 클릭시 페이지 이동 */
+	$(document).on('click', 'button[data-url]', function() {
+		const url = $(this).data('url');
+		if (url) {
+			location.href = '${serviceBathPath}/' + url;
+		}
+	}); 
+	
+	/* 조회 */ 
+	$(document).on("click", "button[data-action='search']", function() {
+		const params = {
+							qryNtcYear: $('#qryNtcYear').val(),
+						    qryNtcSmt: $('#qryNtcSmt').val(),
+						    pageNo: 1 
+					   };
+
+		RctUtil.loadPageData("${svnmSearch}", params);  
+	})
+	
+	$(document).on('click', '.x_pagination a', function(e) {
+	    e.preventDefault();  
+	    const pageNo = $(this).data('page'); 
+	    const params = {
+							qryNtcYear: $('#qryNtcYear').val(),
+						    qryNtcSmt: $('#qryNtcSmt').val(),
+						    pageIndex: pageNo 
+					   }; 
+		RctUtil.loadPageData("${svnmSearch}", params);   
+	});
+	 
+	
+	
+	
+
+	
+	
+</script>

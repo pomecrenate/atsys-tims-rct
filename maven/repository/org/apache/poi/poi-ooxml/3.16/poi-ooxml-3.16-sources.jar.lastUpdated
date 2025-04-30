@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:21:59 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668519375
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668519531
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact org.apache.poi\:poi-ooxml\:jar\:sources\:3.16 from/to central-repo (http\://central.maven.org/maven2/)\: central.maven.org
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668519312
+http\://repo.springsource.org/release/.error=Could not transfer artifact org.apache.poi\:poi-ooxml\:jar\:sources\:3.16 from/to springsource-repo (http\://repo.springsource.org/release)\: repo.springsource.org
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668519270

@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:20:46 KST 2025
+axis-1.4.jar>repo=
+axis-1.4.pom>repo=
+axis-1.4-sources.jar>repo=

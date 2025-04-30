@@ -1,0 +1,22 @@
+/*************************************************************
+ 프로그램명 : TbAppUsrVo.java
+ 설명 : 지원자 VO
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.model;
+
+public class TbAppUsrVo extends TbUsrBo {
+    
+    private static final long serialVersionUID = 1L;
+    
+    private String birthDate;  // 생년월일
+    
+    public String getBirthDate() {
+        return birthDate;
+    }
+    
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+} 

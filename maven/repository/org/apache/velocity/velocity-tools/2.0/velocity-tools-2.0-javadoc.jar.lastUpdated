@@ -1,0 +1,9 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Apr 03 17:23:34 KST 2025
+https\://maven.egovframe.go.kr/maven/.lastUpdated=1743668613897
+https\://repo.maven.apache.org/maven2/.lastUpdated=1743668614069
+https\://maven.egovframe.go.kr/maven/.error=
+http\://central.maven.org/maven2/.error=Could not transfer artifact org.apache.velocity\:velocity-tools\:jar\:javadoc\:2.0 from/to central-repo (http\://central.maven.org/maven2/)\: \uC54C\uB824\uC9C4 \uD638\uC2A4\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4 (central.maven.org)
+@default-springsource-repo-http\://repo.springsource.org/release/.lastUpdated=1743668613835
+http\://repo.springsource.org/release/.error=Could not transfer artifact org.apache.velocity\:velocity-tools\:jar\:javadoc\:2.0 from/to springsource-repo (http\://repo.springsource.org/release)\: \uC54C\uB824\uC9C4 \uD638\uC2A4\uD2B8\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4 (repo.springsource.org)
+@default-central-repo-http\://central.maven.org/maven2/.lastUpdated=1743668613817

@@ -1,0 +1,117 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : evl1202e.jsp
+	// 설명 : 심사일정 관리
+	// 작성자 : 백세진
+	// 일자 : 2025.04.11
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/evl1202e"></c:set>   
+<c:set var="svnmAnnSelectPop" value="${svnm}/popup/annSelect"></c:set>     
+<c:set var="svnmSaveEvalSchPop" value="${svnm}/popup/saveEvalSch"></c:set> 
+
+ 
+ <div class="x_panel_wrap">
+	<div class="x_panel_title">심사일정 관리</div>
+	<div class="x_panel_btn">		 
+		<button class="n_btn btn_md btn_c02" data-url="evl1200e" type="button">돌아가기</button>
+	</div>
+	<div class="x_panel">		
+		<div class="search_condition">
+			<button data-action="search" type="button" class="n_btn btn_md btn_search"><i class="fas fa-search"></i> 조회</button>
+			<div class="condition_list">
+				<dl>
+					<dt><label for="ntcYear">채용공고</label></dt>
+					<dd>
+						<select class="form-control" id="ntcYear" name="ntcYear" required></select>
+					</dd>
+				</dl>
+				<dl>
+					<dt><label for="ntcSmt">차수</label></dt>
+					<dd>
+						<select class="form-control" id="ntcSmt" name="ntcSmt" required></select>
+					</dd>
+				</dl> 
+				<dl>
+					<dt><label for="">합격문구</label></dt>
+					<dd>
+						<button class="n_btn btn_md btn_c01" data-action="annSelectPop" type="button">문구 설정</button>
+					</dd>
+				</dl> 
+			</div>
+		</div>
+	</div>
+	
+	<div class="x_content">
+		<div class="description"> ※ 리스트를 클릭하시면 지원서를 상세히 확인할 수 있습니다.</div>
+		<div class="content_list" id="content_list">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>NO</th>
+						<th>합격자명</th>
+						<th>전화번호</th>
+						<th>이메일</th>
+						<th>단과대/학과</th>
+						<th>심사장소</th>
+						<th>심사일시</th>
+						<th>심사방법</th>
+						<th>담당부서</th>
+						<th>담당부서전화번호</th>
+						<th>등록/수정</th>
+						<th>발송</th> 
+					</tr>
+				</thead>
+				<tbody> 
+		            <tr>
+		                <td>1</td>
+						<td>백세진</td>
+						<td>01012345678</td>
+						<td>atsys@atsys.com</td>
+						<td>감자학과</td>
+						<td></td>
+						<td></td>
+						<td></td> 
+						<td></td>
+						<td></td>
+						<td><button class="n_btn btn_md btn_c02" data-action="saveEvalSchPop" type="button">등록/수정</button></td>
+						<td><button class="n_btn btn_md btn_c02" id="appStatusBtn" onclick="saveAppStatus()">발송</button></td>
+		            </tr> 
+				</tbody>
+			</table> 
+		</div>
+	</div> 
+</div>
+
+<script> 
+$(document).on('click', 'button[data-url]', function() {
+	const url = $(this).data('url');
+	if (url) {
+		location.href = '${serviceBathPath}/' + url;
+	}
+});
+
+/* 팝업창 조회 */
+$(document).on("click", "button[data-action]", function () {
+	const action = $(this).data("action");
+	
+	switch (action) {
+		case "annSelectPop" :
+   			var url = '${svnmAnnSelectPop}'; 
+   			TimsUtil.urlDialog('(불)합격자 안내 문구 팝업', url, 800, 600);  
+   			break; 
+		} 
+	switch (action) {
+	case "saveEvalSchPop" :
+			var url = '${svnmSaveEvalSchPop}'; 
+			TimsUtil.urlDialog('심사일정 등록/수정', url, 600, 400);  
+			break; 
+	} 
+	
+})
+</script>

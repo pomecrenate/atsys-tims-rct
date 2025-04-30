@@ -1,0 +1,31 @@
+/*************************************************************
+ 프로그램명 : Bas1100eDao.java
+ 설명 : 코드관리
+ 작성자 : 최연재
+ 일자 : 2025.04.10
+*************************************************************/
+package com.atsys.tims.bas.dao;
+
+import java.util.List;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbCmmVo;
+
+@Repository
+@Mapper
+public interface Bas1100eDao {
+
+	public int insert(Object vo);
+	
+	public int update(Object vo);
+	
+	// 대분류조회
+	public List<TbCmmVo> selectList(Object so);
+	public int selectTotalCount(Object so);	
+	
+	//소분류조회
+	public List<TbCmmVo> selectSmallCdList(Object so);
+	public int selectSmallCdTotalCount(Object so);	
+}

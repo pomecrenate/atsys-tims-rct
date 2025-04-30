@@ -1,0 +1,25 @@
+/*************************************************************
+ 프로그램명 : Bas1300eDao.java
+ 설명 : 코드관리
+ 작성자 : 최연재
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.tims.bas.dao;
+
+import java.util.List;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.base.model.ITreeVo;
+import com.atsys.model.TbSysMenuVo;
+
+@Repository
+@Mapper
+public interface Bas1300eDao {
+
+	public List<ITreeVo> selectTreeList(Object so);
+	
+	public List<TbSysMenuVo> selectList(Object so);
+	public int selectTotalCount(Object so);	
+}

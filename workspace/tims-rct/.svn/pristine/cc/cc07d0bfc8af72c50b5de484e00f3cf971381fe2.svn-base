@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<c:set value="${pageContext.request.locale}" var="locale" />
+<c:set value="${locale.language}" var="language" scope="request" />
+<spring:eval expression="locale.toString()" var="localeCode" scope="request" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="request" />
+<c:set var="svnm" value="${serviceBathPath}/${programId}" scope="request" />
+<%-- <c:set var="svnmMsg" value="${serviceBathPath}/messenger" scope="request" /> --%>
+
+<c:set var="svnmSearch" value="${svnm}/search" scope="request"></c:set>
+<c:set var="svnmSelectOne" value="${svnm}/selectOne" scope="request"></c:set>
+<c:set var="svnmSave" value="${svnm}/save" scope="request"></c:set>
+<c:set var="svnmDelete" value="${svnm}/deleteData" scope="request"></c:set>
+<c:set var="onePageRow" value="10" scope="request"/>
+<c:set var="svnmCodeColls" value="${serviceBathPath}/codeColls" scope="request" />
+<c:set var="svnmFileUpload" value="${serviceBathPath}/fileUpload" scope="request" />
+<c:set var="svnmFileDownload" value="${serviceBathPath}/fileDownload" scope="request" />
+<c:set var="svnmCommonMsg" value="${serviceBathPath}/commonMsg" scope="request" />
+
+<c:set var="frontUrl" value="/tiles/front" scope="request" />
+<c:set var="lectwinUrl" value="/tiles/lectwin" scope="request" />
+<c:set var="gentelellaUrl" value="/tiles/gentelella" scope="request" />
+<c:set var="pixeladminUrl" value="/tiles/pixeladmin/assets" scope="request" />
+
+<c:set var="loginUser" value="${SESSION_L_U_KEY}" scope="request" />
+<c:set var="exceptFileTypes" value="jsp|cgi|php|asp|aspx|exe|com|html|htm|cab|php3|pl|java|class|js|css" scope="request"/>
+
+
+<c:if test="${empty programNm}">
+	<c:set var="programNm" value="대학채용시스템" scope="request" />
+</c:if>

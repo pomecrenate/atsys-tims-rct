@@ -1,0 +1,164 @@
+@charset "UTF-8";
+
+.admin-container {
+    display: flex;
+    min-height: 100vh; 
+} 
+
+/* 좌측 큰 메뉴 */
+.lrg-sidebar {
+    width: 100px;
+    background-color: #007cc2;
+    color: white;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    text-align: center;
+    float: left;
+     z-index: 10;
+    position: relative;
+} 
+
+.lrg-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lrg-sidebar a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
+    margin-bottom: 10px;
+}
+
+.lrg-sidebar a:hover {
+    background-color: #0096dc;
+}
+
+.menu-icon img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 6px;
+}
+
+.menu-label {
+    font-size: 13px;
+    color: white;
+}
+
+/* 우측 mid/sm 메뉴 */
+.mid-sidebar-wrapper {
+    flex: 1; 
+    overflow: hidden;  
+}  
+
+.mid-sidebar-wrapper.closed {
+    width: 0;
+} 
+
+.mid-sidebar {
+    color: #007cc2;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    box-shadow: inset -5px 0 8px -6px rgba(0, 0, 0, 0.15);
+    height: 100%;
+}
+
+
+.mid-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mid-sidebar li {
+    margin-bottom: 8px;
+}
+
+.mid-sidebar a {
+    color: #007cc2;
+    text-decoration: none;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.lrg-content {
+    display: none;
+}
+
+.lrg-content.active {
+    display: block;
+}
+
+.mid-menu > a::after {
+/*     content: '▾';
+    float: right;
+    transition: transform 0.3s;
+    font-size: 14px;
+    color: #007cc2; */
+    content:"";
+	display:block;
+	float: right;
+	top:50%;
+	width:10px;
+	height:10px;
+	margin:10px;
+	border-bottom:solid 2px #0498dd;
+	border-right:solid 2px #0498dd;
+	transform: rotate(-135deg);
+	transition: transform 0.25s;
+	-webkit-transition: transform 0.25s
+}
+
+.mid-menu.open > a::after {
+	margin-top: 4px;
+    transform: rotate(45deg);
+}
+
+.sm-menu {
+    display: none;
+    padding-left: 10px;
+    margin-top: 5px;
+}
+
+
+.sm-menu li a {
+    background-color: #c3e6f7;
+    padding-left: 20px;
+    color:  #02507d;
+    display: block;
+    border-radius: 4px;
+    margin: 2px 0;
+}
+
+.page-wrapper {
+    transition: margin-left 0.3s ease; 
+    position: relative; 
+    z-index: 1;
+}
+
+.page-wrapper.shifted {
+    margin-left: 300px;
+}
+
+.mid-sidebar-wrapper {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 100%;
+    z-index: 10;
+    transition: left 0.3s ease;
+}
+
+.mid-sidebar-wrapper.closed {
+    left: -300px;
+}
+

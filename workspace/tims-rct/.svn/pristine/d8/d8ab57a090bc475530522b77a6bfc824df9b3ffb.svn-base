@@ -1,0 +1,11 @@
+package com.atsys.model;
+
+public class TbNtcBo extends TbNtcVo{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8147549430309350379L;
+  
+	
+}

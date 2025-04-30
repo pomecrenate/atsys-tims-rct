@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Apr 21 13:23:27 KST 2025
+jsr305-3.0.2.jar>repo=
+jsr305-3.0.2.pom>repo=
+jsr305-3.0.2.pom>mvn2s=
+jsr305-3.0.2.jar>central=
+jsr305-3.0.2-sources.jar>repo=

@@ -1,0 +1,39 @@
+/*************************************************************
+ 프로그램명 : TbAppUsrVo.java
+ 설명 : 지원자 VO
+ 작성자 : 이예찬
+ 일자 : 2025.04.22
+*************************************************************/
+package com.atsys.model;
+
+import com.atsys.base.util.Utilities;
+
+public class TbAppUsrVo extends TbUsrBo {
+    
+    private static final long serialVersionUID = 1L;
+    
+    private String birthDate;  // 생년월일
+    
+    public String getBirthDate() {
+        return birthDate;
+    }
+    
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+    
+    /**
+     * 지원자 ID 생성
+     * 형식: A + 생성연도 끝 2자리 + 인덱스 4자리(0001~9999)
+     * 
+     * @param index 인덱스 번호
+     * @return 생성된 사용자 ID
+     */
+    public String generateUsrId(int index) {
+    	// 현재 연도의 끝 두 자리 가져오기
+    	int year = Utilities.getYear();
+    	String yearStr = String.valueOf(year).substring(2);
+    	
+    	return "A" + yearStr + String.format("%04d", index);
+    }
+} 

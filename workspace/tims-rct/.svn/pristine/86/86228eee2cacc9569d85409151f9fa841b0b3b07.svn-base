@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd        
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd        
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd    
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+		
+	<bean id="defaultDateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyy-MM-dd" />
+	</bean>
+	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+		<property name="dateFormat" ref="defaultDateFormat" />
+	</bean>
+	<!-- 객체 매핑시 객체에 없는 항목시 에러 나지 않게 설정 -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="jacksonObjectMapper" />
+		<property name="targetMethod" value="configure" />
+		<property name="arguments">
+			<list>
+				<value type="com.fasterxml.jackson.databind.DeserializationFeature">FAIL_ON_UNKNOWN_PROPERTIES</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 객체 매핑시 객체에 없는 항목시 에러 나지 않게 설정 -->
+	<!-- <mvc:annotation-driven validator="validator"> -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">	<!-- For Jackson 2.x -->
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="objectMapper" ref="jacksonObjectMapper" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- tims에서 ajax, json 사용을 위한 mvc 설정 시작 끝 -->
+
+	<mvc:interceptors>
+		<!-- 캐시 사용 금지 -->
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+			<property name="cacheSeconds" value="0" />
+			<property name="useExpiresHeader" value="true" />
+			<property name="useCacheControlHeader" value="true" />
+			<property name="useCacheControlNoStore" value="true" />
+		</bean>
+		<bean class="com.atsys.base.interceptor.LanguageViewInterceptor" />
+		<bean class="com.atsys.base.interceptor.LoginCheckInterceptor" />
+		<bean class="com.atsys.base.interceptor.NaviInterceptor" />
+		<bean class="com.atsys.base.interceptor.AuthCheckInterceptor" />
+<!-- 		<bean class="com.atsys.base.interceptor.CodeCollectionInterceptor" /> -->
+		
+		<!-- 언어/지역의 변경을 감지 -->
+		<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="sysLang" />
+		</bean>
+	</mvc:interceptors>
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Exception 처리를 위한 exception resolver 및 적용 순서 설정 시작 -->
+<!-- 	<bean -->
+<!-- 		class="com.atsys.nxf.core.web.servlet.handler.exception.BindingResultExceptionResolver" -->
+<!-- 		p:order="1" /> -->	
+	<bean class="com.atsys.nxf.core.web.servlet.handler.exception.TimsExceptionResolver" p:order="2" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver" p:order="3" />
+	<bean id="handlerExceptionResolver" class="com.atsys.nxf.util.sheet.IBExceptionHandler" p:order="4">
+		<!-- from ExceptionHandler -->
+		<property name="ajaxErrorView" value="cmmn/ajaxException" />
+
+		<!-- from SimpleMappingExceptionResolver -->
+		<property name="defaultErrorView" value="cmmn/egovError" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
+				<prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
+				<prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:exceptionMappings-ref="exceptionMappings" p:defaultErrorView="egovframework/com/cmm/error/egovError" p:order="3"></bean>
+
+	<util:properties id="exceptionMappings">
+		<prop key="org.springframework.dao.DataAccessException">egovframework/com/cmm/error/dataAccessFailure</prop>
+		<prop key="org.springframework.transaction.TransactionException">egovframework/com/cmm/error/dataAccessFailure</prop>
+		<prop key="org.springframework.web.HttpSessionRequiredException">egovframework/com/cmm/error/egovHttpSessionException</prop>
+		<prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">egovframework/com/cmm/error/egovBizException</prop>
+		<prop key="org.springframework.security.InsufficientAuthenticationException">egovframework/com/cmm/error/403_Forbidden</prop>
+	</util:properties>
+	
+	<util:properties id="statusCodes">
+		<prop key="egovframework/com/cmm/error/dataAccessFailure">700</prop>
+		<prop key="egovframework/com/uat/uia/EgovLoginUsr">800</prop>
+		<prop key="egovframework/com/cmm/error/egovBizException">900</prop>
+		<prop key="egovframework/com/cmm/error/403_Forbidden">403</prop>
+		<prop key="/error/531.jsp">531</prop>
+		<prop key="/error/532.jsp">532</prop>
+		<prop key="/error/533.jsp">533</prop>
+		<prop key="/error/534.jsp">534</prop>
+		<prop key="/error/450.jsp">450</prop>
+		<prop key="/error/535.jsp">535</prop>
+	</util:properties>
+	<!-- Exception 처리를 위한 exception resolver 및 적용 순서 설정 끝 -->
+
+	<!-- Database error message 변환을 위한 설정 시작 -->
+	<bean id="databaseErrorMessageHelper" class="com.atsys.nxf.core.jdbc.support.DatabaseErrorMessageHelper">
+		<property name="translators">
+			<list>
+				<bean class="com.atsys.nxf.core.jdbc.support.OracleErrorMessageTranslator" />
+			</list>
+		</property>
+	</bean>
+	<!-- Database error message 변환을 위한 설정 끝 --> 
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+      p:order="1"
+      p:prefix="/WEB-INF/jsp/"
+      p:suffix=".jsp"
+      p:viewClass="org.springframework.web.servlet.view.JstlView"  
+	  p:contentType="text/html; charset=UTF-8" />
+	 
+	
+	<!-- tims에서 메시지 코드화를 위한 설정 시작 (설정한 message를 찾지 못하는 경우는 ContextLoaderListener에 등록된 message source를 검색) -->
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"/> -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:/egovframework/message/com/message-common</value>
+				<value>classpath:/org/egovframe/rte/fdl/property/messages/properties</value>
+				<value>classpath:/message/message-admin-label</value>
+				<value>classpath:/message/message-admin-button</value>
+				<value>classpath:/message/message-admin-msg</value>
+			</list>
+		</property>
+
+		<!-- 파일의 기본 인코딩을 지정합니다. --> 
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		
+		<!-- properties 파일이 변경되었는지 확인하는 주기를 지정합니다. 60초 간격으로 지정했습니다. -->
+		<property name="cacheSeconds">
+			<value>60</value>
+		</property>
+	</bean>
+
+	<!-- 언어 정보를 세션에 저장하여 사용합니다. -->
+	<!-- localeResolver의 주석을 해제하면 defaultLocale의 value 값에 따라 기본언어가 설정됨 -->
+	<!-- localeResolver의 주석을 사용하면 SessionLocaleResolver에서 브라우저에 따라 기본언어가 설정됨 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="ko" />
+	</bean>
+
+	<!-- file (multiple) upload를 사용하기 위한 설정 시작 (다중 파일 업로드 가능) -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10737418240" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+	<!-- file (multiple) upload를 사용하기 위한 설정 끝 (다중 파일 업로드 가능) -->
+	
+ 	<!-- 연계 DB JNDI -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jdbc/onlineDS" />
+		<property name="resourceRef" value="true" />
+	</bean>
+	
+	<!-- Transaction Manager for a single JDBC DataSource -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+ 
+	<!-- annotation 기반 transaction 처리를 위한 설정 -->	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- ${dbtype} : resources\config\database.properties에 설정 -->
+	<bean id="sqlSession" name="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:config/mybatis-config-base.xml" />
+		<property name="mapperLocations" value="classpath:/com/atsys/**/maps/tibero/*_SqlMapper.xml" />
+	</bean> 
+	
+<!-- 	<bean id="sqlSessionTemplate" name="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> -->
+<!-- 		<constructor-arg ref="sqlSession" /> -->
+<!-- 	</bean> -->
+		
+<!-- 	<bean id="mapperScannerConfigurer" name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
+<!-- 		<property name="basePackage" value="com.atsys.**.dao.**" /> -->
+<!-- 		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate" /> -->
+<!-- 	</bean> -->
+	
+	<!-- MapperConfigurer 적용 시 *Dao.java의 @Mapper에 서비스명 필요 예)@Mapper("cou1100eDao") -->
+	<bean class="org.egovframe.rte.psl.dataaccess.mapper.MapperConfigurer">
+		<property name="basePackage" value="com.atsys.**.dao.**" />
+	</bean>
+	<!-- Mybatis mapper 사용을 위한 설정 끝 -->
+	
+	<bean name="propertiesService" class="org.egovframe.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
+		<property name="properties">
+			<map>
+				<!-- <entry key="pageUnit" value="10"/> <entry key="pageSize" value="10"/> -->
+				<!-- DB Type -->
+				<entry key="dbtype" value="tibero" />
+				<!-- 페이징 기본 값 -->
+				<entry key="currentPageNo" value="1" />
+				<entry key="recordCountPerPage" value="10" />
+				<entry key="pageSize" value="5" />
+				
+				<!-- 첨부파일 파일 경로 설정 시작 -->
+				<entry key="attach.storage.rootPath" value="/upload/edata" />
+				<entry key="attach.web.path" value="/edata" />
+				<entry key="attach.filePath.root" value="/upload/edata" />
+				<entry key="attach.filePath.temp" value="/temp" />
+				<entry key="attach.filePath.upload" value="/upload" />
+				<entry key="attach.filePath.bbs" value="/bbs" /> <!-- 통합게시판 -->
+				<entry key="attach.filePath.txtbk" value="/txtbk" /> <!-- 교재 -->
+				<entry key="attach.filePath.task" value="/task" /> <!-- 과제 -->
+				<entry key="attach.filePath.excel" value="/excel" /> <!-- 엑셀다운로드 -->
+				<entry key="attach.filePath.popup" value="/popup" /> <!-- 팝업 -->
+				<entry key="attach.filePath.note" value="/note" /> <!-- 쪽지 -->
+				<entry key="attach.filePath.exam" value="/exam" /> <!-- 시험 -->
+				<entry key="attach.filePath.quiz" value="/quiz" /> <!-- 퀴즈 -->
+				<entry key="attach.filePath.mcnts" value="/mcnts" /> <!-- 콘텐츠Pool-동영상 -->
+				<!-- 첨부파일 파일 경로 설정 끝 -->
+				
+				<!-- Vimeo 설정 시작 -->
+				<entry key="vimeo.accessToken" value="b31de7dd1832c8828241ed7d287bb8ea" />
+				<entry key="vimeo.edu.folder.id" value="18502061" />
+				<entry key="vimeo.etc.folder.id" value="18502062" />
+				<entry key="vimeo.app.id" value="58479" />
+				<entry key="vimeo.player.url" value="https://player.vimeo.com/video/" />
+				<entry key="vimeo.acs.domain" value="edu.seis.or.kr" />
+				<!-- Vimeo 설정 끝 -->
+				
+				<!-- Google Maps API 설정 시작 -->
+				<entry key="google.maps.api-key" value="AIzaSyBHRU2c2zMcbey-GNPvgiF1VPk92z9nQP8" />
+				<!-- Google Maps API 설정 끝 -->
+				
+				<!-- Kakao SNS 공유 API 설정 시작 -->
+				<entry key="kakao.sns.share.api-key" value="d13ad34c03e1f180fda332ddcf7b709a" />
+				<!-- Kakao SNS 공유 API 설정 끝 -->
+				
+				<!-- 주소검색 설정 시작 -->
+				<entry key="juso.confmKey" value="U01TX0FVVEgyMDIxMTAyNzA5NTMxMTExMTgwNzY=" /> <!-- 검색API 승인키 -->
+				<entry key="juso.domain" value="https://www.juso.go.kr" /> <!-- 인터넷망(https) -->
+				<!-- 주소검색 설정 끝 -->
+				
+				<entry key="server.url" value="https://edu.seis.or.kr" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
+	<context:component-scan base-package="egovframework, com.atsys" />
+ 
+	<!-- DB insert/update시 BaseVo에 기본값을 넣어주기 위한 aop 적용 설정 시작 -->
+	<bean id="baseVoAspect" class="com.atsys.common.aop.BaseVoAspect" />
+	<bean id="paginationAspect" class="com.atsys.common.aop.PaginationAspect" />
+
+	<aop:config>
+		<aop:aspect id="insertBefore" ref="baseVoAspect">
+			<aop:pointcut id="insertMethod" expression="execution(* *..*Dao.insert*(..))" />
+			<aop:before pointcut-ref="insertMethod" method="insertBefore" />
+		</aop:aspect>
+		<aop:aspect id="saveBefore" ref="baseVoAspect">
+			<aop:pointcut id="saveMethod" expression="execution(* *..*Dao.save*(..))" />
+			<aop:before pointcut-ref="saveMethod" method="saveBefore" />
+		</aop:aspect>
+		<aop:aspect id="updateBefore" ref="baseVoAspect">
+			<aop:pointcut id="updateMethod" expression="execution(* *..*Dao.update*(..))" />
+			<aop:before pointcut-ref="updateMethod" method="updateBefore" />
+		</aop:aspect>
+
+		<aop:aspect id="deleteBefore" ref="baseVoAspect">
+			<aop:pointcut id="deleteMethod" expression="execution(* *..*Dao.delete*(..))" />
+			<aop:before pointcut-ref="deleteMethod" method="deleteBefore" />
+		</aop:aspect>
+
+		<aop:aspect id="selectBefore" ref="baseVoAspect">
+			<aop:pointcut id="selectMethod" expression="execution(* *..*Dao.select*(..))" />
+			<aop:before pointcut-ref="selectMethod" method="selectBefore" />
+		</aop:aspect>
+
+		<aop:aspect id="selectListBefore" ref="paginationAspect">
+			<aop:pointcut id="selectListMethod" expression="execution(* *..*Dao.select*List*(..))" />
+			<aop:before pointcut-ref="selectListMethod" method="selectListBefore" />
+		</aop:aspect>
+	</aop:config>
+	<!-- DB insert/update시 BaseVo에 기본값을 넣어주기 위한 aop 저용 설정 끝 -->
+
+	<bean id="jasyptStringDigester" class="org.jasypt.digest.StandardStringDigester">
+		<property name="algorithm" value="SHA-256" />
+		<property name="iterations" value="2000" />
+		<property name="saltSizeBytes" value="16" />
+	</bean>
+
+	<bean id="strongEncryptor" class="org.jasypt.util.password.StrongPasswordEncryptor"></bean>
+
+  	<!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 LeveaTrace를 활용하도록 설정 -->
+    <bean id="leaveaTrace" class="org.egovframe.rte.fdl.cmmn.trace.LeaveaTrace">
+        <property name="traceHandlerServices">
+            <list>
+                <ref bean="traceHandlerService" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의 DefaultTrace Handle Manager 를 활용하도록 설정 -->
+    <bean id="traceHandlerService" class="org.egovframe.rte.fdl.cmmn.trace.manager.DefaultTraceHandleManager">
+        <property name="reqExpMatcher">
+            <ref bean="antPathMater" />
+        </property>
+        <property name="patterns">
+            <list>
+                <value>*</value>
+            </list>
+        </property>
+        <property name="handlers">
+            <list>
+                <ref bean="defaultTraceHandler" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  AntPathMatcher 를 활용하도록 설정 -->
+    <bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
+    <!-- Exception 발생시 후처리용 별도작업을 위해 실행환경의  DefaultTraceHandler 를 활용하도록 설정 org.egovframe.rte.fdl.cmmn.trace.handler.DefaultTraceHandler -->
+    <bean id="defaultTraceHandler" class="org.egovframe.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
+    
+    <!-- JavaMail MailSender 설정 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="defaultEncoding" value="UTF-8"/>
+		<property name="host" value="" />
+		<property name="port" value="25" />
+		<property name="protocol" value="smtp" />
+		<property name="username" value="" />
+		<property name="password" value="" />
+		<property name="javaMailProperties">
+			<props>
+				<!-- 
+				<prop key="mail.smtps.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtps.socketFactory.port">465</prop>
+				 -->
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">false</prop>
+				<prop key="mail.smtp.debug">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- JavaMail : 관리자 알림 메일 기본 생성 -->
+	<bean id="outgoingMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value=""></property>
+	</bean>
+	<bean id="incomingMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="to" value=""></property>
+	</bean>
+	
+	<!--
+	Bas1600eController.java 
+	@Scheduled(fixedDelay=31536000000L, initialDelay=60000L)
+	public void initTask() throws Exception {
+		batExecuteService.initSchedules();
+	}
+	initTask()를 통해서 배치 실행
+	-->
+	<task:annotation-driven executor="batchExecuter" scheduler="batchScheduler"/>
+	<task:executor id="batchExecuter" pool-size="20"/>
+	<task:scheduler id="batchScheduler"/>
+</beans>
