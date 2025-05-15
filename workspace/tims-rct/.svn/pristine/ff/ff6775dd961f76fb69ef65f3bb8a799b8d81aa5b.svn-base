@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.bas.dao.Bas1200eDao">
+	<insert id="save">
+		INSERT INTO TB_ANN 
+		(
+			ANN_CD
+			, ANN_TITLE
+			, ANN_CNTS
+			<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		)
+		VALUES 
+		(
+			FN_GET_PK_CD()
+			, #{annTitle}
+			, #{annCnts}
+			<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		)
+	</insert>
+	<select id="selectList" resultType="com.atsys.model.TbAnnVo">
+		SELECT	*
+		FROM	(
+				SELECT	A.*
+						, ROWNUM AS RNUM
+				FROM	(			
+						SELECT ANN_CD
+							   , ANN_TITLE
+							   , ANN_CNTS
+							   <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+						FROM   TB_ANN
+						WHERE  DEL_YN = 'N'
+						<if test="qryAnnTitle != null and qryAnnTitle != ''">
+						AND    ANN_TITLE LIKE '%'||#{qryAnnTitle}||'%'
+						</if>
+						) A
+				WHERE	ROWNUM <![CDATA[<=]]> #{end}
+				)
+		WHERE	RNUM >= #{start}
+	</select>
+</mapper>

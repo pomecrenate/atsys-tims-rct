@@ -1,0 +1,42 @@
+/*************************************************************
+ 프로그램명 : Evl1101eDao.java
+ 설명 : 평가위원관리
+ 작성자 : 이예찬
+ 일자 : 2025.05.08
+*************************************************************/
+package com.atsys.tims.evl.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.Evl1101eVo;
+import com.atsys.model.TbNtcFieldVo;
+import com.atsys.model.TbSelEvalJdgVo;
+
+@Repository
+@Mapper
+public interface Evl1101eDao {
+    
+	Evl1101eVo selectInfo(Map<String, Object> so);
+    
+    List<TbNtcFieldVo> selectFields(Map<String, Object> so);
+    
+    List<TbSelEvalJdgVo> selectJudges(Map<String, Object> so);
+    
+    List<TbSelEvalJdgVo> selectJudgeListByType(String jdgDiv);
+    
+    List<TbSelEvalJdgVo> selectJudgesId(Map<String, Object> so);
+    
+    int updateJudgeStatus(Map<String, Object> so);
+    
+    int checkJudgeExists(Map<String, Object> so);
+    
+    int insertJudge(TbSelEvalJdgVo judge);
+    
+    int confirmJudges(Map<String, Object> so);
+    
+    int checkConfirmCancelable(Map<String, Object> so);
+} 

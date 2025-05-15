@@ -12,7 +12,7 @@
  <div>
  	<div class="list_top">
 	    <div class="rgt-area btn_group">
-	      <button type="button" class="n_btn btn_md btn_c01">저장</button>
+	      <button type="button" class="n_btn btn_md btn_c01" data-action="saveCareerData">저장</button>
 	    </div>
     </div>
     <div class="description">
@@ -26,34 +26,110 @@
       <tr>
         <th>경력인정기간</th>
         <td>
-          <input type="text" class="form-control" id="month" placeholder="개월">
+          <input type="text" class="form-control" id="careerMonth" placeholder="OO개월">
         </td>
       </tr>
       <tr>
         <th>경력인정사유</th>
         <td>
-          <input type="text" class="form-control" id="reason" placeholder="사유 입력">
+          <input type="text" class="form-control" id="careerReason" placeholder="사유 입력">
         </td>
       </tr>
     </table>
-    <table class="table">
+    <table class="table" id="career-table">
 		<thead>
 			<tr> 
 				<th>기간</th>
 				<th>근무기간(개월)</th>
+				<th>재직여부</th>
 				<th>근무처</th>
 				<th>직급/직위</th>
 				<th>담당업무</th> 
 			</tr>
 		</thead>
-		<tbody> 
-            <tr> 
-				<td>2022-01-01~2024-08-31</td>
-				<td>288</td>
-				<td>감자밭</td>
-				<td>사원</td>
-				<td>감자캐기</td> 
-            </tr> 
+		<tbody  id="career-tbody">  
 		</tbody>
 	</table> 
 </div>
+
+<script>
+const tbColNms = [
+	{ type: 'text', name : "workDate", dataField : "workDate" },
+	{ type: 'text', name : "workPeriod", dataField : "workPeriod" },
+	{ type: 'text', name : "employedYn", dataField : "employedYn" },
+	{ type: 'text', name : "companyNm", dataField : "companyNm" },
+	{ type: 'text', name : "position", dataField : "workDate" },
+	{ type: 'text', name : "taskDesc", dataField : "taskDesc" }
+]; 
+
+let totalPeriod = 0; 
+
+$('#timsdlg').on('shown.bs.modal', function () { 
+	var url = "${serviceBathPath}/rcp1100e/selectCareerList";
+	var params = { 'appCd' : ${appCd} };
+	
+	const result = TimsUtil.getObject(url, params, true);
+	const data = result.list; 
+	
+	RctUtil.renderTable("career-tbody", tbColNms, data);
+	selectCareerData();
+	
+	/* 지원자가 등록한 경력의 근무기간의 총계*/
+	$("td[data-field='workPeriod']").each(function() {
+	    const careerPeriod = $(this).text().trim();
+	    const periodNumber = parseInt(careerPeriod, 10);
+	    
+	    if (!isNaN(periodNumber)) {
+	        totalPeriod += periodNumber; 
+	    }
+	});  
+});
+
+/* 경력인정 수정 및 저장 */
+$(document).on("click", "button[data-action='saveCareerData']", function() { 
+	const month = $("#careerMonth").val(); 
+	const reason = $("#careerReason").val();
+	const monthNum = parseInt($("#careerMonth").val(), 10);
+	
+	var url = "${serviceBathPath}/rcp1100e/saveCareer";
+	var params = {
+					'appCd' : ${appCd},
+					'careerPeriod' : month,
+					'careerReason' : reason
+				 }
+	
+	if (monthNum > totalPeriod) {
+	    alert("경력인정기간이 총 경력 기간을 초과할 수 없습니다.");
+	    $("#careerMonth").focus();
+	    return;
+	}
+	
+	const result = TimsUtil.getObject(url, params, true); 
+	
+	if (result) {
+		alert("경력산정 저장 성공"); 
+		selectCareerData();
+    } else {
+        alert("경력산정 저장 실패");
+    }	
+});
+
+/* 경력인정 데이터 조회 */
+function selectCareerData() {
+	var url = "${serviceBathPath}/rcp1100e/selectCareerData";
+	var params = { 'appCd' : ${appCd} };
+	
+	const result = TimsUtil.getObject(url, params, true);   
+	
+	if (result) {
+		$("#careerMonth").val(result.careerPeriod); 
+		$("#careerReason").val(result.careerReason); 
+	} else {
+		console.log("경력인정 데이터 조회 실패");
+	}
+}
+
+
+
+
+</script>

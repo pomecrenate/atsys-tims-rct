@@ -1,7 +1,7 @@
 /*************************************************************
  프로그램명 : Evl1104eController.java
  설명 : 최종합격관리
- 작성자 : 백세진
+ 작성자 : 이예찬
  일자 : 2025.04.09
 *************************************************************/
 package com.atsys.tims.evl.controller;
@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.atsys.base.ConstantsUtils;
 import com.atsys.base.ui.ViewHelper;
 
 @Controller
 @RequestMapping(value = "/evl1104e")
 public class Evl1104eController {
 	
-	private static final String ADM_PATH  = "tims/views/evl/"; 
+	private static final String ADM_PATH  = ConstantsUtils.getAdmViewRoot() + "/evl/"; 
 	private final String viewList		  = ADM_PATH + "Evl1104e"; 
 	private final String annSelectPop	  = ADM_PATH + "popup/" + "Evl1104p1";
 	

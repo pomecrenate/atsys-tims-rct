@@ -1,0 +1,182 @@
+<%--
+////////////////////////////////////////////////////////////
+// 프로그램명 : Rcp1100p4.jsp
+// 설명 : 지원서상세보기(팝업)
+// 작성자 : 백세진
+// 일자 : 2025.04.23
+////////////////////////////////////////////////////////////
+--%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>   
+<html>
+<head>
+    <title>${app.nm} 지원서 상세보기</title> 
+    <%@ include file="/WEB-INF/jsp/tims/common/layout/adm/head.jsp" %> 
+</head>
+<body>	
+	<div class="toolbar"> 
+		  <div class="toolbar-left">
+		    <button onclick="zoomOut()"><i class="fa fa-search-minus"></i></button>
+		    <span id="zoomValue">100%</span>
+		    <button onclick="zoomIn()"><i class="fa fa-search-plus"></i></button>
+		  </div> 
+		  <div class="toolbar-center">
+		    <span id="pageNumber">1</span> / <span id="totalPages">1</span>
+		  </div> 
+		  <div class="toolbar-right"> 
+		    <button onclick="printPDF()"><i class="fa fa-print"></i> 인쇄</button>
+		    <button onclick="downloadPDF()"><i class="fa fa-download"></i>PDF저장</button> 
+		  </div>
+		</div> 
+	<div class="appDetail-container">  
+		<div class="appDetail-contents">
+			<table class="detail_table" id="detail_table1">
+			  <thead>
+			    <tr>
+			      <th colspan="3">${app.nm} 임용 지원서(교원)</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td rowspan="3">지원자 사진</td>
+			      <th>지원분야</th>
+			      <td>${app.ntcCd}</td>
+			    </tr>
+			    <tr>
+			      <th>전공분야(관련분야)</th>
+			      <td>${app.ntcFieldCd}</td>
+			    </tr>
+			    <tr>
+			      <th>비고(지원자격 등)</th>
+			      <td></td>
+			    </tr>
+			  </tbody>
+			</table> 
+		   	<div>인적사항</div>
+		   	<table class="detail_table" id="detail_table2"> 
+			    <tr>
+			        <th>이름</th><td colspan="5">${app.nm}</td> 
+			    </tr>
+			    <tr>
+			    	<th>한자이름</th><td colspan="2">${app.hanjaNm}</td>
+			        <th>영문이름</th><td colspan="2">${app.engNm}</td>
+			    </tr>
+			    <tr>
+			    	<th>생년월일</th><td colspan="5">${app.birthDate}</td>
+			    </tr>
+			    <tr> 
+			        <th>자택전화</th><td colspan="2">${app.homePhone}</td>
+			        <th>회사전화</th><td colspan="2">${app.officePhone}</td>
+			    </tr>
+			    <tr>
+			        <th>휴대폰번호</th><td colspan="5">${app.mobPhone}</td>
+			    </tr>
+			    <tr>
+			        <th>주소</th><td colspan="5">${app.postalCode}) ${app.address}</td>
+			    </tr>
+			    <tr>
+			        <th>병역관계</th><td colspan="2">${app.milType}</td>
+			        <th>계급(병과)</th><td colspan="2">${app.milRank}</td>
+			    </tr>
+			    <tr>
+			        <th>복무기간</th><td colspan="5">${app.milStartDate}-${app.milEndDate}</td>
+			    </tr>
+			    <tr>
+			        <th>보훈대상여부</th><td colspan="2">${app.veteranYn}</td>
+			        <th>장애인여부</th><td colspan="2">${app.disabledYn}</td>
+			    </tr>
+			</table>
+			<div>학력사항</div>
+			<c:forEach var="edu" items="${eduList}">
+				<table class="detail_table" id="detail_table3">
+					 <tr> 
+				        <th>구분</th><td colspan="2">${edu.eduType}</td>
+				        <th>국가</th><td colspan="2">${edu.countryCd}</td>
+				    </tr>
+				    <tr>  
+				        <th>학교명</th><td colspan="5">${edu.schoolNm}</td> 
+				    </tr>
+				    <tr> 
+				        <th>기간</th><td colspan="2">${edu.eduStartDate}~${edu.eduEndDate}</td> 
+				        <th>취득구분</th><td colspan="2">${edu.acqType}</td>
+				    </tr>
+				    <tr>
+				        <th>학과</th><td colspan="2">${edu.major}</td>
+				        <th>세부전공</th><td colspan="2">${edu.majorDetail}</td>
+				    </tr>
+				     <tr>  
+				        <th>학위명</th><td colspan="2">${edu.degreeNm}</td>
+				        <th>평균학점</th><td colspan="2">${edu.gpa}</td>
+				    </tr>
+				</table>
+			</c:forEach>
+			<div>경력사항</div>
+			<c:forEach var="career" items="${careerList}">
+				<table class="detail_table" id="detail_table4">
+					 <tr> 
+				        <th>기간 ${career.employedYn}</th>
+				        <td colspan="2">
+				        	<c:choose>
+					        	<c:when test="${not empty career.workEndDate}">
+								      ${career.workStartDate} ~ ${career.workEndDate}
+								</c:when>
+								<c:otherwise>
+								    ${career.workStartDate} ~ ${career.employedYn}
+								</c:otherwise>
+							</c:choose>
+			        	</td>
+				        <th>근무년수</th><td colspan="2">${career.workPeriod}</td>
+				    </tr>
+				    <tr> 
+				        <th>근무기관(처)</th><td colspan="2">${career.companyNm}</td> 
+				        <th>직급/직위</th><td colspan="2">${career.position}</td>
+				    </tr>
+				    <tr>  
+				        <th>담당업무</th><td colspan="5">${career.taskDesc}</td> 
+				    </tr> 
+				</table>
+			</c:forEach>	
+			<div>수상 및 자격증</div>
+			<c:forEach var="award" items="${awardList}">
+				<table class="detail_table" id="detail_table5">
+					 <tr> 
+				        <th>구분</th><td colspan="2">${award.awardType}</td>
+				        <th>취득년월일</th><td colspan="2">${award.issueDate}</td>
+				    </tr>
+				    <tr>  
+				        <th>수상명, 자격증, 면허이름</th><td colspan="5">${award.awardNm}</td> 
+				    </tr> 
+				    <tr> 
+				        <th>내용 또는 종별</th><td colspan="2">${award.awardDesc}</td> 
+				        <th>발급(행)기관/시행기관</th><td colspan="2">${award.issuer}</td>
+				    </tr>
+				</table>
+			</c:forEach>
+			<div>자기소개서</div>
+			<pre >${selfIntro.introCnts}</pre>
+			<div>추천인</div>
+			<c:forEach var="rec" items="${recList}">
+				<table class="detail_table" id="detail_table6">
+					 <tr> 
+				        <th>성명</th><td colspan="2">${rec.nm}</td>
+				        <th>소속</th><td colspan="2">${rec.org}</td>
+				    </tr>
+				    <tr> 
+				        <th>직급</th><td colspan="2">${rec.position}</td> 
+				        <th>관계</th><td colspan="2">${rec.relation}</td>
+				    </tr>
+				    <tr>  
+				        <th>비고</th><td colspan="5">${rec.remarks}</td> 
+				    </tr> 
+				</table>
+			</c:forEach> 
+		</div>
+	</div>
+</body>
+<script> 
+
+
+</script>
+
+</html>
+ 

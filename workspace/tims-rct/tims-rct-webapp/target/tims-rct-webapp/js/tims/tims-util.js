@@ -1614,7 +1614,7 @@ if (!window["TimsUtil"])
 			TimsUtil.ajax(opt);
 			
 			// 서버시간과 브라우저의 시간을 동기화 하는데 필요한 offset를 구하고 세션타이머 재 호출
-			callTimeOffsetBetweenServerAndClient(url);
+//			callTimeOffsetBetweenServerAndClient(url);
 			
 			return retVal;
 		},

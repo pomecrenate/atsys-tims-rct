@@ -13,7 +13,7 @@
  <div> 
     <div class="description">
       ※ 파일명을 클릭하시면 파일을 다운로드 받을 수 있습니다. 
-    </div>
+    </div> 
     <table class="detail_table" id="detail_table">
     	<colgroup>
 			<col style="width:120px">
@@ -21,13 +21,9 @@
 		</colgroup>
       <tr>
         <th>지원자성명</th>
-        <td>
-          백세진
-        </td> 
+        <td id="appNm"></td> 
         <th>핸드폰번호</th>
-        <td>
-          01012345678
-        </td>
+        <td id="appMobPhone"></td>
       </tr> 
     </table>
     <table class="table">
@@ -49,3 +45,24 @@
 		</tbody>
 	</table> 
 </div>
+
+<script>
+$('#timsdlg').on('shown.bs.modal', function () { 
+	 selectAppNmAndMob();
+	 
+});
+
+/* 지원자 기본정보 세팅 */
+function selectAppNmAndMob() {
+	var url = "${serviceBathPath}/rcp1100e/selectAppNmAndMob";
+	var params = { 'appCd' : '${appCd}' };
+	
+	const result = TimsUtil.getObject(url, params, true);  
+	console.log(result);
+	$('#appNm').text(result.nm);
+	$('#appMobPhone').text(result.mobPhone);
+}
+
+
+
+</script>

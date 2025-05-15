@@ -1,0 +1,23 @@
+package com.atsys.tims.evl.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.Evl1201eVo;
+import com.atsys.model.Rcp1100eVo;
+import com.atsys.model.TbNtcFieldVo;
+
+@Repository
+@Mapper 
+public interface Evl1201eDao {
+
+	public TbNtcFieldVo selectRequiredCnt(TbNtcFieldVo vo);
+
+	public List<Evl1201eVo> selectList(Map<String, Object> so);
+
+	public int selectTotalCount(Map<String, Object> so);
+
+}

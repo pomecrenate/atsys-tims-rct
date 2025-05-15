@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rct.dao.Rct1101eDao">
+	<select id="selectList" resultType="com.atsys.model.TbNtcFieldVo">
+		SELECT * 
+		FROM	(
+				  SELECT A.*
+						 , ROWNUM AS RNUM 
+				  FROM 	 (
+			   		 	SELECT     F.FIELD_CD
+			   				       , F.COLLEGE_CD 
+							       , F.DEPT_CD 
+						      	   , F.MAJOR_NM 
+								   , NVL(FN_GET_CODE_NM('RCT004', F.STAFF_TYPE), NVL(FN_GET_CODE_NM('RCT005', F.STAFF_TYPE), '알수없음')) AS STAFF_TYPE
+							       , F.REQUIRED_CNT
+							       , F.ASSIGNED_SUBJECT 
+							       , F.DEL_YN 
+						 FROM      TB_NTC_FIELD F JOIN TB_NTC N 
+						 ON 	   F.NTC_CD = N.NTC_CD
+						 WHERE 	   F.DEL_YN = 'N'
+						 AND	   N.DEL_YN = 'N'
+						 AND  	   F.NTC_CD = #{ntcCd}
+						 ORDER BY  F.CRE_DATE 
+						 ) A
+				   WHERE ROWNUM <![CDATA[<=]]> #{end}
+			    ) 
+		WHERE	RNUM >= #{start}
+	</select>
+	<select id="selectNtcType" resultType="String">
+		SELECT NTC_TYPE
+		FROM   TB_NTC 
+		WHERE  NTC_CD = #{ntcCd}
+		AND    DEL_YN = 'N'
+	</select>
+</mapper>

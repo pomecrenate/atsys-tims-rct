@@ -382,7 +382,7 @@
 			option.type => "S" - 검색기능
 			option.selectAll =>  multiYn이 Y인 경우(멀티셀렉트인 경우) "Y"면 "전체선택" 추가
 			option.multiYn => "Y" - 멀티(checkbox), "N" - 단일(radio 버튼)
-		*/
+		*/ 
 		
 		if(!option.selectAll){
 			option.selectAll = "N";
@@ -438,7 +438,7 @@
 					async : true,
 					success : function(data, textStatus, jqXHR) {
 						__codeCollections[dataId] = data;
-						setMultiSelect(url, orgCodes, formName, saveName, option);
+						setMultiSelect(url, orgCodes, formName, saveName, option); 
 					},
 					error : function(jqXHR, textStatus, errorThrown) {
 						returnValue = null;

@@ -13,7 +13,10 @@
     padding: 20px 15px;
     box-sizing: border-box;
     text-align: center;
-}
+    float: left;
+     z-index: 10;
+    position: relative;
+} 
 
 .lrg-sidebar ul {
     list-style: none;
@@ -30,6 +33,7 @@
     padding: 10px;
     border-radius: 20px;
     transition: background-color 0.2s;
+    margin-bottom: 10px;
 }
 
 .lrg-sidebar a:hover {
@@ -94,15 +98,28 @@
 }
 
 .mid-menu > a::after {
-    content: '▾';
+/*     content: '▾';
     float: right;
     transition: transform 0.3s;
     font-size: 14px;
-    color: #007cc2;
+    color: #007cc2; */
+    content:"";
+	display:block;
+	float: right;
+	top:50%;
+	width:10px;
+	height:10px;
+	margin:10px;
+	border-bottom:solid 2px #0498dd;
+	border-right:solid 2px #0498dd;
+	transform: rotate(-135deg);
+	transition: transform 0.25s;
+	-webkit-transition: transform 0.25s
 }
 
 .mid-menu.open > a::after {
-    transform: rotate(-180deg);
+	margin-top: 4px;
+    transform: rotate(45deg);
 }
 
 .sm-menu {
@@ -119,5 +136,29 @@
     display: block;
     border-radius: 4px;
     margin: 2px 0;
+}
+
+.page-wrapper {
+    transition: margin-left 0.3s ease; 
+    position: relative; 
+    z-index: 1;
+}
+
+.page-wrapper.shifted {
+    margin-left: 300px;
+}
+
+.mid-sidebar-wrapper {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 100%;
+    z-index: 10;
+    transition: left 0.3s ease;
+}
+
+.mid-sidebar-wrapper.closed {
+    left: -300px;
 }
 

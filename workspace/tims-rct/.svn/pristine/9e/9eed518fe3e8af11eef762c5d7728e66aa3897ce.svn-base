@@ -1,0 +1,71 @@
+/*************************************************************
+ 프로그램명 : Rct1101eController.java
+ 설명 : 공고관리-초빙(임용)분야
+ 작성자 : 최연재
+ 일자 : 2025.04.21
+*************************************************************/
+package com.atsys.tims.rct.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ConstantsUtils;
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.TbNtcFieldVo;
+import com.atsys.tims.rct.service.Rct1101eService; 
+
+@Controller
+@RequestMapping(value = "/rct1101e")
+public class Rct1101eController {
+	
+	private static final String ADM_PATH   = ConstantsUtils.getAdmViewRoot() + "/rct/";
+	private final String viewList		   = ADM_PATH + "Rct1101e";
+	private final String searchDeptPop     = ADM_PATH + "popup/" + "Rct1101p1";
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@Autowired
+	Rct1101eService rct1101eService;
+	
+	@RequestMapping(value="/{ntcCd}")
+	public ModelAndView init(@PathVariable(value = "ntcCd") String ntcCd, HttpServletRequest request, 
+							 @RequestParam Map<String, Object> so) throws Exception { 
+		return viewHelper.createModelAndView(viewList);
+	} 
+	
+	@RequestMapping(value="/popup/searchDeptPop")
+	public String popupQualynSelect(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		return searchDeptPop;
+	} 
+	
+	@RequestMapping("/search")
+	public @ResponseBody Map<String, Object> search(@RequestBody Map<String, Object> map, Model model) throws Exception{
+		
+		Map<String, Object> res = new HashMap<>();
+		List<TbNtcFieldVo> list = rct1101eService.selectList(map);
+		res.put("list", list);
+		
+		return res;
+	}
+	
+	@RequestMapping("/checkNtc")
+	public @ResponseBody String checkNtc(@RequestBody Map<String, Object> map) throws Exception {
+		return rct1101eService.selectNtcType(map);
+	}
+	
+}

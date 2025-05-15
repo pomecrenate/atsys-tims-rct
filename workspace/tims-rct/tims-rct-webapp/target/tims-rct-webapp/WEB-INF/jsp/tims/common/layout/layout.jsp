@@ -14,27 +14,47 @@
     </c:choose> 
 </head>
 <body>
+	<div class="modal fade" id="timsdlg" tabindex="-1">
+		<div class="modal-dialog" id="modaldlg">
+			<div class="modal-content">	
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
+					<h4 class="modal-title" id="dialogTitle"></h4>
+				</div>
+				<div class="modal-body" id="dialogBody">
+				</div>								     
+			</div>								     
+		</div>								      
+	</div>
+	<div class="layout-container">
+	    <div class="page-sidebar">
+	        <c:choose>
+	            <c:when test="${sessionScope.userRole eq 'ADMIN'}">
+	                <jsp:include page="/WEB-INF/jsp/tims/common/layout/adm/adminSidebar.jsp" />
+	            </c:when>
+	        </c:choose>
+	    </div> 
+	    <div class="page-wrapper">
+	        <div class="page-header">
+	            <c:choose>
+	                <c:when test="${sessionScope.userRole eq 'ADMIN'}">
+	                    <jsp:include page="adm/adminHeader.jsp" />
+	                </c:when>
+	                <c:otherwise>
+	                    <jsp:include page="front/userHeader.jsp" />
+	                </c:otherwise>
+	            </c:choose>
+	        </div>
+	
+	        <div class="main-content">
+	            <jsp:include page="/WEB-INF/jsp/${body}.jsp" />
+	        </div>
+	    </div>
+	</div>    
     <c:choose>
-        <c:when test="${sessionScope.userRole eq 'ADMIN'}">
-            <jsp:include page="adm/adminHeader.jsp" /> 
+        <c:when test="${sessionScope.userRole eq 'USER'}">
+            <jsp:include page="/WEB-INF/jsp/tims/common/layout/footer.jsp" />
         </c:when>
-        <c:otherwise>
-            <jsp:include page="front/userHeader.jsp" />
-        </c:otherwise>
-    </c:choose>
-    <div style="display: flex; min-height: 100vh;">
-        <c:choose>
-            <c:when test="${sessionScope.userRole eq 'ADMIN'}">
-                <jsp:include page="/WEB-INF/jsp/tims/common/layout/adm/adminSidebar.jsp" />
-            </c:when>
-        </c:choose>
-
-        <div class="main-content" style="flex: 1; padding: 20px;">
-            <jsp:include page="/WEB-INF/jsp/${body}.jsp" />
-        </div>
-    </div>
-
-    <%@ include file="footer.jsp" %>
-</body>
-
+    </c:choose> 
+</body> 
 </html>

@@ -1,0 +1,21 @@
+package com.atsys.tims.evl.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.Evl1201eVo;
+import com.atsys.model.TbNtcFieldVo;
+
+@Transactional(readOnly = true)
+public interface Evl1201eService {
+
+	public TbNtcFieldVo selectRequiredCnt(TbNtcFieldVo vo);
+
+	public List<Evl1201eVo> selectList(Map<String, Object> so);
+
+	public int selectTotalCount(Map<String, Object> so);
+ 
+
+}

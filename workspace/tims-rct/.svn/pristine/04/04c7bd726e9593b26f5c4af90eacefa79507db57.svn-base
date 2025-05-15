@@ -1,0 +1,39 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eService.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.Rcp1100eVo;
+import com.atsys.model.TbAppCareerVo;
+import com.atsys.model.TbAppVo;
+
+@Transactional(readOnly = true)
+public interface Rcp1100eService {
+
+	public List<Rcp1100eVo> selectList(Map<String, Object> so);
+
+	public int selectTotalCount(Map<String, Object> so);
+
+	@Transactional
+	public Map<String, Object> updateQualYnAndReason(TbAppVo vo);
+
+	public TbAppVo selectQualData(TbAppVo vo);
+
+	public List<TbAppCareerVo> selectCareerList(TbAppCareerVo vo);
+
+	@Transactional
+	public Map<String, Object> updateCareerPeriodAndReason(TbAppVo vo);
+
+	public TbAppVo selectCareerData(TbAppVo vo);
+
+	public TbAppVo selectAppNmAndMob(TbAppVo vo);
+ 
+}

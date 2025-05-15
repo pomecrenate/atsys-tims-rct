@@ -1,0 +1,191 @@
+// 코드 위치: com.atsys.base.util.Utilities.java
+public static String getPKCd() {
+	return getPKCd(Long.toHexString(System.currentTimeMillis()).toUpperCase());
+}
+
+public static String getPKCd(String prefix) {
+	int length = prefix == null ? 20 : 20 - prefix.length();
+	if(length < 0) {
+		return prefix.substring(0, 20);
+	}
+	return Utilities.nullCheck(prefix) + Utilities.getUniqId(length);
+}
+
+public static String getUniqId(int nLength) {
+	if(nLength < 1) {
+		return "";
+	}
+	Random rd = new SecureRandom();
+	final char chAdded = 'A';
+	final char chRange = (char) 26;
+	char[] chValue = new char[nLength];
+	for(int i = 0; i < nLength; i++) {
+		chValue[i] = (char) (rd.nextDouble() * chRange + chAdded);
+	}
+	return new String(chValue).toUpperCase();
+}
+
+public static String nullCheck(String strValue) {
+	return ((strValue == null) ? "" : strValue);
+}
+// 코드 끝
+
+-- 외부 평가위원 테이블
+CREATE TABLE "TB_EX_EVAL_JDG" (
+	"EX_JDG_CD"	VARCHAR2(20)		NOT NULL,
+	"USR_ID"	VARCHAR2(50)		NOT NULL,
+	"NM"	VARCHAR2(100)		NOT NULL,
+	"PW"	VARCHAR2(100)		NOT NULL,
+	"ORG"	VARCHAR2(100)		NOT NULL,
+	"MOB_PHONE"	VARCHAR2(100)		NOT NULL,
+	"EMAIL"	VARCHAR2(100)		NOT NULL,
+	"DEL_YN"	VARCHAR2(1)	DEFAULT 'N'	NOT NULL,
+	"CRE_USR_CD"	VARCHAR2(50)		NULL,
+	"CRE_PGM"	VARCHAR2(100)		NULL,
+	"CRE_IP"	VARCHAR2(20)		NULL,
+	"CRE_DATE"	DATE	DEFAULT SYSDATE	NULL,
+	"UPD_USR_CD"	VARCHAR2(50)		NULL,
+	"UPD_PGM"	VARCHAR2(100)		NULL,
+	"UPD_IP"	VARCHAR2(20)		NULL,
+	"UPD_DATE"	DATE	DEFAULT SYSDATE	NULL
+) TABLESPACE TS_RCT_DAT;
+
+-- TB_EX_EVAL_JDG PK설정
+CREATE UNIQUE INDEX PK_TB_EX_EVAL_JDG_IDX ON TB_EX_EVAL_JDG(EX_JDG_CD) TABLESPACE TS_RCT_IDX;
+ALTER TABLE TB_EX_EVAL_JDG ADD CONSTRAINT PK_TB_EX_EVAL_JDG PRIMARY KEY (EX_JDG_CD) USING INDEX PK_TB_EX_EVAL_JDG_IDX;
+
+-- 내부 평가위원(교직원) 테이블
+CREATE TABLE "TB_FAC_STAFF" (
+	"EMP_CD"	VARCHAR2(20)		NOT NULL,
+	"NM"	VARCHAR2(100)		NOT NULL,
+	"MOB_PHONE"	VARCHAR2(100)		NOT NULL,
+	"EMAIL"	VARCHAR2(100)		NOT NULL,
+	"ORG"	VARCHAR2(100)		NULL,
+	"DEL_YN"	VARCHAR2(1)	DEFAULT 'N'	NOT NULL,
+	"CRE_USR_CD"	VARCHAR2(50)		NULL,
+	"CRE_PGM"	VARCHAR2(100)		NULL,
+	"CRE_IP"	VARCHAR2(20)		NULL,
+	"CRE_DATE"	DATE	DEFAULT SYSDATE	NULL,
+	"UPD_USR_CD"	VARCHAR2(50)		NULL,
+	"UPD_PGM"	VARCHAR2(100)		NULL,
+	"UPD_IP"	VARCHAR2(20)		NULL,
+	"UPD_DATE"	DATE	DEFAULT SYSDATE	NULL
+) TABLESPACE TS_RCT_DAT;
+
+-- TB_FAC_STAFF PK설정
+CREATE UNIQUE INDEX PK_TB_FAC_STAFF_IDX ON TB_FAC_STAFF(EMP_CD) TABLESPACE TS_RCT_IDX;
+ALTER TABLE TB_FAC_STAFF ADD CONSTRAINT PK_TB_FAC_STAFF PRIMARY KEY (EMP_CD) USING INDEX PK_TB_FAC_STAFF_IDX;
+
+-- 지원자 테이블
+CREATE TABLE "TB_APP_USR" (
+	"APP_USR_CD"	VARCHAR2(20)		NOT NULL,
+	"USR_ID"	VARCHAR2(20)		NULL,
+	"NM"	VARCHAR2(100)		NOT NULL,
+	"EMAIL"	VARCHAR2(100)		NOT NULL,
+	"PW"	VARCHAR2(100)		NOT NULL,
+	"BIRTH_DATE"	VARCHAR2(100)		NOT NULL,
+	"DEL_YN"	VARCHAR2(1)	DEFAULT 'N'	NOT NULL,
+	"CRE_USR_CD"	VARCHAR2(50)		NOT NULL,
+	"CRE_PGM"	VARCHAR2(100)		NOT NULL,
+	"CRE_IP"	VARCHAR2(20)		NOT NULL,
+	"CRE_DATE"	DATE	DEFAULT SYSDATE	NOT NULL,
+	"UPD_USR_CD"	VARCHAR2(50)		NULL,
+	"UPD_PGM"	VARCHAR2(100)		NULL,
+	"UPD_IP"	VARCHAR2(20)		NULL,
+	"UPD_DATE"	DATE	DEFAULT SYSDATE	NULL
+) TABLESPACE TS_RCT_DAT;
+
+-- TB_APP_USR PK설정
+CREATE UNIQUE INDEX PK_TB_APP_USR_IDX ON TB_APP_USR(APP_USR_CD) TABLESPACE TS_RCT_IDX;
+ALTER TABLE TB_APP_USR ADD CONSTRAINT PK_TB_APP_USR PRIMARY KEY (APP_USR_CD) USING INDEX PK_TB_APP_USR_IDX;
+
+CREATE OR REPLACE VIEW VW_USR AS
+-- 내부 평가위원(교직원)
+SELECT 
+   EMP_CD     AS USR_CD,    -- 유저코드(=getPKCd())
+   EMP_CD     AS USR_ID,    -- 유저아이디(내부: 유저코드)
+   '100'      AS USR_TYPE,  -- 유저타입(내부: 100)
+   NM         AS NM,        -- 이름
+   '1'        AS PW,        -- 비밀번호(내부: 1)
+   ORG        AS ORG,       -- 소속
+   MOB_PHONE  AS MOB_PHONE, -- 휴대폰 번호('-'없이 숫자 11자리)
+   EMAIL      AS EMAIL      -- 이메일 주소
+FROM TB_FAC_STAFF
+
+UNION ALL
+
+-- 외부 평가위원
+SELECT 
+   EX_JDG_CD  AS USR_CD,    -- 유저코드(=getPKCd())
+   USR_ID     AS USR_ID,    -- 유저아이디(외부: E + 생성연도 끝 2자리 + 인덱스 4자리(0001~9999))
+   '200'      AS USR_TYPE,  -- 유저타입(외부: 200)
+   NM         AS NM,        -- 이름
+   PW         AS PW,        -- 비밀번호(외부: tm + 휴대폰 번호 끝 4자리)
+   ORG        AS ORG,       -- 소속
+   MOB_PHONE  AS MOB_PHONE, -- 휴대폰 번호('-'없이 숫자 11자리)
+   EMAIL      AS EMAIL      -- 이메일 주소
+FROM TB_EX_EVAL_JDG
+WHERE DEL_YN = 'N'
+
+UNION ALL
+
+-- 지원자
+SELECT 
+   APP_USR_CD AS USR_CD,    -- 유저코드(=getPKCd())
+   USR_ID     AS USR_ID,    -- 유저아이디(지원자: A + 생성연도 끝 2자리 + 인덱스 4자리(0001~9999))
+   '300'      AS USR_TYPE,  -- 유저타입(지원자: 300)
+   NM         AS NM,        -- 이름
+   PW         AS PW,        -- 비밀번호(지원자: 사용자 설정)
+   ''        AS ORG,       -- 소속
+   ''  AS MOB_PHONE, -- 휴대폰 번호('-'없이 숫자 11자리)
+   EMAIL      AS EMAIL      -- 이메일 주소
+FROM TB_APP_USR
+WHERE DEL_YN = 'N';
+
+CREATE OR REPLACE VIEW VW_ERP_USR AS
+-- 내부 평가위원(교직원)
+SELECT 
+   EMP_CD     AS USR_CD,    -- 유저코드(=getPKCd())
+   NM         AS NM,        -- 이름
+   ORG        AS ORG       -- 소속
+FROM TB_FAC_STAFF;
+
+CREATE OR REPLACE FUNCTION TIMS_RCT.FN_GET_ERP_NM
+(
+	I_USR_CD VARCHAR
+)
+   RETURN VARCHAR
+IS
+   O_RETURN   VARCHAR(100) := '';
+BEGIN
+    SELECT  NM
+    INTO    O_RETURN
+    FROM    VW_ERP_USR
+    WHERE   USR_CD = I_USR_CD;
+    RETURN O_RETURN;
+EXCEPTION
+   WHEN NO_DATA_FOUND
+   THEN
+      RETURN ('');
+   WHEN OTHERS
+   THEN
+      RETURN ('');
+END FN_GET_ERP_NM;
+
+CREATE OR REPLACE FUNCTION TIMS_RCT.FN_GET_PK_CD
+   RETURN VARCHAR
+IS
+   O_RETURN   VARCHAR(20) := '';
+BEGIN
+    SELECT  DBMS_RANDOM.STRING('X', 20)
+    INTO    	O_RETURN
+    FROM    DUAL;
+    RETURN O_RETURN;
+EXCEPTION
+   WHEN NO_DATA_FOUND
+   THEN
+      RETURN ('');
+   WHEN OTHERS
+   THEN
+      RETURN ('');
+END FN_GET_PK_CD;

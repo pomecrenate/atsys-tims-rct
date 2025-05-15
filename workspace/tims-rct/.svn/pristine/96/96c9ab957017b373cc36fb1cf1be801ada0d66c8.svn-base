@@ -1,0 +1,70 @@
+package com.atsys.model;
+
+public class TbNtcFieldVo extends TbNtcFieldBo {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3931854184534301485L;
+	
+	private String fieldCd; 
+	private String collegeCd;
+	private String deptCd;
+	private String majorNm;
+	private String staffType;
+	private String requiredCnt;
+	private String requirements;
+	private String assignedSubject;
+	
+	public String getFieldCd() {
+		return fieldCd;
+	}
+	public void setFieldCd(String fieldCd) {
+		this.fieldCd = fieldCd;
+	} 
+	public String getCollegeCd() {
+		return collegeCd;
+	}
+	public void setCollegeCd(String collegeCd) {
+		this.collegeCd = collegeCd;
+	}
+	public String getDeptCd() {
+		return deptCd;
+	}
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
+	}
+	public String getMajorNm() {
+		return majorNm;
+	}
+	public void setMajorNm(String majorNm) {
+		this.majorNm = majorNm;
+	}
+	public String getStaffType() {
+		return staffType;
+	}
+	public void setStaffType(String staffType) {
+		this.staffType = staffType;
+	}
+	public String getRequiredCnt() {
+		return requiredCnt;
+	}
+	public void setRequiredCnt(String requiredCnt) {
+		this.requiredCnt = requiredCnt;
+	}
+	public String getRequirements() {
+		return requirements;
+	}
+	public void setRequirements(String requirements) {
+		this.requirements = requirements;
+	}
+	public String getAssignedSubject() {
+		return assignedSubject;
+	}
+	public void setAssignedSubject(String assignedSubject) {
+		this.assignedSubject = assignedSubject;
+	}
+
+	 
+
+}

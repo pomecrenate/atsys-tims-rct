@@ -1,0 +1,218 @@
+package com.atsys.model;
+
+public class TbAppVo extends TbAppBo {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7509806457787164367L;
+	
+	private String appCd; 
+	private String ntcCd;
+	private String ntcFieldCd;
+	private String appUsrCd;
+	private String nm;
+	private String hanjaNm;
+	private String engNm;
+	private String appStatus;
+	private String passStep; 
+	private String qualYn;
+	private String notQualReason;
+	private String privacyAgreeYn;
+	private String privacyAgreeDate;
+	private String homePhone;
+	private String officePhone;
+	private String mobPhone; 
+	private String postalCode;
+	private String address;
+	private String careerPeriod;
+	private String careerReason;
+	private String milType;
+	private String milRank;
+	private String milStartDate;
+	private String milEndDate;
+	private String veteranYn;
+	private String disabledYn;
+	private String photoUpldFileCd;
+	private String upldFileId;
+	private String subDate;
+	
+	public String getAppCd() {
+		return appCd;
+	}
+	public void setAppCd(String appCd) {
+		this.appCd = appCd;
+	}
+	public String getNtcCd() {
+		return ntcCd;
+	}
+	public void setNtcCd(String ntcCd) {
+		this.ntcCd = ntcCd;
+	}
+	public String getNtcFieldCd() {
+		return ntcFieldCd;
+	}
+	public void setNtcFieldCd(String ntcFieldCd) {
+		this.ntcFieldCd = ntcFieldCd;
+	}
+	public String getAppUsrCd() {
+		return appUsrCd;
+	}
+	public void setAppUsrCd(String appUsrCd) {
+		this.appUsrCd = appUsrCd;
+	}
+	public String getNm() {
+		return nm;
+	}
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	public String getHanjaNm() {
+		return hanjaNm;
+	}
+	public void setHanjaNm(String hanjaNm) {
+		this.hanjaNm = hanjaNm;
+	}
+	public String getEngNm() {
+		return engNm;
+	}
+	public void setEngNm(String engNm) {
+		this.engNm = engNm;
+	}
+	public String getAppStatus() {
+		return appStatus;
+	}
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
+	public String getPassStep() {
+		return passStep;
+	}
+	public void setPassStep(String passStep) {
+		this.passStep = passStep;
+	}
+	public String getQualYn() {
+		return qualYn;
+	}
+	public void setQualYn(String qualYn) {
+		this.qualYn = qualYn;
+	}
+	public String getNotQualReason() {
+		return notQualReason;
+	}
+	public void setNotQualReason(String notQualReason) {
+		this.notQualReason = notQualReason;
+	}
+	public String getPrivacyAgreeYn() {
+		return privacyAgreeYn;
+	}
+	public void setPrivacyAgreeYn(String privacyAgreeYn) {
+		this.privacyAgreeYn = privacyAgreeYn;
+	}
+	public String getPrivacyAgreeDate() {
+		return privacyAgreeDate;
+	}
+	public void setPrivacyAgreeDate(String privacyAgreeDate) {
+		this.privacyAgreeDate = privacyAgreeDate;
+	}
+	public String getHomePhone() {
+		return homePhone;
+	}
+	public void setHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+	}
+	public String getOfficePhone() {
+		return officePhone;
+	}
+	public void setOfficePhone(String officePhone) {
+		this.officePhone = officePhone;
+	}
+	public String getMobPhone() {
+		return mobPhone;
+	}
+	public void setMobPhone(String mobPhone) {
+		this.mobPhone = mobPhone;
+	}
+	public String getPostalCode() {
+		return postalCode;
+	}
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCareerPeriod() {
+		return careerPeriod;
+	}
+	public void setCareerPeriod(String careerPeriod) {
+		this.careerPeriod = careerPeriod;
+	}
+	public String getCareerReason() {
+		return careerReason;
+	}
+	public void setCareerReason(String careerReason) {
+		this.careerReason = careerReason;
+	}
+	public String getMilType() {
+		return milType;
+	}
+	public void setMilType(String milType) {
+		this.milType = milType;
+	}
+	public String getMilRank() {
+		return milRank;
+	}
+	public void setMilRank(String milRank) {
+		this.milRank = milRank;
+	}
+	public String getMilStartDate() {
+		return milStartDate;
+	}
+	public void setMilStartDate(String milStartDate) {
+		this.milStartDate = milStartDate;
+	}
+	public String getMilEndDate() {
+		return milEndDate;
+	}
+	public void setMilEndDate(String milEndDate) {
+		this.milEndDate = milEndDate;
+	}
+	public String getVeteranYn() {
+		return veteranYn;
+	}
+	public void setVeteranYn(String veteranYn) {
+		this.veteranYn = veteranYn;
+	}
+	public String getDisabledYn() {
+		return disabledYn;
+	}
+	public void setDisabledYn(String disabledYn) {
+		this.disabledYn = disabledYn;
+	}
+	public String getPhotoUpldFileCd() {
+		return photoUpldFileCd;
+	}
+	public void setPhotoUpldFileCd(String photoUpldFileCd) {
+		this.photoUpldFileCd = photoUpldFileCd;
+	}
+	public String getUpldFileId() {
+		return upldFileId;
+	}
+	public void setUpldFileId(String upldFileId) {
+		this.upldFileId = upldFileId;
+	}
+	public String getSubDate() {
+		return subDate;
+	}
+	public void setSubDate(String subDate) {
+		this.subDate = subDate;
+	}  
+	
+	
+	
+
+}

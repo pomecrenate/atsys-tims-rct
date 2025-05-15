@@ -12,26 +12,26 @@
 <jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
 
 <c:set var="svnm" value="${serviceBathPath}/rct1101e"></c:set>   
+<c:set var="svnmSearchDeptPop" value="${svnm}/popup/searchDeptPop"></c:set>   
 
- <div class="x_panel_wrap">	
-	<div class="x_panel_title">공고 관리</div> 	
+ <div class="x_panel_wrap">	 
 	<div class="list_top">
 		<div class="rgt-area">
 			<button data-action="searchNtc" type="button" class="n_btn btn_md btn_c05">공고불러오기</button>
-			<button class="n_btn btn_md btn_c02" data-url="rct1100e" type="button">돌아가기</button>
+			<button class="n_btn btn_md btn_c02" data-action="moveTab" data-url="/rct1100e" type="button">돌아가기</button>
 		</div>
 	</div>
 	<div class="btn_tab">
 		<ul>			
-			<li class="active"><button data-action="moveTab" type="button">초빙(임용)분야</button></li>
-			<li><button data-action="moveTab" type="button">지원자격</button></li>
-			<li><button data-action="moveTab" type="button">유의사항</button></li>
-			<li><button data-action="moveTab" type="button">지원방법</button></li>
-			<li><button data-action="moveTab" type="button">제출서류</button></li>
-			<li><button data-action="moveTab" type="button">전형절차</button></li>
-			<li><button data-action="moveTab" type="button">기타및서식</button></li>
+			<li class="active"><button data-action="moveTab" type="button" data-url="/rct1101e">초빙(임용)분야</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1102e">지원자격</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1103e">유의사항</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1104e">지원방법</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1105e">제출서류</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1106e">전형절차</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1107e">기타및서식</button></li>
 		</ul>			
-	</div>		
+	</div>	
 	<div class="x_panel">
 		<div class="x_content">		
 			<div class="content_list" id="content_list">
@@ -45,6 +45,7 @@
 							</div>
 						</div>
 					</div>
+					<div class="description"> ※ 리스트를 클릭하시면 상세 내역 확인 및 수정가능합니다.</div>
 					<thead>
 						<tr>
 							<th><input type="checkbox" value=""></th>
@@ -83,7 +84,7 @@ const columns = [
 	  { type: "checkbox"},
 	  { type: "text", name: "sort" },
 	  { type: "text", name: "collegeNm", readonly: true },
-	  { type: "text", name: "deptNm", readonly: true, button: true },
+	  { name: "deptNm", readonly: true, addButton: true, url: "${svnmSearchDeptPop}", iclass: "fa fa-search" },
 	  { type: "select", name: "staffType", options: ["일반", "교양"] }, // 페이지 진입할때 미리 옵션에 들어갈 값을 가져와서 변수로 세팅
 	  { type: "text", name: "majorNm" },
 	  { type: "textarea", name: "subjectNm" },
@@ -101,6 +102,20 @@ $('#cnclBtn').on('click', function() {
 	 $('#f-table tbody tr:first').remove();
 	 $('#isrtBtn').show();
 	 $('#cnclBtn').hide();
+});
+
+$(document).on('click', 'button[data-url]', function() {
+	const url = $(this).data('url');
+	if (url) {
+		RctUtil.urlDialog('부서검색', url, 800, 500);  
+	}
+}); 
+
+$(document).on('click', 'button[data-action="moveTab"]', function() {
+  const url = "${serviceBathPath}" + $(this).data('url');
+  if (url) {
+    location.href = url;
+  }
 });
 
 </script>

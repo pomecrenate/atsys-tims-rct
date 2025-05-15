@@ -1,0 +1,134 @@
+/*************************************************************
+ 프로그램명 : Evl1202eController.java
+ 설명 : 심사일정관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.evl.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ConstantsUtils;
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.Evl1202eVo;
+import com.atsys.model.TbAppVo;
+import com.atsys.model.TbEvalSchVo;
+import com.atsys.nxf.app.vo.Pagination;
+import com.atsys.tims.evl.service.Evl1202eService;
+
+@Controller
+@RequestMapping(value = "/evl1202e")
+public class Evl1202eController {
+	
+	private static final String ADM_PATH  = ConstantsUtils.getAdmViewRoot() + "/evl/";
+	private final String viewList		  = ADM_PATH + "Evl1202e"; 
+	private final String annSelectPop	  = ADM_PATH + "popup/" + "Evl1201p1";
+	private final String saveEvalSchPop	  = ADM_PATH + "popup/" + "Evl1202p1";
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@Autowired
+	Evl1202eService evl1202eService;
+	
+	@RequestMapping(value="/{ntcCd}/{stepCd}")
+	public ModelAndView init(@PathVariable(value = "ntcCd") String ntcCd,  @PathVariable(value = "stepCd") String stepCd, HttpServletRequest request, @RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception { 
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN");
+		return viewHelper.createModelAndView(viewList);
+	} 
+	
+	@RequestMapping(value = "/search")
+	@ResponseBody
+	public Map<String, Object> selectList(@RequestBody Map<String, Object> so) throws Exception {
+
+		int pageIndex = Integer.parseInt(String.valueOf(so.getOrDefault("pageIndex", "1")));
+		so.put("currentPageNo", pageIndex); 
+ 
+		List<Evl1202eVo> list = evl1202eService.selectList(so);
+		int totalCount = evl1202eService.selectTotalCount(so);
+
+		Pagination page = new Pagination();
+		page.setCurrentPageNo(pageIndex);
+		page.setTotalRecordCount(totalCount);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("list", list);
+		result.put("paginationInfo", page.getPaginationInfo());
+		result.put("totalCount", totalCount);
+
+		return result;
+	} 
+	
+	/* 합격문구설정 팝업 */
+	@RequestMapping(value="/popup/annSelect")
+	public String popupQualynSelect(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		return annSelectPop;
+	} 
+	
+	/* 심사일정등록 팝업 */
+	@RequestMapping(value="/popup/saveEvalSch/{appCd}/{stepCd}")
+	public String popupSaveEvalSch(@PathVariable(value = "appCd") String appCd, @PathVariable(value = "stepCd") String step, 
+								   @RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		return saveEvalSchPop;
+	} 
+	
+	/* 지원자명 조회 */
+	@RequestMapping("/selectAppNm")
+	@ResponseBody
+	public Map<String, Object> selectAppNmAndMob(@RequestBody TbAppVo vo) throws Exception {
+	    
+	    TbAppVo appVo = evl1202eService.selectAppNm(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("nm", appVo.getNm()); 
+
+	    return result; 
+	}  
+	
+	/* 심사일정 저장 */ 
+	@RequestMapping("/saveEvalSch")
+	@ResponseBody
+	public  Map<String, Object> saveEvalSch(HttpSession session, @RequestBody TbEvalSchVo vo, Model model) throws Exception {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int insertCnt = evl1202eService.insertEvalSch(vo);
+        result.put("insertCnt", insertCnt);
+        
+        return result;
+	}
+	
+	/* 심사일정 데이터 조회 */ 
+	@RequestMapping("/selectEvalSchData")
+	@ResponseBody
+	public Map<String, Object> selectEvalSchData(@RequestBody TbEvalSchVo vo) throws Exception {
+	    
+		TbEvalSchVo schVo = evl1202eService.selectEvalSchData(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("evalDateSch", schVo.getEvalDateSch());
+	    result.put("evalPlaceSch", schVo.getEvalPlaceSch());
+	    result.put("evalMethodSch", schVo.getEvalMethodSch());
+	    result.put("deptName", schVo.getDeptName());
+	    result.put("deptPhone", schVo.getDeptPhone());
+
+	    return result; 
+	}  
+	
+}

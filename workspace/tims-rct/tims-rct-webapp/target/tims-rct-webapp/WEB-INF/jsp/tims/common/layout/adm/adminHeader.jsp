@@ -3,8 +3,8 @@
 <header>	 
 	<div class="px-content container_wrap">
 		<div class="page-header">
-			<div class="page_title">
-				관리자헤더
+			<div class="page_title" id="page-title"> 
+				${menuNm}
 			</div>
 			<form id="submitForm" name="submitForm" method="POST">
 				<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/>

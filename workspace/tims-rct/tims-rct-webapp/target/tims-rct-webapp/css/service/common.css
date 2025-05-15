@@ -163,8 +163,15 @@ caption, legend {position:absolute; right:-9999px; top:-9999px; width:0; height:
 .all_menu.open .menu_list > div:nth-child(3){transition-delay:0.7s}
 .all_menu.open .menu_list > div:nth-child(4){transition-delay:0.85s}
 
-.page-header{position:fixed;width:100%;left:0;top:0;height:70px;margin:0 !important;padding:0 !important;border-color:#e4e8ec !important;background:#fff;z-index:100}
+/* .page-header{position:fixed;width:100%;left:0;top:0;height:70px;margin:0 !important;padding:0 !important;border-color:#e4e8ec !important;background:#fff;z-index:100} */
 .page-header .page_title{margin-left:20px;color:#333;font-family:'Nanum Square';font-size:20px;font-weight:900;line-height:70px;transition:margin 0.4s}
+
+/* 추가 */
+.page-sidebar {position: fixed;top: 0;z-index: 200;} 
+.page-wrapper {margin-left: 100px;}
+.page-header {position: fixed;top: 0;left: 100px;height: 70px;width: calc(100% - 100px); background: #fff;border-bottom: 1px solid #e4e8ec;z-index: 100; margin: 0px !important}
+.main-content {margin-top: 70px; padding: 20px;} 
+/* 추가 끝 */
 
 #header.open + .px-content .page-header .page_title{margin-left:340px}
 

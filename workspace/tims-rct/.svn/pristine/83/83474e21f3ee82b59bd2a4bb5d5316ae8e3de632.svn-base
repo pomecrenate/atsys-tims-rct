@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.evl.dao.Evl1202eDao">
+	<select id="selectList" resultType="com.atsys.model.Evl1202eVo">
+		SELECT * 
+		  FROM (
+				  SELECT T.*
+						   , ROWNUM AS RNUM 
+				    FROM (
+							SELECT ROW_NUMBER() OVER (ORDER BY A.APP_CD) AS SORT
+							       , A.APP_CD
+								   , A.APP_USR_CD
+								   , A.NTC_CD
+								   , A.NM
+								   , A.MOB_PHONE
+								   , A.EMAIL
+								   , A.DEL_YN
+								   , A.PASS_STEP
+								   , B.STEP
+								   , B.COLLEGE_CD
+								   , B.DEPT_CD  
+								   , G.EVAL_DATE_SCH
+					   			   , G.EVAL_PLACE_SCH
+					   			   , G.EVAL_METHOD_SCH
+					   			   , G.DEPT_NAME
+					   			   , G.DEPT_PHONE
+							  FROM (
+							  			SELECT C.APP_CD
+											   , C.APP_USR_CD
+											   , C.NTC_CD
+											   , C.NM
+											   , C.MOB_PHONE
+											   , C.PASS_STEP
+											   , C.DEL_YN
+											   , D.EMAIL
+									      FROM TB_APP C
+									      JOIN TB_APP_USR D ON C.APP_USR_CD = D.APP_USR_CD
+									     WHERE  C.DEL_YN = 'N'
+							  		) A
+					  		  JOIN (
+					  		   			SELECT E.NTC_CD
+					  		   				   , E.STEP_CD
+								     		   , E.STEP
+								     		   , F.COLLEGE_CD
+								     		   , F.DEPT_CD 
+								   		  FROM TB_NTC_STEP E
+								   		  JOIN TB_NTC_FIELD F ON E.NTC_CD = F.NTC_CD
+								   		 WHERE E.NTC_CD =  #{ntcCd} 
+								   		   AND E.STEP_CD = #{stepCd}
+								   		   AND E.DEL_YN = 'N'
+					  		   	   ) B
+							    ON A.NTC_CD = B.NTC_CD
+						 LEFT JOIN (
+						 		   		SELECT APP_CD
+						 		   			   , SCH_CD
+						 		   			   , STEP_CD
+						 		   			   , EVAL_DATE_SCH
+						 		   			   , EVAL_PLACE_SCH
+						 		   			   , EVAL_METHOD_SCH
+						 		   			   , DEPT_NAME
+						 		   			   , DEPT_PHONE
+							   			  FROM TB_EVAL_SCH
+							   			 WHERE  DEL_YN = 'N'
+						 		   ) G 
+					 		    ON A.APP_CD = G.APP_CD AND B.STEP_CD = G.STEP_CD   
+					         WHERE A.DEL_YN = 'N'  
+				         ) T
+				   WHERE	ROWNUM <![CDATA[<=]]> #{end}
+			   ) 
+		 WHERE	RNUM >= #{start}	
+	</select>
+
+
+	<select id="selectTotalCount" resultType="int">
+		SELECT	COUNT(1) AS TOT_CNT
+		  FROM (
+		  			SELECT C.APP_CD
+						   , C.APP_USR_CD
+						   , C.NTC_CD
+						   , C.NM
+						   , C.MOB_PHONE
+						   , C.PASS_STEP
+						   , C.DEL_YN
+						   , D.EMAIL
+				      FROM TB_APP C
+				      JOIN TB_APP_USR D ON C.APP_USR_CD = D.APP_USR_CD
+				     WHERE  C.DEL_YN = 'N'
+		  		) A
+  		  JOIN (
+  		   			SELECT E.NTC_CD
+  		   				   , E.STEP_CD
+			     		   , E.STEP
+			     		   , F.COLLEGE_CD
+			     		   , F.DEPT_CD 
+			   		  FROM TB_NTC_STEP E
+			   		  JOIN TB_NTC_FIELD F ON E.NTC_CD = F.NTC_CD
+			   		 WHERE E.NTC_CD = #{ntcCd} 
+			   		   AND E.STEP_CD = #{stepCd}
+			   		   AND E.DEL_YN = 'N'
+  		   	   ) B
+		    ON A.NTC_CD = B.NTC_CD
+	 LEFT JOIN (
+	 		   		SELECT APP_CD
+	 		   			   , SCH_CD
+	 		   			   , STEP_CD
+	 		   			   , EVAL_DATE_SCH
+	 		   			   , EVAL_PLACE_SCH
+	 		   			   , EVAL_METHOD_SCH
+	 		   			   , DEPT_NAME
+	 		   			   , DEPT_PHONE
+		   			  FROM TB_EVAL_SCH
+		   			 WHERE  DEL_YN = 'N'
+	 		   ) G 
+ 		    ON A.APP_CD = G.APP_CD AND B.STEP_CD = G.STEP_CD   
+         WHERE A.DEL_YN = 'N'  
+	</select>
+	
+	<select id="selectAppNm" resultType="com.atsys.model.TbAppVo">
+		 SELECT APP_CD 
+				, NM 
+		FROM TB_APP 
+  		  WHERE APP_CD = #{appCd}
+  		    AND DEL_YN='N' 
+	</select>
+	
+	<insert id="insertEvalSch" parameterType="com.atsys.model.TbEvalSchVo">
+		INSERT INTO TB_EVAL_SCH (
+					SCH_CD
+					, STEP_CD
+					, APP_CD
+					, EVAL_DATE_SCH
+					, EVAL_PLACE_SCH
+					, EVAL_METHOD_SCH
+					, DEPT_NAME
+					, DEPT_PHONE
+					<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		 ) VALUES (
+					FN_GET_PK_CD()
+					, #{stepCd}
+					, #{appCd}
+					, TO_DATE(#{evalDateSch}, 'YYYY-MM-DD HH24:MI')
+					, #{evalPlaceSch}
+					, #{evalMethodSch}
+					, #{deptName}
+					, #{deptPhone}
+					<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		)
+	</insert> 
+	
+	<select id="selectEvalSchData" resultType="com.atsys.model.TbEvalSchVo">
+		 SELECT SCH_CD
+		 		, EVAL_DATE_SCH
+		 		, EVAL_PLACE_SCH
+		 		, EVAL_METHOD_SCH
+		 		, DEPT_NAME
+		 		, DEPT_PHONE
+		 		, STEP_CD
+		   FROM TB_EVAL_SCH 
+		  WHERE DEL_YN = 'N'
+		    AND APP_CD = #{appCd}
+		    AND STEP_CD= #{stepCd} 
+	</select>
+
+</mapper>

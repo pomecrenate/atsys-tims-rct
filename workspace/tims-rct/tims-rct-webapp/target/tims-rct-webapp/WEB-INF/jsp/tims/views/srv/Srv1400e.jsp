@@ -1,0 +1,109 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Srv1400e.jsp
+	// 설명 : 문의사항관리
+	// 작성자 : 최연재
+	// 일자 : 2025.04.23
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/srv1300e"/>
+
+<div class="x_panel_wrap"> 
+	<div class="x_panel">
+		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
+	<%-- 	<input type="hidden" name="cpCd"		id="cpCd"		value="<c:out value="${loginUser.cpCd}"/>" /> 
+			<input type="hidden" name="cpAdminYn"	id="cpAdminYn"	value="<c:out value="${loginUser.cpAdminYn}"/>" />
+			<input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/> --%>
+		
+			<div class="search_condition">
+				<div class="condition_list">
+					<dl>
+						<dt><label for="qryUpdDate">조회날짜</label></dt>
+						<dd><input id="qryUpdDatae" class="daterange-picker form-control" placeholder="날짜를 선택헤주세요" /></dd>
+					</dl>		
+					<dl>
+						<dt><label for="qryBrdPostStatus">신청단계</label></dt>
+						<dd><select class="form-control" id="qryBrdPostStatus" name="qryBrdPostStatus"></select> </dd>
+					</dl>		
+					<button data-action="search"  type="button" class="n_btn btn_md btn_search"><i class="fa fa-search"></i> 조회</button>
+				</div>			
+			</div>
+		</form>
+	</div>
+	<div class="list_top">
+		<div class="rgt-area">
+			<div class="btn-group">
+				<button data-action="delete" type="button" class="n_btn btn_md btn_c05">삭제</button>
+			</div>
+		</div>
+	</div>
+	<div class="x_content">
+		<div class="description"> ※ [접수번호]를 클릭하면 상세 내역을 확인할 수 있습니다.</div>
+		<div class="content_list" id="content_list">
+			<table class="table">
+				<thead>
+					<tr>
+						<th><input type="checkbox" /></th>
+						<th>채용구분</th>
+						<th>접수번호</th>	
+						<th>신청일</th>
+						<th>내용</th>
+						<th>신청단계</th>
+					</tr>
+				</thead>
+				<tbody id="sup-table"> 
+		            <tr>
+		                <td><input type="checkbox" /></td>
+						<td>전임교원</td>
+						<td>20250423001</td>
+						<td>2025-04-18 00:00:00</td>
+						<td>테스트</td>
+						<td>신청완료</td>
+		            </tr> 
+				</tbody>
+			</table> 
+		</div>
+	</div> 
+</div>
+
+<script>
+$(document).ready(function() { 
+	setMultiSelect("", {cls: "", id: "ccBrdPostStatus", cdg : "BBS002"}, "search", "qryBrdPostStatus", {type:"", selectAll:"Y", multiYn:"N"});
+}); 
+
+$(function () {
+    $('.daterange-picker').daterangepicker({
+      autoUpdateInput: false,
+      locale: {
+        format: 'YYYY-MM-DD',       // 날짜 포맷
+        separator: ' ~ ',           // 구분자
+        applyLabel: '확인',
+        cancelLabel: '취소',
+        fromLabel: '시작',
+        toLabel: '종료',
+        customRangeLabel: '직접 선택',
+        daysOfWeek: ['일', '월', '화', '수', '목', '금', '토'],
+        monthNames: ['1월','2월','3월','4월','5월','6월',
+                     '7월','8월','9월','10월','11월','12월'],
+        firstDay: 0,
+      },
+      opens: 'right',               // 달력 열리는 방향
+      startDate: moment().startOf('month'), // 기본 시작일
+      endDate: moment().endOf('month')      // 기본 종료일
+   });
+});
+
+$('.daterange-picker').on('apply.daterangepicker', function(ev, picker) {
+	$(this).val(picker.startDate.format('YYYY-MM-DD') + ' ~ ' + picker.endDate.format('YYYY-MM-DD'));
+});
+
+$('.daterange-picker').on('cancel.daterangepicker', function(ev, picker) {
+	$(this).val('');
+});
+</script>

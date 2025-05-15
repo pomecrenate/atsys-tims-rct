@@ -1,0 +1,73 @@
+/*************************************************************
+ 프로그램명 : Rct1100eController.java
+ 설명 : 공고관리
+ 작성자 : 최연재
+ 일자 : 2025.04.18
+*************************************************************/
+package com.atsys.tims.rct.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.TbNtcStepVo;
+import com.atsys.model.TbNtcVo;
+import com.atsys.tims.rct.service.Rct1100eService; 
+
+@Controller
+@RequestMapping(value = "/rct1100e")
+public class Rct1100eController {
+	
+	@Autowired
+	Rct1100eService rct1100eService;
+	
+	private static final String ADM_PATH   = "tims/views/rct/"; 
+	private final String viewList		   = ADM_PATH + "Rct1100e";
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@RequestMapping
+	public ModelAndView init(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception { 
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN"); 
+		return viewHelper.createModelAndView(viewList);
+	}
+	
+	@RequestMapping("/search")
+	public @ResponseBody Map<String, Object> search(@RequestBody Map<String, Object> map, Model model) throws Exception{
+		
+		Map<String, Object> newMap = new HashMap<>();
+		List<TbNtcVo> list = rct1100eService.selectList(map);
+		newMap.put("list", list);
+		
+		return newMap;
+	}
+	
+	@RequestMapping("/searchNtc")
+	public @ResponseBody TbNtcStepVo searchNtc(@RequestBody TbNtcVo vo, Model model) throws Exception{
+		
+		TbNtcStepVo result = rct1100eService.selectOne(vo);
+		
+		return result;
+	}
+	
+	@PostMapping("/save")
+	public @ResponseBody int save(@RequestBody TbNtcVo vo) throws Exception {
+		int res = rct1100eService.save(vo);
+	    return res;
+	}
+}

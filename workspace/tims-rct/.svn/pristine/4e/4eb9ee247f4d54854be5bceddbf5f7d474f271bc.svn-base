@@ -1,0 +1,14 @@
+package com.atsys.tims.evl.dao;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbNtcFieldVo;
+
+@Repository
+@Mapper 
+public interface Evl1201eDao {
+
+	public TbNtcFieldVo selectRequiredCnt(TbNtcFieldVo vo);
+
+}

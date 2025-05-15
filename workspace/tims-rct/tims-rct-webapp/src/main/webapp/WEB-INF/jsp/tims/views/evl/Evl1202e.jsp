@@ -12,55 +12,32 @@
 <jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
 
 <c:set var="svnm" value="${serviceBathPath}/evl1202e"></c:set>   
+<c:set var="svnmSearch" value="${svnm}/search" /> 
 <c:set var="svnmAnnSelectPop" value="${svnm}/popup/annSelect"></c:set>     
 <c:set var="svnmSaveEvalSchPop" value="${svnm}/popup/saveEvalSch"></c:set> 
 
  
  <div class="x_panel_wrap"> 
-	<div class="x_panel_btn">		 
+	<div class="x_panel_btn">		  
+		<button class="n_btn btn_md btn_c01" data-action="annSelectPop" type="button">합격 문구 설정</button>
 		<button class="n_btn btn_md btn_c02" data-url="evl1200e" type="button">돌아가기</button>
-	</div>
-	<div class="x_panel">	
-		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >	
-			<div class="search_condition">
-				<button data-action="search" type="button" class="n_btn btn_md btn_search"><i class="fas fa-search"></i> 조회</button>
-				<div class="condition_list">
-					<dl>
-						<dt><label for="qryNtcCd">채용공고</label></dt>
-						<dd>
-							<select class="form-control" id="qryNtcCd" name="qryNtcCd" required></select>
-						</dd>
-					</dl>
-					<dl>
-						<dt><label for="qryStep">차수</label></dt>
-						<dd>
-							<select class="form-control" id="qryStep" name="qryStep" required></select>
-						</dd>
-					</dl> 
-					<dl>
-						<dt><label for="">합격문구</label></dt>
-						<dd>
-							<button class="n_btn btn_md btn_c01" data-action="annSelectPop" type="button">문구 설정</button>
-						</dd>
-					</dl> 
-				</div>
-			</div>
-		</form>
-	</div>
-	
+	</div> 
+	<div>${ntcCd}</div>
+	<div>${stepCd}</div>
 	<div class="x_content">
 		<div class="description"> ※ 리스트를 클릭하시면 지원서를 상세히 확인할 수 있습니다.</div>
 		<div class="content_list" id="content_list">
-			<table class="table">
+			<table class="table" id="sch-table"> 
 				<thead>
 					<tr>
 						<th>NO</th>
 						<th>합격자명</th>
 						<th>전화번호</th>
 						<th>이메일</th>
-						<th>단과대/학과</th>
-						<th>심사장소</th>
+						<th>단과대</th>
+						<th>학과</th>
 						<th>심사일시</th>
+						<th>심사장소</th>
 						<th>심사방법</th>
 						<th>담당부서</th>
 						<th>담당부서전화번호</th>
@@ -68,33 +45,39 @@
 						<th>발송</th> 
 					</tr>
 				</thead>
-				<tbody> 
-		            <tr>
-		                <td>1</td>
-						<td>백세진</td>
-						<td>01012345678</td>
-						<td>atsys@atsys.com</td>
-						<td>감자학과</td>
-						<td></td>
-						<td></td>
-						<td></td> 
-						<td></td>
-						<td></td>
-						<td><button class="n_btn btn_md btn_c02" data-action="saveEvalSchPop" type="button">등록/수정</button></td>
-						<td><button class="n_btn btn_md btn_c02" id="appStatusBtn" onclick="saveAppStatus()">발송</button></td>
-		            </tr> 
+				<tbody id="sch-tbody">  
 				</tbody>
 			</table> 
 		</div>
 	</div> 
+	<div class="x_pagination"> 
+	</div>
 </div>
 
 <script> 
+const tbColNms = [ 
+	  { type: "text", name: "sort", dataField : "sort"},
+	  { type: "text", name: "nm", dataField : "nm"},
+	  { type: "text", name: "mobPhone", dataField : "mobPhone" },
+	  { type: "text", name: "email", dataField : "email" },
+	  { type: "text", name: "collegeCd", dataField : "collegeCd" },
+	  { type: "text", name: "deptCd" , dataField : "deptCd" },
+	  { type: "text", name: "evalDateSch", dataField : "evalDateSch" },
+	  { type: "text", name: "evalPlaceSch", dataField : "evalPlaceSch" },
+	  { type: "text", name: "evalMethodSch", dataField : "evalMethodSch" },
+	  { type: "text", name: "deptName", dataField : "deptName" },
+	  { type: "text", name: "deptPhone", dataField : "deptPhone" },
+	  { type: "button", name: "passToggleBtn", btnText: "등록/수정", dataAction: "saveEvalSchPop" },
+	  { type: "button", name: "sendBtn", btnText: "발송" }
+]; 
+
+
 $(document).ready(function() { 
-	setMultiSelect("", {cls: "NTC_2", id: "ccNtcCd", cdg : ""}, "search", "qryNtcCd", {type:"", selectAll:"Y", multiYn:"N"});
-	setMultiSelect("", {cls: "CMM_1", id: "ccStep", cdg : "RCT006"}, "search", "qryStep", {type:"", selectAll:"Y", multiYn:"N"});
+	const params = { 'ntcCd' : `${ntcCd}`, 'stepCd' : `${stepCd}` };
+	RctUtil.loadPageData("${svnmSearch}", params, "appCd", "sch-tbody", tbColNms);  
 })  
 
+/* 합격관리 페이지로 돌아가기 */
 $(document).on('click', 'button[data-url]', function() {
 	const url = $(this).data('url');
 	if (url) {
@@ -102,19 +85,21 @@ $(document).on('click', 'button[data-url]', function() {
 	}
 });
 
-/* 팝업창 조회 */
+/* 합격 알림문구 설정팝업 */
 $(document).on("click", "button[data-action]", function () {
+	const stepCd = `${stepCd}`;
+	const saveAppCd = $(this).closest('tr').data('id');
 	const action = $(this).data("action");
 	
 	switch (action) {
 		case "annSelectPop" :
    			var url = '${svnmAnnSelectPop}'; 
-   			RctUtil.urlDialog('(불)합격자 안내 문구 팝업', url, 800, 600);  
+   			RctUtil.urlDialog('합격자 안내 문구 팝업', url, 800, 600);  
    			break; 
 		} 
 	switch (action) {
 	case "saveEvalSchPop" :
-			var url = '${svnmSaveEvalSchPop}'; 
+			var url = '${svnmSaveEvalSchPop}/' + saveAppCd + '/' + stepCd; 
 			RctUtil.urlDialog('심사일정 등록/수정', url, 600, 400);  
 			break; 
 	} 

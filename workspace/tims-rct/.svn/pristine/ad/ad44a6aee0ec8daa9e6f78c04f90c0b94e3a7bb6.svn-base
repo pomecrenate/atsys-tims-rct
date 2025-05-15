@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.evl.dao.Evl1201eDao">
+
+	<select id="selectRequiredCnt" resultType="com.atsys.model.TbNtcFieldVo">
+		SELECT DISTINCT A.FIELD_CD
+						, A.NTC_CD 
+						, A.REQUIRED_CNT  
+		  FROM TB_NTC_FIELD A 
+		  JOIN TB_NTC_STEP B
+		    ON A.NTC_CD = B.NTC_CD
+		 WHERE A.DEL_YN = 'N' 
+		   AND A.NTC_CD = #{ntcCd}  
+	</select>
+
+
+</mapper>

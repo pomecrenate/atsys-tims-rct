@@ -1,0 +1,72 @@
+/*************************************************************
+ 프로그램명 : Bas1200eController.java
+ 설명 : 코드관리
+ 작성자 : 최연재
+ 일자 : 2025.04.17
+*************************************************************/
+package com.atsys.tims.bas.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.TbAnnVo;
+import com.atsys.tims.bas.service.Bas1200eService;
+
+@Controller
+@RequestMapping(value = "/bas1200e")
+public class Bas1200eController {
+	
+	private static final String ADM_PATH = "tims/views/bas/";
+	
+	private final String viewList = ADM_PATH  + "Bas1200e";
+	private final String annPop = ADM_PATH + "popup/" + "Bas1200p1"; // 알림문구 관리 팝업
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@Autowired
+	Bas1200eService bas1200eService;
+	
+	@RequestMapping
+	public ModelAndView init(@RequestParam Map<String,Object> so, HttpServletRequest request, Model model, HttpSession session) throws Exception {
+		session.setAttribute("userRole", "ADMIN");
+		model.addAllAttributes(so);
+		
+		return viewHelper.createModelAndView(viewList);
+	}	
+	
+	@RequestMapping(value="/search")
+	public @ResponseBody Map<String, Object> search (@RequestParam Map<String, Object> so, Model model) throws Exception {
+		List<TbAnnVo> data = bas1200eService.selectList(so);
+		
+		Map<String, Object> newMap = new HashMap<>();
+		newMap.put("data", data);
+		
+		return newMap;
+	}
+	
+	@RequestMapping(value="/popup/annPop")
+	public String insert(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		return annPop;
+	} 
+	
+	@RequestMapping(value="/popup/annSave")
+	public @ResponseBody int annSave(@RequestParam Map<String, Object> so, HttpSession session) throws Exception {
+		int res = bas1200eService.save(so);
+		return res;
+	}
+
+}

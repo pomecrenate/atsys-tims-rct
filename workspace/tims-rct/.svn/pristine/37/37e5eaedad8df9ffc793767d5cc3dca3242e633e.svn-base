@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rct.dao.Rct1101eDao">
+	<select id="selectList" resultType="com.atsys.model.TbNtcFieldVo">
+		SELECT * 
+		FROM	(
+				  SELECT A.*
+						 , ROWNUM AS RNUM 
+				  FROM 	 (
+			   		 	SELECT     F.FIELD_CD       									   AS FIELD_CD
+			   				       , FN_GET_DEPT_NM(F.COLLEGE_CD) 						   AS COLLEGE_NM
+							       , FN_GET_DEPT_NM(F.DEPT_CD)							   AS DEPT_NM
+						      	   , F.MAJOR_NM 										   AS MAJOR_NM
+								   , NVL(FN_GET_CODE_NM('RCT004', F.STAFF_TYPE), 
+								     NVL(FN_GET_CODE_NM('RCT005', F.STAFF_TYPE), '알수없음')) AS STAFF_TYPE
+							       , F.REQUIRED_CNT							               AS REQUIRED_CNT
+							       , F.ASSIGNED_SUBJECT 								   AS ASSIGNED_SUBJECT
+							       , F.REQUIREMENTS										   AS REQUIREMENTS
+							       , F.DEL_YN 											   AS DEL_YN	
+						 FROM      TB_NTC_FIELD F JOIN TB_NTC N 
+						 ON 	   F.NTC_CD = N.NTC_CD
+						 WHERE 	   F.DEL_YN = 'N'
+						 AND	   N.DEL_YN = 'N'
+						 AND  	   F.NTC_CD = #{ntcCd}
+						 ORDER BY  F.CRE_DATE 
+						 ) A
+				   WHERE ROWNUM <![CDATA[<=]]> #{end}
+			    ) 
+		WHERE	RNUM >= #{start}
+	</select>
+	<select id="selectNtcType" resultType="String">
+		SELECT NTC_TYPE
+		FROM   TB_NTC 
+		WHERE  NTC_CD = #{ntcCd}
+		AND    DEL_YN = 'N'
+	</select>
+	<select id="selectDeptList" resultType="com.atsys.model.DeptVo">
+		SELECT * 
+		FROM	(
+				  SELECT A.*
+						 , ROWNUM AS RNUM 
+				  FROM 	 (
+			   		 	SELECT     DEPT_CD
+			   		 			   , UP_CD
+			   		 			   , FN_GET_DEPT_NM(UP_CD) AS UP_NM
+			   		 			   , DEPT_LVL 
+			   		 			   , DEPT_NM 			   		 			 
+						 FROM      VW_DEPT
+						 WHERE 	   USE_YN = 'Y'
+						 <if test="qryDeptNm != null and qryDeptNm != ''">
+						 AND	   DEPT_NM LIKE '%' || #{qryDeptNm} || '%'
+						 </if>
+						 ) A
+				   WHERE ROWNUM <![CDATA[<=]]> #{end}
+			    ) 
+		WHERE	RNUM >= #{start}
+	</select>
+	<insert id="save">
+	INSERT INTO TB_NTC_FIELD 
+	(
+		FIELD_CD
+		, NTC_CD
+		, COLLEGE_CD
+		, DEPT_CD
+		, MAJOR_NM
+		, STAFF_TYPE
+		, REQUIRED_CNT
+		, REQUIREMENTS
+		, ASSIGNED_SUBJECT
+		<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+	)
+	VALUES
+	(
+		FN_GET_PK_CD()
+		, #{ntcCd}
+		, #{collegeCd}
+		, #{deptCd}
+		, #{majorNm}
+		, #{staffType}
+		, #{requiredCnt}
+		, #{requirements}
+		, #{assignedSubject}
+		<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+	)
+	</insert>
+	<select id="selectNtcList" resultType="com.atsys.model.TbNtcStepVo">
+		SELECT * 
+		FROM	(
+				  SELECT A.*
+						 , ROWNUM AS RNUM 
+				  FROM 	 (
+			   		 	SELECT     NTC_CD
+			   		 			   , NTC_NM
+			   		 			   , FN_GET_CODE_NM('RCT002', NTC_TYPE) AS NTC_TYPE			 
+						 FROM      TB_NTC 
+						 WHERE 	   DEL_YN = 'N'
+						 <if test="qryNtcYear != null and qryNtcYear != ''">
+						 AND	   NTC_YEAR = #{qryNtcYear}
+						 </if>
+						 <if test="qryNtcSmt != null and qryNtcSmt != ''">
+						 AND	   NTC_SMT = #{qryNtcSmt}
+						 </if>
+						 <if test="qryNtcType != null and qryNtcType != ''">
+						 AND	   NTC_TYPE = #{qryNtcType}
+						 </if>
+						 ) A
+				   WHERE ROWNUM <![CDATA[<=]]> #{end}
+			    ) 
+		WHERE	RNUM >= #{start}
+	</select>
+	<insert id="insertField" parameterType="com.atsys.model.Rct1101eVo">
+		INSERT INTO TB_NTC_FIELD 
+		(
+			FIELD_CD
+			, NTC_CD
+			, COLLEGE_CD
+			, DEPT_CD
+			, MAJOR_NM
+			, STAFF_TYPE
+			, REQUIRED_CNT
+			, REQUIREMENTS
+			, ASSIGNED_SUBJECT
+			<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		)
+		<foreach collection="ids" item="fieldCd" separator="UNION ALL">
+		    SELECT 	FN_GET_PK_CD()
+		    	   	, #{ntcCd}
+		    	   	, COLLEGE_CD
+		    	   	, DEPT_CD
+				   	, MAJOR_NM
+				   	, STAFF_TYPE
+				   	, REQUIRED_CNT
+				   	, REQUIREMENTS
+				   	, ASSIGNED_SUBJECT
+				   	<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		    FROM	TB_NTC_FIELD
+		    WHERE 	FIELD_CD = #{fieldCd}
+		</foreach>
+	</insert>
+	<select id="selectApp" resultType="int">
+		SELECT	COUNT(*)
+		FROM	TB_APP
+		WHERE	FIELD_CD IN
+				<foreach collection="ids" item="fieldCd" open="(" separator="," close=")">
+					#{fieldCd}
+				</foreach>
+		AND		DEL_YN = 'N'
+	</select>
+	<update id="deleteYnField" parameterType="com.atsys.model.Rct1101eVo">
+	   UPDATE	TB_NTC_FIELD 
+	   SET		DEL_YN = 'Y'
+		   		<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+	   WHERE    FIELD_CD IN
+			    <foreach collection="ids" item="fieldCd" open="(" separator="," close=")">
+			   		 #{fieldCd}
+			    </foreach>
+	</update>
+</mapper>

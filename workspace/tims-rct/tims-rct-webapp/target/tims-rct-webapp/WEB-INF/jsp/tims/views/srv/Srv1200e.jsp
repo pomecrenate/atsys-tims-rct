@@ -15,10 +15,7 @@
 <c:set var="svnm" value="${serviceBathPath}/srv1200e"/>
 <c:set var="svnmSearch" value="${svnm}/popup/search"/>
 
-<div class="x_panel_wrap">
-	<div class="x_panel_title">
-		FAQ 관리
-	</div>
+<div class="x_panel_wrap"> 
 	<div class="x_panel">
 		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
 	<%-- 	<input type="hidden" name="cpCd"		id="cpCd"		value="<c:out value="${loginUser.cpCd}"/>" /> 

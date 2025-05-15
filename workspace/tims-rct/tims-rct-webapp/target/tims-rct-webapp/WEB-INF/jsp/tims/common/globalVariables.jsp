@@ -16,6 +16,7 @@
 <c:set var="svnmFileUpload" value="${serviceBathPath}/fileUpload" scope="request" />
 <c:set var="svnmFileDownload" value="${serviceBathPath}/fileDownload" scope="request" />
 <c:set var="svnmCommonMsg" value="${serviceBathPath}/commonMsg" scope="request" />
+<c:set var="menuNm" value="${menuNm}" scope="request"/>
 
 <c:set var="frontUrl" value="/tiles/front" scope="request" />
 <c:set var="lectwinUrl" value="/tiles/lectwin" scope="request" />

@@ -1,0 +1,114 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Rct1104e.jsp
+	// 설명 : 공고관리-지원방법
+	// 작성자 : 최연재
+	// 일자 : 2025.04.28
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/rct1104e"></c:set>   
+<c:set var="svnmSave" value="${svnm}/save" />
+<c:set var="svnmSearch" value="${svnm}/search" /> 
+
+ <div class="x_panel_wrap">	
+	<div class="x_panel_title">전임교원 2025년도 2학기 채용공고ˑ공고관리</div> 	
+	<div class="list_top">
+		<div class="rgt-area">
+			<button class="n_btn btn_md btn_c02" data-action="moveTab" data-url="/rct1100e/${ntcCd}" type="button">돌아가기</button>
+		</div>
+	</div>
+	<div class="btn_tab">
+		<ul>			
+			<li><button data-action="moveTab" type="button" data-url="/rct1101e/${ntcCd}">초빙(임용)분야</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1102e/${ntcCd}">지원자격</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1103e/${ntcCd}">유의사항</button></li>
+			<li class="active"><button data-action="moveTab" type="button" data-url="/rct1104e/${ntcCd}">지원방법</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1105e/${ntcCd}">제출서류</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1106e/${ntcCd}">전형절차</button></li>
+			<li><button data-action="moveTab" type="button" data-url="/rct1107e/${ntcCd}">기타및서식</button></li>
+		</ul>			
+	</div>	
+	
+	<div class="x_panel">
+		<div class="x_content">
+			<div class="list_top">
+		    	<div class="rgt-area btn_group">
+					<button type="button" class="n_btn btn_md btn_c01" data-action="save">저장</button>
+				</div>
+		    </div>
+		    <div class="description">
+		      ※ 내용을 입력 후 상단의 [저장] 버튼을 클릭하시면 됩니다.
+		    </div>
+		    <input type="hidden" id="ntcInfoCd" name="ntcInfoCd" />
+			<div class="content_list" id="content_list">
+				<div id="editor"></div>
+			</div>
+		</div> 
+	</div>
+
+</div>
+
+<script>
+$(document).ready(function() { 		
+	const param = {"ntcCd" : "${ntcCd}",
+				   "ntcInfoType": "3"}
+	const ajax = TimsUtil.getObject("${svnmSearch}", param, true);
+	$('input[name="ntcInfoCd"]').val(ajax.ntcInfoCd);
+	editor.setHTML(ajax.ntcInfoCnts); 
+	
+});
+
+$(document).on('click', 'button[data-action="moveTab"]', function() {
+  const url = "${serviceBathPath}" + $(this).data('url');
+  if (url) {
+    location.href = url;
+  }
+});
+
+function save() {
+	const param = {
+			"ntcCd" : "${ntcCd}",
+			"ntcInfoType" : 3,
+			"ntcInfoCnts" : editor.getHTML(),
+	};
+	
+	const status = $('input[name="ntcInfoCd"]').val();
+	if(status != null && status !== "") {
+		param["sStatus"] = 'U'
+	} else {
+		param["sStatus"] = 'I'
+	}
+
+	const ajax = TimsUtil.getObject("${svnmSave}", param, true);
+
+	if(ajax == 1) {
+		alert("정상적으로 저장되었습니다.")	
+	} else {
+		alert("오류가 발생했습니다.")
+	}
+}
+
+const editor = new toastui.Editor({
+	el: document.querySelector('#editor'),
+	height: '600px',
+	autofocus : false,
+	initialEditType: 'wysiwyg',
+	placeholder: '지원방법을 입력하세요',
+	previewStyle: 'tab',
+	initialValue: '',
+	toolbarItems: [
+				    ['heading', 'bold', 'italic', 'strike'],
+				    ['hr', 'quote'],
+				    ['ul', 'ol', 'task'],
+				    ['table', 'link'],
+				    ['code', 'codeblock']
+				  ],
+	});
+
+</script>
+

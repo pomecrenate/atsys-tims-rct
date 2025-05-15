@@ -77,9 +77,9 @@
 			   				      , NTC_NM
 							      , NTC_NUM 
 						      	  , FN_GET_CODE_NM('RCT003', NTC_STATUS) AS NTC_STATUS
-							      , NTC_START_DATE 
-							      , REG_START_DATE 
-							      , REG_END_DATE  
+							      , TO_CHAR(NTC_START_DATE, 'YYYY-MM-DD HH24:MI') AS NTC_START_DATE
+							      , TO_CHAR(REG_START_DATE, 'YYYY-MM-DD HH24:MI') AS REG_START_DATE
+							      , TO_CHAR(REG_END_DATE,   'YYYY-MM-DD HH24:MI') AS REG_END_DATE
 							      , DEL_YN 
 						 FROM     TB_NTC
 						 WHERE 	  DEL_YN = 'N'
@@ -95,4 +95,73 @@
 			    ) 
 		WHERE	RNUM >= #{start}
 	</select>
+	<select id="selectNtc" resultType="com.atsys.model.TbNtcStepVo">
+		SELECT NTC_CD
+			   , NTC_NUM
+			   , NTC_TYPE 
+			   , NTC_YEAR
+			   , NTC_SMT 
+			   , NTC_NM
+			   , NTC_STATUS
+			   , REQUIRED_CNT 
+			   , TO_CHAR(NTC_START_DATE, 'YYYY-MM-DD HH24:MI') AS NTC_START_DATE
+			   , TO_CHAR(REG_START_DATE, 'YYYY-MM-DD HH24:MI') AS REG_START_DATE
+			   , TO_CHAR(REG_END_DATE, 'YYYY-MM-DD HH24:MI') AS REG_END_DATE
+			   , TO_CHAR(HIRING_DATE, 'YYYY-MM-DD HH24:MI') AS HIRING_DATE
+			   , TO_CHAR(RSCH_START_DATE, 'YYYY-MM-DD HH24:MI') AS RSCH_START_DATE
+			   , TO_CHAR(RSCH_END_DATE, 'YYYY-MM-DD HH24:MI') AS RSCH_END_DATE	   
+		FROM   TB_NTC 
+		WHERE  NTC_CD = #{ntcCd}
+		AND	   DEL_YN = 'N'
+	</select>
+	<select id="selectStep" resultType="com.atsys.model.TbNtcStepVo">
+		SELECT   STEP
+				 , TO_CHAR(STEP_START_DATE, 'YYYY-MM-DD HH24:MI') AS STEP_START_DATE
+				 , TO_CHAR(STEP_END_DATE, 'YYYY-MM-DD HH24:MI') AS STEP_END_DATE
+				 , TO_CHAR(STEP_ANN_DATE, 'YYYY-MM-DD HH24:MI') AS STEP_ANN_DATE
+		FROM     TB_NTC_STEP
+		WHERE    NTC_CD = #{ntcCd}
+		AND	     DEL_YN = 'N'
+		ORDER BY STEP
+	</select>
+	<update id="updateNtc">
+		UPDATE	TB_NTC
+		SET		NTC_STATUS = #{ntcStatus}
+				, REQUIRED_CNT = #{requiredCnt}
+			    , NTC_START_DATE = TO_DATE(#{ntcStartDate}, 'YYYY-MM-DD HH24:MI')
+				, REG_START_DATE = TO_DATE(#{regStartDate}, 'YYYY-MM-DD HH24:MI')
+				, REG_END_DATE = TO_DATE(#{regEndDate}, 'YYYY-MM-DD HH24:MI')
+				, HIRING_DATE = TO_DATE(#{hiringDate}, 'YYYY-MM-DD HH24:MI')
+				, RSCH_START_DATE = TO_DATE(#{rschStartDate}, 'YYYY-MM-DD HH24:MI')
+				, RSCH_END_DATE = TO_DATE(#{rschEndDate}, 'YYYY-MM-DD HH24:MI')
+				<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE	NTC_CD = #{ntcCd}
+	</update>
+	<update id="updateStep">
+		UPDATE	TB_NTC_STEP
+		SET		STEP_START_DATE = TO_DATE(#{stepStartDate}, 'YYYY-MM-DD HH24:MI')
+			    , STEP_END_DATE = TO_DATE(#{stepEndDate}, 'YYYY-MM-DD HH24:MI')
+			    , STEP_ANN_DATE = TO_DATE(#{stepAnnDate}, 'YYYY-MM-DD HH24:MI')
+				<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE	NTC_CD = #{ntcCd}
+		AND     STEP   = #{step}
+	</update>
+	<select id="selectApp" resultType="int">
+		SELECT	COUNT(1) AS TOTCNT
+		FROM	TB_APP 
+		WHERE	DEL_YN = 'N'
+		AND 	NTC_CD = {ntcCd}
+	</select>
+	<update id="deleteYn">
+		UPDATE TB_NTC
+		SET	   DEL_YN = 'Y'
+			   <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE  NTC_CD = #{ntcCd}
+	</update>
+		<update id="deleteYnStep">
+		UPDATE TB_NTC_STEP
+		SET	   DEL_YN = 'Y'
+			   <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE  NTC_CD = #{ntcCd}
+	</update>
 </mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rct.dao.NtcInfoDao">
+	<insert id="save">
+		INSERT INTO TB_NTC_INFO 
+		(
+			NTC_INFO_CD
+			, NTC_CD 
+			, NTC_INFO_TYPE 
+			, NTC_INFO_CNTS 
+			, UPLD_FILE_CD 
+			<include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+		)
+		VALUES
+		(
+			FN_GET_PK_CD()
+			, #{ntcCd}
+			, #{ntcInfoType}
+			, #{ntcInfoCnts}
+			, FN_GET_PK_CD()
+			<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+		)
+	</insert>
+	<update id="update">
+		UPDATE TB_NTC_INFO
+		SET    NTC_INFO_CNTS = #{ntcInfoCnts}
+			   <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE  NTC_CD = #{ntcCd}
+	</update>
+	<select id="selectOne" resultType="com.atsys.model.TbNtcInfoVo">
+		SELECT NTC_INFO_CD 	
+			   , NTC_INFO_CNTS	   
+		FROM   TB_NTC_INFO
+		WHERE  NTC_CD = #{ntcCd}
+		AND    NTC_INFO_TYPE = #{ntcInfoType}
+		AND    DEL_YN = 'N'
+	</select>
+</mapper>

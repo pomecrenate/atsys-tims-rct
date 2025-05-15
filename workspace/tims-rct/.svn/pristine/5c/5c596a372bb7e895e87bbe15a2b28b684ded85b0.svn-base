@@ -1,0 +1,13 @@
+package com.atsys.tims.evl.service;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.atsys.model.TbNtcFieldVo;
+
+@Transactional(readOnly = true)
+public interface Evl1201eService {
+
+	public TbNtcFieldVo selectRequiredCnt(TbNtcFieldVo vo);
+ 
+
+}

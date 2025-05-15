@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.evl.dao.Evl1102eDao">
+	<!-- 차수 정보와 교직원구분 목록 조회 -->
+    <select id="selectInfo" parameterType="map" resultType="com.atsys.model.TbEvalSheetVo">
+        SELECT
+            NS.STEP_CD,
+            NS.STEP,
+            N.NTC_CD,
+            N.NTC_NM,
+            N.NTC_TYPE,
+            FN_GET_CODE_NM('RCT002', N.NTC_TYPE) AS NTC_TYPE_NM,
+            N.NTC_YEAR,
+            N.NTC_SMT,
+            C.SMALL_CD AS STAFF_TYPE,
+            FN_GET_CODE_NM(
+                CASE 
+                    WHEN N.NTC_TYPE = '40' THEN 'RCT005'
+                    ELSE 'RCT004'
+                END, 
+                C.SMALL_CD
+            ) AS STAFF_TYPE_NM
+        FROM TB_NTC_STEP NS
+        JOIN TB_NTC N ON NS.NTC_CD = N.NTC_CD
+        LEFT JOIN TB_CMM C ON C.LRG_CD = CASE 
+                                    WHEN N.NTC_TYPE = '40' THEN 'RCT005'
+                                    ELSE 'RCT004'
+                                END
+                              AND C.SMALL_CD LIKE N.NTC_TYPE || '%'
+                              AND C.DEL_YN = 'N'
+        WHERE NS.NTC_CD = #{ntcCd}
+        AND NS.STEP_CD = #{stepCd}
+        AND NS.DEL_YN = 'N'
+        AND N.DEL_YN = 'N'
+        ORDER BY C.SMALL_CD
+    </select>
+    
+    <!-- 평가표코드 조회 -->
+    <select id="selectSheetCd" parameterType="map" resultType="string">
+        SELECT S.SHEET_CD
+        FROM TB_EVAL_SHEET S
+        JOIN TB_NTC_STEP NS ON S.STEP_CD = NS.STEP_CD
+        WHERE S.STEP_CD = #{stepCd}
+        AND S.STAFF_TYPE = #{staffType}
+        AND S.DEL_YN = 'N'
+        AND NS.DEL_YN = 'N'
+    </select>
+    
+    <!-- 평가표문항 목록 조회 -->
+    <select id="selectEvalSheetQsts" parameterType="string" resultType="com.atsys.model.TbEvalSheetQstVo">
+        SELECT QST_CD
+             , SHEET_CD
+             , QST_TYPE
+             , FN_GET_CODE_NM('RCT012', QST_TYPE) AS QST_TYPE_NM
+             , QST_NM
+             , QST_SCORE
+             , IND_NM
+             , IND_SCORE
+             , SCORE_CRITERIA
+             , SORT_ORDER
+        FROM TB_EVAL_SHEET_QST
+        WHERE SHEET_CD = #{_parameter}
+        AND DEL_YN = 'N'
+        ORDER BY SORT_ORDER, QST_TYPE
+    </select>
+    
+    <!-- 평가표 코드로 문항 코드 목록 조회 -->
+    <select id="selectQstCdsBySheetCd" parameterType="string" resultType="string">
+        SELECT QST_CD
+        FROM TB_EVAL_SHEET_QST
+        WHERE SHEET_CD = #{_parameter}
+        AND DEL_YN = 'N'
+        ORDER BY SORT_ORDER, QST_TYPE
+    </select>
+    
+    <!-- 평가표 등록 -->
+    <insert id="insertEvalSheet" parameterType="com.atsys.model.TbEvalSheetVo">
+        INSERT INTO TB_EVAL_SHEET (
+            SHEET_CD
+          , STEP_CD
+          , STAFF_TYPE
+          <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+        ) VALUES (
+            FN_GET_PK_CD()
+          , #{stepCd}
+          , #{staffType}
+          <include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+        )
+    </insert>
+    
+    <!-- 평가표 삭제 -->
+    <update id="deleteEvalSheet" parameterType="string">
+        UPDATE TB_EVAL_SHEET
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE SHEET_CD = #{_parameter}
+    </update>
+    
+    <!-- 평가표에 속한 모든 문항 삭제 -->
+    <update id="deleteEvalSheetQstBySheetCd" parameterType="string">
+        UPDATE TB_EVAL_SHEET_QST
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE SHEET_CD = #{_parameter}
+        AND DEL_YN = 'N'
+    </update>
+    
+    <!-- 평가표 삭제 가능 여부 확인 -->
+    <select id="checkSheetDeletable" parameterType="string" resultType="int">
+        SELECT COUNT(1)
+        FROM TB_EVAL_RESULT R
+        WHERE R.SHEET_CD = #{_parameter}
+        AND R.DEL_YN = 'N'
+    </select>
+
+    <!-- 평가표문항 등록 -->
+    <insert id="insertEvalSheetQst" parameterType="com.atsys.model.TbEvalSheetQstVo">
+        INSERT INTO TB_EVAL_SHEET_QST (
+            QST_CD
+          , SHEET_CD
+          , QST_TYPE
+          , QST_NM
+          , QST_SCORE
+          , IND_NM
+          , IND_SCORE
+          , SCORE_CRITERIA
+          , SORT_ORDER
+          <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+        ) VALUES (
+            FN_GET_PK_CD()
+          , #{sheetCd}
+          , #{qstType}
+          , #{qstNm}
+          , #{qstScore}
+          , #{indNm}
+          , #{indScore}
+          , #{scoreCriteria}
+          , #{sortOrder}
+          <include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+        )
+    </insert>
+    
+    <!-- 평가표문항 수정 -->
+    <update id="updateEvalSheetQst" parameterType="com.atsys.model.TbEvalSheetQstVo">
+        UPDATE TB_EVAL_SHEET_QST
+        SET QST_TYPE = #{qstType}
+          , QST_NM = #{qstNm}
+          , QST_SCORE = #{qstScore}
+          , IND_NM = #{indNm}
+          , IND_SCORE = #{indScore}
+          , SCORE_CRITERIA = #{scoreCriteria}
+          , SORT_ORDER = #{sortOrder}
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE QST_CD = #{qstCd}
+        AND DEL_YN = 'N'
+    </update>
+    
+    <!-- 평가표문항 삭제 -->
+    <update id="deleteEvalSheetQst" parameterType="string">
+        UPDATE TB_EVAL_SHEET_QST
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE QST_CD = #{_parameter}
+    </update>
+
+    <!-- 평가표문항 삭제 가능 여부 확인 -->
+    <select id="checkQstDeletable" parameterType="string" resultType="int">
+        SELECT COUNT(1)
+        FROM TB_EVAL_SCORE S
+        WHERE S.QST_CD = #{_parameter}
+        AND S.DEL_YN = 'N'
+    </select>
+    
+    <!-- 평가표 목록 조회 -->
+    <select id="selectEvalSheetList" parameterType="map" resultType="com.atsys.model.TbEvalSheetVo">
+        SELECT S.SHEET_CD
+             , S.STEP_CD
+             , S.STAFF_TYPE
+             , FN_GET_CODE_NM(
+                 CASE 
+                   WHEN SUBSTR(S.STAFF_TYPE, 1, 2) = '40' THEN 'RCT005'
+                   ELSE 'RCT004'
+                 END, 
+                 S.STAFF_TYPE) AS STAFF_TYPE_NM
+             , NS.STEP
+             , N.NTC_CD
+             , N.NTC_NM
+             , N.NTC_TYPE
+             , FN_GET_CODE_NM('RCT002', N.NTC_TYPE) AS NTC_TYPE_NM
+             , N.NTC_YEAR
+             , N.NTC_SMT
+        FROM TB_EVAL_SHEET S
+        JOIN TB_NTC_STEP NS ON S.STEP_CD = NS.STEP_CD
+        JOIN TB_NTC N ON NS.NTC_CD = N.NTC_CD
+        WHERE S.DEL_YN = 'N'
+        AND NS.DEL_YN = 'N'
+        AND N.DEL_YN = 'N'
+        <if test="ntcYear != null and ntcYear != ''">
+        AND N.NTC_YEAR = #{ntcYear}
+        </if>
+        <if test="ntcSmt != null and ntcSmt != ''">
+        AND N.NTC_SMT = #{ntcSmt}
+        </if>
+        <if test="ntcType != null and ntcType != ''">
+        AND N.NTC_TYPE = #{ntcType}
+        </if>
+        <if test="step != null and step != ''">
+        AND NS.STEP = #{step}
+        </if>
+        ORDER BY N.NTC_YEAR DESC, N.NTC_SMT, N.NTC_TYPE, NS.STEP, S.STAFF_TYPE
+    </select>
+</mapper>

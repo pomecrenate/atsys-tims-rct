@@ -13,8 +13,8 @@
     </c:choose> 
 </head>
 <body>
-	<div class="main-content" style="flex: 1; padding: 20px;">
-	   <jsp:include page="/WEB-INF/jsp/${body}.jsp" /> 
-	</div>
+	<div class="main-popUp-content">
+        <jsp:include page="/WEB-INF/jsp/${body}.jsp" />
+    </div>
 </body>
 </html>

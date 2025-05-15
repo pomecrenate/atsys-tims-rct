@@ -31,8 +31,23 @@
 		, NTC_CD AS SMALL_CD
 		, NTC_NM AS CD_NM
 		, DEL_YN
-	</sql>
+	</sql> 
 	
+	<sql id="sqlColumnsFLD_1">
+		DEPT_CD AS LRG_CD
+		, DEPT_CD AS SMALL_CD
+		, DEPT_LVL 
+		, DEPT_NM AS CD_NM
+		, USE_YN
+	</sql> 
+	
+	<sql id="sqlColumnsFLD_2">
+		DEPT_CD AS LRG_CD
+		, DEPT_CD AS SMALL_CD
+		, DEPT_LVL 
+		, DEPT_NM AS CD_NM
+		, USE_YN
+	</sql> 
 	
 	
 
@@ -74,6 +89,26 @@
 								SELECT *
 							    FROM   TB_NTC
 							    WHERE  DEL_YN = 'N' 
+								) A
+					</when>
+					<when test='code.cls == "FLD_1"'>
+						SELECT <include refid="sqlColumnsFLD_1"/>
+								, ROW_NUMBER() OVER(ORDER BY A.DEPT_CD) AS ORDERED_RNO
+						FROM	(
+								SELECT *
+							    FROM   VW_DEPT
+							    WHERE  USE_YN = 'Y' 
+							    AND DEPT_LVL = '2'
+								) A
+					</when>
+					<when test='code.cls == "FLD_2"'>
+						SELECT <include refid="sqlColumnsFLD_1"/>
+								, ROW_NUMBER() OVER(ORDER BY A.DEPT_CD) AS ORDERED_RNO
+						FROM	(
+								SELECT *
+							    FROM   VW_DEPT
+							    WHERE  USE_YN = 'Y' 
+							    AND DEPT_LVL = '3'
 								) A
 					</when>
 					<otherwise>

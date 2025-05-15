@@ -1,0 +1,25 @@
+/*************************************************************
+ 프로그램명 : Bas1200eDao.java
+ 설명 : 알림문구관리
+ 작성자 : 최연재
+ 일자 : 2025.05.07
+*************************************************************/
+package com.atsys.tims.bas.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.TbAnnVo;
+
+@Repository
+@Mapper
+public interface Bas1200eDao {
+	
+	public int insert(Map<String, Object> so);
+	public int update(Map<String, Object> so);
+	
+	public List<TbAnnVo> selectList(Map<String, Object> so);
+}

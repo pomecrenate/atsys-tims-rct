@@ -8,6 +8,9 @@
 				, UPR_MENU_CD
 				, MENU_NM
 				, SYS_CD
+				, MENU_DIV
+				, BRD_TYPE
+				, BRD_CD
 				, MENU_LVL
 				, MENU_SORT
 				, MENU_URL
@@ -39,6 +42,9 @@
 								, UPR_MENU_CD
 								, MENU_NM
 								, SYS_CD
+								, MENU_DIV
+								, BRD_TYPE
+								, BRD_CD								
 								, MENU_LVL
 								, MENU_SORT
 								, MENU_URL

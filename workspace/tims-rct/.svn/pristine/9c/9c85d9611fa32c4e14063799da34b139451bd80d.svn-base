@@ -1,0 +1,364 @@
+<%--
+	////////////////////////////////////////////////////////////
+	// 프로그램명 : Rct1100e.jsp
+	// 설명 : 공고관리
+	// 작성자 : 최연재
+	// 일자 : 2025.04.18
+	// 이력 :  
+	//////////////////////////////////////////////////////////// 
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/tims/common/taglib/Taglib.jsp" %>
+<jsp:useBean id="cmmCdConstants" class="com.atsys.base.util.CmmCdConstants"/>
+
+<c:set var="svnm" value="${serviceBathPath}/rct1100e" />
+<c:set var="svnmSave" value="${svnm}/save" />
+<c:set var="svnmSearch" value="${svnm}/search" />
+<c:set var="svnmSearchNtc" value="${svnm}/searchNtc" />
+
+
+ <div class="x_panel_wrap"> 
+	<div class="x_panel">		
+		<form method="POST" class="form-horizontal form-label-left" id="search" name="search" >
+			<div class="search_condition">
+				<button data-action="search" type="button" class="n_btn btn_md btn_search"><i class="fas fa-search"></i> 조회</button>
+				<div class="condition_list">
+					<dl>
+						<dt><label for="qryNtcYear">채용연도</label></dt>
+						<dd>
+							<select class="form-control" id="qryNtcYear" name="qryNtcYear" required></select>
+						</dd>
+					</dl>
+					<dl>
+						<dt><label for="qryNtcSmt">채용학기</label></dt>
+						<dd>
+							<select class="form-control" id="qryNtcSmt" name="qryNtcSmt" required></select>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</form>
+	</div>
+	<form method="POST" class="form-horizontal form-label-left" id="insert" name="insert" >
+		<div class="list_top">
+			<div class="rgt-area">
+				<button data-action="new" type="button" class="n_btn btn_md btn_c03"><i class="fas fa-plus"></i> 신규</button>
+				<button data-action="save" type="button" class="n_btn btn_md btn_c01"><i class="fas fa-check"></i> 저장</button>
+			</div>
+		</div>
+		<div class="x_panel">	
+			<div class="x_content">		
+				<input type="hidden" name="ntcCd" id="ntcCd" />
+				<input type="hidden" name="regStartDate" id="regStartDate" />
+				<input type="hidden" name="regEndDate" id="regEndDate" />
+				<input type="hidden" name="rschStartDate" id="rschStartDate" />
+				<input type="hidden" name="rschEndDate" id="rschEndDate" />
+				<input type="hidden" name="stepStartDate1" id="stepStartDate1" />
+				<input type="hidden" name="stepEndDate1" id="stepEndDate1" />
+				<input type="hidden" name="stepStartDate2" id="stepStartDate2" />
+				<input type="hidden" name="stepEndDate2" id="stepEndDate2" />
+				<input type="hidden" name="stepStartDate3" id="stepStartDate3" />
+				<input type="hidden" name="stepEndDate3" id="stepEndDate3" />
+				<div class="content_list" id="content_list">
+					<table class="detail_table" id="detail_table">
+				    	<colgroup>
+							<col style="width:120px">
+							<col style="width:auto">
+							<col style="width:120px">
+							<col style="width:auto">
+							<col style="width:120px">
+							<col style="width:auto">
+						</colgroup>
+					      <tr>
+					        <th>공고번호</th>
+					        <td id="ntcNum">
+					        	자동생성
+					        </td>
+					        <th>채용구분</th>
+					        <td>
+					        	<select class="form-control" id="ntcType" name="ntcType" required></select>
+					        </td>
+					        <th>채용연도</th>
+					        <td>
+					        	<select class="form-control" id="ntcYear" name="ntcYear" required></select>
+					        </td>
+					      </tr>
+					      <tr>
+					        <th>채용학기</th>
+					        <td>
+					        	<select class="form-control" id="ntcSmt" name="ntcSmt" required></select>
+					        </td>
+					        <th>공고명</th>
+					        <td id="ntcNm">
+					      		자동생성			      	  
+					        </td>
+					        <th>공고게시일시</th>
+					        <td style="position: relative;">
+					        	<input type="text" class="datetimepicker form-control" id="ntcStartDate" name="ntcStartDate" placeholder="날짜를 선택헤주세요">
+					        </td>
+					      </tr>
+					      <tr>
+					        <th>접수일시</th>
+					        <td>
+					      	    <input type="text" class="daterange-picker form-control" data-start-target="#regStartDate" 
+	      						 data-end-target="#regEndDate" name="regDate" id="regDate" placeholder="날짜를 선택해주세요" />
+					        </td>
+						    <th>연구실적기준일자</th>
+					        <td>
+					        	<input type="text" class="daterange-picker form-control" data-start-target="#rschStartDate" 
+	      						 data-end-target="#rschEndDate" name="rschDate" id="rschDate" placeholder="날짜를 선택해주세요" />
+					        </td>
+					        <th>채용예정인원</th>
+					        <td>
+					      	    <input type="text" class="form-control" name="requiredCnt" id="requiredCnt" placeholder="ex) 10"/>
+					        </td>
+					      </tr>
+					      <tr>
+						    <th>1차평가일시</th>
+					        <td>
+					        	<input type="text" class="daterange-picker form-control"  data-start-target="#stepStartDate1" 
+	      						 data-end-target="#stepEndDate1" name="stepDate1" id="stepDate1" placeholder="날짜를 선택해주세요" />
+					        </td>
+					        <th>2차평가일시</th>
+					        <td>
+					        	<input type="text" class="daterange-picker form-control" data-start-target="#stepStartDate2" 
+	      						 data-end-target="#stepEndDate2" name="stepDate2" id="stepDate2" placeholder="날짜를 선택해주세요" />
+					        </td>
+					        <th>3차평가일시</th>
+					        <td>
+					        	<input type="text" class="daterange-picker form-control" data-start-target="#stepStartDate3" 
+	      						 data-end-target="#stepEndDate3" name="stepDate3" id="stepDate3" placeholder="날짜를 선택해주세요" />
+					        </td>
+					      </tr>
+					      <tr>    
+					        <th>1차평가발표일시</th>
+					        <td>
+					      	    <input class="datetimepicker form-control" name="stepAnnDate1" id="stepAnnDate1" placeholder="날짜를 선택헤주세요"/>
+					        </td>
+					        <th>2차평가발표일시</th>
+					        <td>
+					      	    <input class="datetimepicker form-control" name="stepAnnDate2" id="stepAnnDate2" placeholder="날짜를 선택헤주세요"/>
+					        </td>
+					        <th>3차평가발표일시</th>
+					        <td>
+					      	    <input class="datetimepicker form-control" name="stepAnnDate3" id="stepAnnDate3" placeholder="날짜를 선택헤주세요"/>
+					        </td>
+					      </tr>
+					      <tr>
+						    <th>담당부서</th>
+					        <td>
+					        	자연정보지원팀
+					        </td>
+					        <th>공고상태</th>
+					        <td>
+					      	    <select class="form-control" name="ntcStatus" id="ntcStatus" required></select>
+					        </td>
+					        <th>임용예정일</th>
+					        <td>
+					      	    <input type="text" class="datetimepicker form-control" id="hiringDate" name="hiringDate" placeholder="날짜를 선택헤주세요">
+					        </td>
+					      </tr>
+				    </table>
+				</div>
+			</div> 
+		</div>
+	</form>	
+	<div class="x_panel">
+		<div class="description"> ※ 리스트를 클릭하면 상세내역 확인 및 수정이 가능합니다.</div>
+		<div class="content_list" id="content_list">
+			<table class="table" id="ntc-table">
+				<div class="list_top">
+					<div class="rgt-area">
+						<div class="btn-group">
+							<button data-action="deleteLft" type="button" class="n_btn btn_md btn_c05">삭제</button>
+						</div>
+					</div>
+				</div>
+				<thead>
+					<tr>
+						<th></th>
+						<th>공고상태</th>
+						<th>공고번호</th>
+						<th>공고명</th>
+						<th>공고게시일시</th>
+						<th>접수시작일시</th>
+						<th>접수종료일시</th>
+						<th>내용관리</th>		
+					</tr>
+				</thead>
+				<tbody id="ntc-tbody"> 
+				</tbody>
+			</table> 
+		</div>
+	</div> 
+</div>
+
+
+<script>  
+	const tbColNms = [
+	  { type: "checkbox"},
+	  { type: "text", name: "ntcStatus" },
+	  { type: "text", name: "ntcNum" },
+	  { type: "text", name: "ntcNm" },
+	  { type: "text", name: "ntcStartDate" },
+	  { type: "text", name: "regStartDate" }, 
+	  { type: "text", name: "regEndDate" },
+	  { type: "button", name: "ntcMng", btnText: "공고관리", dataAction: "moveTab"},
+	]
+
+	$(document).ready(function() { 
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcYear", cdg : "RCT081"}, "search", "qryNtcYear", {type:"", selectAll:"N", multiYn:"N"});
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcSmt", cdg : "RCT001"}, "search", "qryNtcSmt", {type:"", selectAll:"N", multiYn:"N"});
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcYear", cdg : "RCT081"}, "insert", "ntcYear", {type:"", selectAll:"N", multiYn:"N"});
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcSmt", cdg : "RCT001"}, "insert", "ntcSmt", {type:"", selectAll:"N", multiYn:"N"});
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcType", cdg : "RCT002"}, "insert", "ntcType", {type:"", selectAll:"N", multiYn:"N"});
+		setMultiSelect("", {cls: "CMM_1", id: "ccNtcStatus", cdg : "RCT003"}, "insert", "ntcStatus", {type:"", selectAll:"N", multiYn:"N"});
+		
+		RctUtil.loadPageData("${svnmSearch}", "", "ntcCd", "", "ntc-tbody");
+		
+		const ajax = TimsUtil.getObject("${svnmSearch}", "", true);
+		const data = ajax.list; 
+		const paginationInfo = ajax.paginationInfo;  
+		
+	    RctUtil.renderTable("ntc-tbody", tbColNms, data, (event) => {onClickRow(event)}, paginationInfo, "ntcCd"); 
+	})  
+	
+	function save() {
+		
+/* 		const steps = [
+			  { start: "stepStartDate1", end: "stepEndDate1" },
+			  { start: "stepStartDate2", end: "stepEndDate2" },
+			  { start: "stepStartDate3", end: "stepEndDate3" },
+			];
+
+		for (let i = 0; i < steps.length - 1; i++) {
+		  const endDate = document.getElementById(steps[i].end).value;
+		  const nextStart = document.getElementById(steps[i + 1].start).value;
+
+		  if (new Date(endDate) > new Date(nextStart)) {
+		    alert(`${i + 1}단계 종료일보다 ${i + 2}단계 시작일이 빠릅니다.`);
+		    return;
+		  }
+		} */
+		
+		const obj = TimsUtil.formToMap("insert");
+		const ntcCd = $("#ntcCd").val();
+		if(ntcCd == null) {
+			obj["sStatus"] = "I";
+		} else {
+			obj["sStatus"] = "U";
+		}
+		
+		const ret = TimsUtil.getObject("${svnmSave}", obj, true);
+		if(ret == 3) {
+			alert("정상적으로 처리되었습니다.")
+		} else {
+			alert("오류가 발생했습니다.")
+		}
+	
+	};
+	
+	function onClickRow(event) {
+		 if ($(event.target).closest("button").length > 0) return;
+		 
+		 const qryNtcCd = $(event.currentTarget).data("id");
+		 const obj = {
+		 	ntcCd : qryNtcCd,
+		 }
+		 const ret = TimsUtil.getObject("${svnmSearchNtc}", obj, true);
+		 
+		 Object.keys(ret).forEach(key => {
+			 const $el = $("#" + key);
+			 if ($el.length > 0) {
+				 $el.val(ret[key]);
+			 }
+		 });
+		 
+		 $("#ntcNum").text(ret.ntcNum);
+		 $("#ntcNm").text(ret.ntcNm);
+		 $("#regDate").val(ret.regStartDate + "~" + ret.regEndDate);
+		 $("#rschDate").val(ret.rschStartDate + "~" + ret.rschEndDate);
+		 $("#stepDate1").val(ret.stepStartDate1 + "~" + ret.stepEndDate1);
+		 $("#stepDate2").val(ret.stepStartDate2 + "~" + ret.stepEndDate2);
+		 $("#stepDate3").val(ret.stepStartDate3 + "~" + ret.stepEndDate3);
+
+		 $("#detail_table select").each(function() {
+	     	$(this).multiselect('disable');
+		 });
+	}
+	
+	$('.datetimepicker').datetimepicker({
+	  format: 'YYYY-MM-DD HH:mm',     // 연도-월-일 형식만
+	  locale: 'ko',             // 한국어
+	  useCurrent: false,        // 기본값 선택 안 되게
+	  showTodayButton: true,    // 오늘로 이동 버튼
+	  stepping: 10,   
+	  sideBySide: true,
+	});
+	
+	$(function () {
+	    $('.daterange-picker').daterangepicker({
+	      autoUpdateInput: false,
+	      timePicker: true,     
+	      timePicker24Hour: true,
+	      timePickerIncrement: 10, 
+	      locale: {
+	        format: 'YYYY-MM-DD HH:mm',       // 날짜 포맷
+	        separator: ' ~ ',           // 구분자
+	        applyLabel: '확인',
+	        cancelLabel: '취소',
+	        fromLabel: '시작',
+	        toLabel: '종료',
+	        customRangeLabel: '직접 선택',
+	        daysOfWeek: ['일', '월', '화', '수', '목', '금', '토'],
+	        monthNames: ['1월','2월','3월','4월','5월','6월',
+	                     '7월','8월','9월','10월','11월','12월'],
+	        firstDay: 0,
+	      },
+	      opens: 'right',               // 달력 열리는 방향
+	      startDate: moment().startOf('month'), // 기본 시작일
+	      endDate: moment().endOf('month')	// 기본 종료일
+	      },     
+	      function(start, end, label) {
+    	    const $input = $(this.element);
+    	    const startTarget = $input.data('start-target');
+    	    const endTarget = $input.data('end-target');
+
+    	    $(startTarget).val(start.format('YYYY-MM-DD HH:mm'));
+    	    $(endTarget).val(end.format('YYYY-MM-DD HH:mm'));
+	      });
+  	});
+	
+	$('.daterange-picker').on('apply.daterangepicker', function(ev, picker) {
+		  $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ' ~ ' + picker.endDate.format('YYYY-MM-DD HH:mm'));
+		});
+
+	$('.daterange-picker').on('cancel.daterangepicker', function(ev, picker) {
+	  $(this).val('');
+	});
+
+	$(document).on('click', "button[data-action='moveTab']", function(e) {
+		e.stopPropagation();
+		const url = "${serviceBathPath}" + "/rct1101e";
+		location.href = url;
+	}); 
+	
+	$(document).on("click", "button[data-action='search']", function() { 	 
+		const obj = TimsUtil.formToMap("search");
+		RctUtil.loadPageData("${svnmSearch}", obj, "ntcCd", "", "ntc-tbody");
+	});
+	
+	$("button[data-action='new']").click(function () {
+		$("#insert").find("input").val("");
+		$("#detail_table select").each(function() {
+		    // multiselect 활성화
+		    $(this).multiselect("enable");
+		    // 버튼의 disabled 속성 제거
+		    $(this).multiselect("widget").find("button").prop("disabled", false);
+		    $(this).val([]);
+		    $(this).multiselect("refresh");
+		});
+
+	});
+</script>
+

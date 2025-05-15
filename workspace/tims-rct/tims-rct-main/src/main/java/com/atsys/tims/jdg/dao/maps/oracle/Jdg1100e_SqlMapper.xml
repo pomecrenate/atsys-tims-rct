@@ -77,7 +77,7 @@
             		, EMAIL
             <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
         ) VALUES (
-            		  #{usrCd}
+            		  FN_GET_PK_CD()
             		, #{usrId}
             		, #{nm}
             		, #{pw}
@@ -95,4 +95,26 @@
                <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
          WHERE EX_JDG_CD = #{usrCd}
     </update>
+
+    <!-- 선정된 평가위원 삭제 -->
+    <update id="deleteSelJudge" parameterType="map">
+        UPDATE TB_SEL_EVAL_JDG
+           SET DEL_YN = 'Y'
+               <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+         WHERE JDG_CD = #{usrCd}
+    </update>
+    
+    <!-- 외부 평가위원 확정 여부 확인 -->
+    <select id="checkExJudgeConfirmed" parameterType="string" resultType="int">
+        SELECT COUNT(1)
+        FROM TB_SEL_EVAL_JDG S
+        WHERE S.USR_ID = (
+            SELECT E.USR_ID 
+            FROM TB_EX_EVAL_JDG E 
+            WHERE E.EX_JDG_CD = #{_parameter}
+            AND E.DEL_YN = 'N'
+        )
+        AND S.CONFIRMED_YN = 'Y'
+        AND S.DEL_YN = 'N'
+    </select>
 </mapper>

@@ -1,0 +1,141 @@
+<%--
+////////////////////////////////////////////////////////////
+// 프로그램명 : Rcp1100p1.jsp
+// 설명 : 자격미달여부관리(팝업)
+// 작성자 : 백세진
+// 일자 : 2025.04.09
+////////////////////////////////////////////////////////////
+--%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>      
+ <div> 
+ 	<div class="list_top">
+	    <div class="rgt-area btn_group">
+	      <button type="button" class="n_btn btn_md btn_c01" data-action="saveQualData">저장</button>
+	    </div>
+    </div>
+    <div class="description">
+      ※ 수정할 내용을 입력 후 상단의 [저장] 버튼을 클릭하시면 됩니다.
+    </div>
+    <form method="POST" class="form-horizontal form-label-left" id="search" name="search" > 
+	    <%-- <input type="hidden" name="${loginUser.getCsrfTokenId()}" value="${loginUser.getCsrfToken()}"/> --%>
+	    <table class="detail_table" id="detail_table">
+	    	<colgroup>
+				<col style="width:120px">
+				<col style="width:auto">
+			</colgroup>
+	      <tr>
+	        <th>충족여부</th>
+	        <td> 
+	         <select class="form-control" id="qryQualYn" name="qryQualYn" required></select>
+	        </td>
+	      </tr>
+	      <tr>
+	        <th>사유</th>
+	        <td>
+	          <input type="text" class="form-control" id="notQualReason" placeholder="사유 입력">
+	        </td>
+	      </tr>
+	    </table>
+    </form>
+</div>
+
+
+<script>  
+
+/* 기초데이터 세팅 */
+$('#timsdlg').on('shown.bs.modal', function () { 
+    setMultiSelect("", {cls: "CMM_1", id: "ccQualYn", cdg: "RCT010"}, "search", "qryQualYn", {type:"", selectAll:"Y", multiYn:"N"});
+    
+    selectQualData();
+});
+
+/* 자격충족여부에 따른 사유 입력란 활성화 처리 */
+$(document).on("change", "#qryQualYn", function() { 
+    const selectedOption = $(this).val();  
+    if (selectedOption === "N")  {
+        $("#notQualReason").prop('disabled', false);
+    } else { 
+        $("#notQualReason").val('');
+        $("#notQualReason").prop('disabled', true);
+    }
+});
+
+	
+/* 자격미달여부 수정 및 저장 */
+$(document).on("click", "button[data-action='saveQualData']", function() {
+	const selectedOption = $("#qryQualYn").val(); 
+	const reason = $("#notQualReason").val();  
+	const regex = /^[가-힣\s.]{1,500}$/;
+	
+	
+	if (selectedOption == 'N'&& reason == '') {
+		alert("충족여부가 미충족일 경우 사유 입력은 필수입니다.")
+		$("#notQualReason").focus();
+		return;
+	}  
+	
+	if (!regex.test(reason)) {
+	    alert("사유는 한글만 입력가능하며, 500자 이내여야 합니다.");
+	    $("#notQualReason").focus();
+	    return;
+	}
+	
+	var url = "${serviceBathPath}/rcp1100e/saveQualYn";
+	var params = {
+					'appCd' : ${appCd},
+					'qualYn' : selectedOption,
+					'notQualReason' : reason
+				 }
+	
+	const result = TimsUtil.getObject(url, params, true); 
+	
+	if (result) {
+		alert("자격미달여부 저장 성공");
+		selectQualData ();
+		
+    } else {
+        alert("자격미달여부 저장 실패");
+    }
+	
+}); 
+
+/* 자격미달여부 데이터 조회 */
+function selectQualData() {
+	var url = "${serviceBathPath}/rcp1100e/selectQualData";
+	var params = { 'appCd' : '${appCd}' };
+	
+	const result = TimsUtil.getObject(url, params, true);  
+	
+	if (result) {
+		 setQualYnValue(result.qualYn);
+		 if (result.qualYn == "N") {
+			 $("#notQualReason").val(result.notQualReason); 
+		 } else {
+			 $("#notQualReason").prop('disabled', true);
+		 } 
+	} else {
+		console.log("자격미달여부 데이터 조회 실패");
+	}
+}
+
+/* 자격미달여부 - 충족여부 데이터 세팅함수 */
+function setQualYnValue(value) {
+    let selectedText = "";
+
+    $(".multiselect-container input[type='radio']").each(function() {
+        const $radio = $(this);
+        const $button = $radio.closest(".multiselect-option");
+
+        if ($radio.val() === value) {
+            $radio.prop("checked", true);
+            $button.addClass("active");
+            selectedText = $button.text().trim(); 
+        } else {
+            $radio.prop("checked", false);
+            $button.removeClass("active");
+        }
+    }); 
+    $(".multiselect-selected-text").text(selectedText);
+} 
+</script> 
