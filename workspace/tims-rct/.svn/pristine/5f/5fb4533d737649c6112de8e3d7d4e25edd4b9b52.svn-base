@@ -1,0 +1,228 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eController.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.atsys.base.ConstantsUtils;
+import com.atsys.base.ui.ViewHelper;
+import com.atsys.model.Rcp1100eVo;
+import com.atsys.model.TbAppAwardVo;
+import com.atsys.model.TbAppCareerVo;
+import com.atsys.model.TbAppEduVo;
+import com.atsys.model.TbAppRecVo;
+import com.atsys.model.TbAppSelfIntroVo;
+import com.atsys.model.TbAppVo;
+import com.atsys.model.TbNtcDocVo;
+import com.atsys.nxf.app.vo.Pagination;
+import com.atsys.tims.rcp.service.Rcp1100eService; 
+
+@Controller
+@RequestMapping(value = "/rcp1100e")
+public class Rcp1100eController {
+	
+	private static final String ADM_PATH   = ConstantsUtils.getAdmViewRoot() + "/rcp/"; 
+	private final String viewList		   = ADM_PATH + "Rcp1100e";
+	private final String qualSelectPop     = ADM_PATH + "popup/" + "Rcp1100p1"; // 자격미달여부관리 팝업
+	private final String careerRecogPop    = ADM_PATH + "popup/" + "Rcp1100p2"; // 경력산정 팝업
+	private final String upldFileListPop   = ADM_PATH + "popup/" + "Rcp1100p3"; // 첨부파일조회 팝업	
+	private final String appDetailPop      = ADM_PATH + "popup/" + "Rcp1100p4"; // 지원서상세보기 팝업
+	
+	@Autowired
+	ViewHelper viewHelper;
+	
+	@Autowired
+	Rcp1100eService rcp1100eService;
+	
+	@RequestMapping
+	public ModelAndView init(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception { 
+		model.addAllAttributes(so);
+		session.setAttribute("userRole", "ADMIN"); 
+		return viewHelper.createModelAndView(viewList);
+	} 
+	
+	/* 지원서 목록 조회 */
+	@RequestMapping(value = "/search")
+	@ResponseBody
+	public Map<String, Object> selectList(@RequestBody Map<String, Object> so) throws Exception {
+
+		int pageIndex = Integer.parseInt(String.valueOf(so.getOrDefault("pageIndex", "1")));
+		so.put("currentPageNo", pageIndex);   
+
+		List<Rcp1100eVo> list = rcp1100eService.selectList(so);
+		int totalCount = rcp1100eService.selectTotalCount(so);
+
+		Pagination page = new Pagination();
+		page.setCurrentPageNo(pageIndex);
+		page.setTotalRecordCount(totalCount);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("list", list);
+		result.put("paginationInfo", page.getPaginationInfo());
+		result.put("totalCount", totalCount);
+
+		return result;
+	} 
+	
+	/* 지원서상태 변경 - 접수확인|취소 */
+	@RequestMapping("/saveAppstatus")  
+	public @ResponseBody Object saveAppstatus (HttpSession session, @RequestBody TbAppVo vo, Model model) throws Exception {
+		return rcp1100eService.updateAppstatus(vo);
+	}
+	
+	
+	/* 자격미달여부 팝업 */
+	@RequestMapping(value="/popup/qualynSelect/{appCd}")
+	public String popupQualynSelect(@PathVariable(value = "appCd") String appCd, HttpSession session, Model model) throws Exception {
+		return qualSelectPop;
+	} 
+	
+	/* 자격미달여부 데이터 조회 */ 
+	@RequestMapping("/selectQualData")
+	@ResponseBody
+	public Map<String, Object> selectQualData(@RequestBody TbAppVo vo) throws Exception {
+	    
+	    TbAppVo appVo = rcp1100eService.selectQualData(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("qualYn", appVo.getQualYn());
+	    result.put("notQualReason", appVo.getNotQualReason());
+
+	    return result; 
+	} 
+	
+	/* 자격미달여부 및 사유 저장 */
+	@RequestMapping("/saveQualYn")  
+	public @ResponseBody Object saveQualYnAndReason(HttpSession session, @RequestBody TbAppVo vo, Model model) throws Exception {
+		return rcp1100eService.updateQualYnAndReason(vo);
+	}
+	
+	/* 경력산정(직원) 팝업 */
+	@RequestMapping(value="/popup/careerRecog/{appCd}")
+	public String popupCareerRecog(@PathVariable(value = "appCd") String appCd, HttpSession session, Model model) throws Exception {  
+		return careerRecogPop;
+	} 
+	
+	/* 지원자 경력 목록 조회 */  
+	@RequestMapping("/selectCareerList")
+	@ResponseBody
+	public Map<String, Object> selectCareerList(@RequestBody TbAppCareerVo vo) throws Exception {
+	    
+	    List<TbAppCareerVo> list = rcp1100eService.selectCareerList(vo); 
+
+	    Map<String, Object> result = new HashMap<>(); 
+	    result.put("list", list);  
+
+	    return result;
+	} 
+	
+	/* 경력산정(직원) 기간 및 사유 저장 */
+	@RequestMapping("/saveCareer")
+	public @ResponseBody Object saveCareerPeriodAndReason(HttpSession session, @RequestBody TbAppVo vo, Model model) throws Exception {
+		return rcp1100eService.updateCareerPeriodAndReason(vo);
+	}
+	
+	/* 경력산정(직원) 데이터 조회 */ 
+	@RequestMapping("/selectCareerData")
+	@ResponseBody
+	public Map<String, Object> selectCareerData(@RequestBody TbAppVo vo) throws Exception {
+	    
+	    TbAppVo appVo = rcp1100eService.selectCareerData(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("careerPeriod", appVo.getCareerPeriod());
+	    result.put("careerReason", appVo.getCareerReason());
+
+	    return result; 
+	} 
+	
+	/* 첨부파일 팝업 */
+	@RequestMapping(value="/popup/upldFileList/{appCd}")
+	public String popupUpldFileList(@PathVariable(value = "appCd") String appCd, @RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
+		return upldFileListPop;
+	}  
+	
+	/* 첨부파일 서식 목록 조회  */
+	@RequestMapping("/selectNtcDocList")
+	@ResponseBody
+	public Map<String, Object> selectNtcDocList(@RequestBody TbNtcDocVo vo) throws Exception {
+	    
+		List<TbNtcDocVo> list = rcp1100eService.selectNtcDocList(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("list", list);
+
+	    return result; 
+	}  
+	
+	/* 지원자 기본 데이터 조회 */
+	@RequestMapping("/selectAppNmAndMob")
+	@ResponseBody
+	public Map<String, Object> selectAppNmAndMob(@RequestBody TbAppVo vo) throws Exception {
+	    
+	    TbAppVo appVo = rcp1100eService.selectAppNmAndMob(vo); 
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("ntcCd", appVo.getNtcCd());
+	    result.put("nm", appVo.getNm());
+	    result.put("mobPhone", appVo.getMobPhone());
+
+	    return result; 
+	} 
+	
+	
+	/* 지원서 상세 조회 */
+	@RequestMapping(value="/popup/appDetail/{appCd}")
+	public String popupAppDetail(@PathVariable(value = "appCd") String appCd, HttpSession session, Model model) throws Exception {
+	    session.setAttribute("userRole", "ADMIN");
+	    TbAppVo app = rcp1100eService.selectOneApp(appCd);
+	    List<TbAppEduVo> eduList = rcp1100eService.selectAppEduList(appCd);
+	    List<TbAppCareerVo> careerList = rcp1100eService.selectAppCareerList(appCd);
+	    List<TbAppAwardVo> awardList = rcp1100eService.selectAppAwardList(appCd);
+	    TbAppSelfIntroVo selfIntro = rcp1100eService.selectSelfIntro(appCd);
+	    List<TbAppRecVo> recList = rcp1100eService.selectAppRecList(appCd);
+	    
+	    model.addAttribute("app", app);
+	    model.addAttribute("eduList", eduList);
+	    model.addAttribute("careerList", careerList);
+	    model.addAttribute("awardList", awardList);  
+	    model.addAttribute("selfIntro", selfIntro); 
+	    model.addAttribute("recList", recList);
+		/* 
+		 * 지원자 사진
+		 * 강의 및 직무계획서 
+		 * 외국어 및 인증시험 (직원)
+		 * 학위논문
+		 * 연구논문
+		 * 저역서
+		 * 지식재산
+		 * 전시작품
+		 * 학술발표
+		 * 연구과제
+		 * 교육연수(직원) 리스트 조회 추가해야함 */
+	     
+	    return appDetailPop;
+	} 
+	
+	
+	
+	
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.sys.dao.AppDetailDao">
+
+	<select id="selectOneApp" resultType="com.atsys.model.TbAppVo">
+		SELECT (SELECT NTC_NM FROM TB_NTC WHERE NTC_CD = A.NTC_CD) AS NTC_CD
+		       , (SELECT MAJOR_NM FROM TB_NTC_FIELD WHERE FIELD_CD = A.FIELD_CD) AS FIELD_CD
+		       , FN_GET_CODE_NM('RCT002', (SELECT NTC_TYPE FROM TB_NTC WHERE NTC_CD = A.NTC_CD)) AS NTC_TYPE
+		       , A.NM
+		       , A.HANJA_NM
+		       , A.ENG_NM
+		       , A.HOME_PHONE
+		       , A.OFFICE_PHONE
+		       , REGEXP_REPLACE(A.MOB_PHONE, '([0-9]{3})([0-9]{3,4})([0-9]{4})', '\1-\2-\3') AS MOB_PHONE
+		       , A.POSTAL_CODE
+		       , A.ADDRESS
+		       , FN_GET_CODE_NM('RCT031', A.MIL_TYPE) AS MIL_TYPE
+		       , A.MIL_RANK
+		       , TO_CHAR(A.MIL_START_DATE, 'YYYY-MM-DD') AS MIL_START_DATE 
+		       , TO_CHAR(A.MIL_END_DATE, 'YYYY-MM-DD') AS MIL_END_DATE
+		       , CASE A.VETERAN_YN  WHEN 'Y' THEN '해당'
+								    WHEN 'N' THEN '해당 없음' 
+								    END AS VETERAN_YN
+		       , CASE A.DISABLED_YN WHEN 'Y' THEN '해당'
+								    WHEN 'N' THEN '해당 없음' 
+								    END AS DISABLED_YN
+		       , A.PHOTO_UPLD_FILE_CD
+		       , A.DEL_YN
+		       , B.BIRTH_DATE 
+		  FROM TB_APP A
+		  JOIN TB_APP_USR B
+		    ON A.APP_USR_CD = B.APP_USR_CD
+		 WHERE A.DEL_YN = 'N'
+		   AND A.APP_CD = #{appCd} 
+	</select>
+	
+	<select id="selectAppEduList" resultType="com.atsys.model.TbAppEduVo">
+		SELECT EDU_CD
+			   , APP_CD 
+			   , FN_GET_CODE_NM('RCT040', EDU_TYPE) AS EDU_TYPE
+			   , TO_CHAR(EDU_START_DATE, 'YYYY-MM-DD') AS EDU_START_DATE 
+			   , TO_CHAR(EDU_END_DATE, 'YYYY-MM-DD') AS EDU_END_DATE  
+			   , FN_GET_CODE_NM('RCT042', COUNTRY_CD) AS COUNTRY_CD
+			   , SCHOOL_CD
+			   , SCHOOL_NM
+			   , MAJOR
+			   , MAJOR_DETAIL
+			   , DEGREE_NM
+			   , FN_GET_CODE_NM('RCT043', ACQ_TYPE) AS ACQ_TYPE
+			   , GPA
+			   , MAX_GPA 
+		  FROM TB_APP_EDU 
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd} 
+	</select>
+	
+	<select id="selectAppCareerList" resultType="com.atsys.model.TbAppCareerVo">
+		SELECT CAREER_CD
+			   , APP_CD
+			   , TO_CHAR(WORK_START_DATE, 'YYYY-MM-DD') AS WORK_START_DATE 
+		 	   , TO_CHAR(WORK_END_DATE, 'YYYY-MM-DD') AS WORK_END_DATE 
+		 	   , CASE EMPLOYED_YN WHEN 'N' THEN '재직중 아님'
+		 	   					  WHEN 'Y' THEN '재직중' 
+		 	   					  END AS EMPLOYED_YN 
+		 	   , WORK_PERIOD
+		 	   , COMPANY_NM
+		 	   , POSITION 
+		 	   , TASK_DESC
+		  FROM TB_APP_CAREER
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}   
+	</select>
+	
+	<select id="selectAppAwardList" resultType="com.atsys.model.TbAppAwardVo">
+		SELECT AWARD_CD
+			   , APP_CD
+			   , FN_GET_CODE_NM('RCT050', AWARD_TYPE) AS AWARD_TYPE
+			   , AWARD_NM
+			   , TO_CHAR(ISSUE_DATE, 'YYYY-MM-DD') AS ISSUE_DATE  
+			   , ISSUER
+			   , AWARD_DESC
+		  FROM TB_APP_AWARD
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}   
+	</select>
+	
+	<select id="selectAppRecList" resultType="com.atsys.model.TbAppRecVo">
+		SELECT REC_CD
+		       , APP_CD
+		       , NM
+		       , ORG
+		       , POSITION
+		       , RELATION
+		       , REMARKS
+		  FROM TB_APP_REC
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}    
+	</select>
+	 
+	<select id="selectSelfIntro" resultType="com.atsys.model.TbAppSelfIntroVo">
+		SELECT INTRO_CD
+	   		  , APP_CD
+	   		  , INTRO_CNTS
+	     FROM TB_APP_SELF_INTRO
+	    WHERE DEL_YN = 'N'
+	      AND APP_CD = #{appCd}     		 
+	</select>
+	
+	<select id="selectAppProfileImg" resultType="com.atsys.model.TbUpldFileVo">
+		SELECT A.UPLD_FILE_CD
+			   , A.FILE_SEQ
+			   , A.FILE_NM
+			   , A.SAVE_FILE_NM
+			   , A.SAVE_PATH
+			   , A.FILE_SIZ
+			   , A.FILE_EXTN
+			   , A.IMG_WIDTH
+			   , A.IMG_HGT
+			   , A.UPLD_DTM
+			   , A.REMARKS
+		  FROM TB_UPLD_FILE A 
+		  JOIN (SELECT PHOTO_UPLD_FILE_CD 
+		  		  FROM TB_APP 
+	  		     WHERE DEL_YN = 'N' 
+	  		       AND APP_CD = #{appCd}) B
+		    ON A.UPLD_FILE_CD = B.PHOTO_UPLD_FILE_CD
+		 WHERE A.DEL_YN = 'N'
+	</select>
+	
+</mapper>

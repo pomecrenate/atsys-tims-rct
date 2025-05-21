@@ -11,9 +11,12 @@
 			   		 	SELECT     F.FIELD_CD       									   AS FIELD_CD
 			   				       , FN_GET_DEPT_NM(F.COLLEGE_CD) 						   AS COLLEGE_NM
 							       , FN_GET_DEPT_NM(F.DEPT_CD)							   AS DEPT_NM
+							       , F.DEPT_CD											   AS DEPT_CD
+							       , F.COLLEGE_CD										   AS COLLEGE_CD
 						      	   , F.MAJOR_NM 										   AS MAJOR_NM
 								   , NVL(FN_GET_CODE_NM('RCT004', F.STAFF_TYPE), 
 								     NVL(FN_GET_CODE_NM('RCT005', F.STAFF_TYPE), '알수없음')) AS STAFF_TYPE
+								   , F.STAFF_TYPE										   AS STAFF_TYPE_CD
 							       , F.REQUIRED_CNT							               AS REQUIRED_CNT
 							       , F.ASSIGNED_SUBJECT 								   AS ASSIGNED_SUBJECT
 							       , F.REQUIREMENTS										   AS REQUIREMENTS
@@ -28,6 +31,15 @@
 				   WHERE ROWNUM <![CDATA[<=]]> #{end}
 			    ) 
 		WHERE	RNUM >= #{start}
+	</select>
+	<select id="selectTotalCount" resultType="int">
+		SELECT	 COUNT(1) AS TOT_CNT
+		FROM	 TB_NTC_FIELD F JOIN TB_NTC N
+		ON		 F.NTC_CD  = N.NTC_CD
+		WHERE	 F.DEL_YN = 'N'
+		AND 	 N.DEL_YN = 'N'
+		AND		 F.NTC_CD = #{ntcCd}
+		ORDER BY F.CRE_DATE
 	</select>
 	<select id="selectNtcType" resultType="String">
 		SELECT NTC_TYPE
@@ -55,6 +67,14 @@
 				   WHERE ROWNUM <![CDATA[<=]]> #{end}
 			    ) 
 		WHERE	RNUM >= #{start}
+	</select>
+	<select id="selectDeptTotalCount" resultType="int">
+		SELECT	 COUNT(1) AS TOT_CNT
+		FROM	 VW_DEPT
+		WHERE 	 USE_YN = 'Y'
+		<if test="qryDeptNm != null and qryDeptNm != ''">
+		AND	   	 DEPT_NM LIKE '%' || #{qryDeptNm} || '%'
+		</if>
 	</select>
 	<insert id="save">
 	INSERT INTO TB_NTC_FIELD 
@@ -84,6 +104,32 @@
 		<include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
 	)
 	</insert>
+	<update id="update">
+	UPDATE  TB_NTC_FIELD
+	SET	    COLLEGE_CD = #{collegeCd}
+			, DEPT_CD = #{deptCd}
+			, MAJOR_NM = #{majorNm}
+			, STAFF_TYPE = #{staffType}
+			, REQUIRED_CNT = #{requiredCnt}
+			<choose>
+			  <when test="requirements != null and requirements != ''">
+			    , REQUIREMENTS = #{requirements}
+			  </when>
+			  <otherwise>
+			    , REQUIREMENTS = NULL
+			  </otherwise>
+			</choose>
+			<choose>
+			  <when test="assignedSubject != null and assignedSubject != ''">
+			    , ASSIGNED_SUBJECT = #{assignedSubject}
+			  </when>
+			  <otherwise>
+			    , ASSIGNED_SUBJECT = NULL
+			  </otherwise>
+			</choose>
+		    <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+	WHERE   FIELD_CD = #{fieldCd}
+	</update>
 	<select id="selectNtcList" resultType="com.atsys.model.TbNtcStepVo">
 		SELECT * 
 		FROM	(
@@ -108,6 +154,20 @@
 				   WHERE ROWNUM <![CDATA[<=]]> #{end}
 			    ) 
 		WHERE	RNUM >= #{start}
+	</select>
+	<select id="selectNtcTotalCount" resultType="int">
+		SELECT	 COUNT(1) AS TOT_CNT	 
+		FROM     TB_NTC 
+		WHERE 	 DEL_YN = 'N'
+		<if test="qryNtcYear != null and qryNtcYear != ''">
+		AND	   	 NTC_YEAR = #{qryNtcYear}
+		</if>
+		<if test="qryNtcSmt != null and qryNtcSmt != ''">
+		AND	     NTC_SMT = #{qryNtcSmt}
+		</if>
+		<if test="qryNtcType != null and qryNtcType != ''">
+		AND	     NTC_TYPE = #{qryNtcType}
+		</if>
 	</select>
 	<insert id="insertField" parameterType="com.atsys.model.Rct1101eVo">
 		INSERT INTO TB_NTC_FIELD 

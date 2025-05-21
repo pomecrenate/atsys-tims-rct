@@ -4,14 +4,21 @@
 <mapper namespace="com.atsys.tims.evl.dao.Evl1201eDao">
 
 	<select id="selectRequiredCnt" resultType="com.atsys.model.TbNtcFieldVo">
-		SELECT DISTINCT A.FIELD_CD
-						, A.NTC_CD 
-						, A.REQUIRED_CNT  
-		  FROM TB_NTC_FIELD A 
-		  JOIN TB_NTC_STEP B
-		    ON A.NTC_CD = B.NTC_CD
-		 WHERE A.DEL_YN = 'N' 
-		   AND A.NTC_CD = #{ntcCd}  
+		SELECT A.NTC_CD
+		       , SUM(NVL(A.REQUIRED_CNT, 0)) AS REQUIRED_CNT
+		  FROM (
+			    	SELECT DISTINCT FIELD_CD, NTC_CD, REQUIRED_CNT
+			    	  FROM TB_NTC_FIELD
+			   		 WHERE DEL_YN = 'N'
+			           AND NTC_CD = #{ntcCd}  
+				) A
+		  WHERE EXISTS (
+					    SELECT 1 
+					      FROM TB_NTC_STEP B 
+					     WHERE B.NTC_CD = A.NTC_CD
+					       AND B.DEL_YN = 'N'
+					    )
+	   GROUP BY A.NTC_CD
 	</select>
 	
 	<select id="selectList" resultType="com.atsys.model.Evl1201eVo">
@@ -149,6 +156,14 @@
 				WHERE	ROWNUM <![CDATA[<=]]> #{end}
 				)
 		WHERE	RNUM >= #{start}
+	</select> 
+	
+	<select id="selectAnnData" resultType="com.atsys.model.TbAnnVo">
+		SELECT ANN_TITLE
+			   , ANN_CNTS
+		  FROM TB_ANN 
+		 WHERE ANN_CD = #{annCd}    
+		   AND DEL_YN = 'N' 
 	</select>
 
 </mapper>

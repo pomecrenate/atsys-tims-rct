@@ -95,6 +95,18 @@
 			    ) 
 		WHERE	RNUM >= #{start}
 	</select>
+	<select id="selectTotalCount" resultType="int">
+		SELECT	 COUNT(1) AS TOT_CNT 
+		FROM     TB_NTC
+		WHERE 	 DEL_YN = 'N'
+		<if test="qryNtcYear != null and qryNtcYear != ''">
+		AND 	 NTC_YEAR = #{qryNtcYear}
+		</if>
+		<if test="qryNtcSmt != null and qryNtcSmt != ''">
+		AND 	 NTC_SMT = #{qryNtcSmt}
+		</if>
+		ORDER BY NTC_NM 
+	</select>
 	<select id="selectNtc" resultType="com.atsys.model.TbNtcStepVo">
 		SELECT NTC_CD
 			   , NTC_NUM

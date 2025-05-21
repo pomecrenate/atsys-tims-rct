@@ -1,0 +1,28 @@
+우측 최상단 돌아가기 버튼과 상단패널은 @Evl1101e.jsp와 비슷하다. 다른 점은 상단패널에 class="description" "교직원구분을 클릭해 해당 심사표를 작성해주세요." 가 위쪽에 쓰여있고, 채용차수, 채용구분, 교직원구분이 보여지는데 교직원구분은 radio 버튼임.
+본문에는 class="description" "직원 심사표일 경우, 점수기준 입력란에 정량점수를 입력하시면 됩니다."가 있고,우측 상단에 '심사표 불러오기', '추가', '삭제', '저장'버튼이 있음.
+평가표 컬럼은 체크박스, 순서, 심사구분, 항목, 배점, 평가지표, 세부배점, 점수기준이 있음.
+각 행은 TB_EVAL_SHEET_QST 테이블에 저장됨.
+심사구분 컬럼은 select option 형식임.
+'심사표 불러오기'버튼을 누르면 팝업이 뜸.
+팝업 우측 최상단에는 '조회', '삭제'버튼이 있음.
+팝업 상단 패널에는 채용년도, 학기, 채용구분, 차수가 각각 select option 형식으로 있음.
+각 select option에서 선택하면 자동으로 필터링 검색이 됨.
+팝업 본문에는 체크박스, 공고명, 채용구분, 차수 컬럼이 있음.
+체크하고 '조회'버튼을 누르면 팝업이 닫히고 TB_EVAL_SHEET에서 불러온 평가표가 본문에 로드됨.
+'삭제'버튼을 누르면 체크한 행이 삭제됨.
+
+있어야 할 기능
+백
+차수(step), 채용구분(ntcType) 조회 => map{ntcCd, stepCd} 파라미터, TbEvalSheetVo 반환/
+채용구분(ntcType)에 따른 교직원구분(staffType) 목록 조회(TB_CMM에서 조회. LRG_CD: RCT002=10 -> LRG_CD: RCT004, SMALL_CD: 10~, LRG_CD: RCT002=20 -> LRG_CD: RCT004, SMALL_CD: 20~, LRG_CD: RCT002=30 -> LRG_CD: RCT004, SMALL_CD: 30~, LRG_CD: RCT002=40 -> LRG_CD: RCT005, SMALL_CD: 40~) => String{ntcType} 파라미터, List<String> 반환/
+차수코드(stepCd), 교직원구분(staffType)에 따른 평가표(TB_EVAL_SHEET) 및 평가표문항(TB_EVAL_SHEET_QST) 상세 조회 => map{stepCd, staffType} 파라미터, TbEvalSheetVo, TbEvalSheetQstVo 반환/
+평가표(TB_EVAL_SHEET) 및 평가표문항(TB_EVAL_SHEET_QST) insert, update => TbEvalSheetVo, TbEvalSheetQstVo 파라미터, int 반환/
+평가표(TB_EVAL_SHEET) 목록 조회(공고명(ntcNm), 교직원구분(staffType), 차수(step) 조회 필요, 채용년도(ntcYear), 학기(ntcSmt), 채용구분(ntcType), 차수(step)에 따른 검색 기능 필요) => map{ntcYear, ntcSmt, ntcType, step} 파라미터, TbEvalSheetVo 반환
+
+프론트
+채용구분에 따라 교직원구분 라디오버튼 구성
+평가표 문항 행 추가 기능
+심사구분 셀렉트 옵션
+채용년도(ntcYear), 학기(ntcSmt), 채용구분(ntcType), 차수(step) 목록 조회(tims-code.js의 setMultiSelect)
+ex) setMultiSelect("", {cls: "NTC_1", id: "ccNtcYear", cdg : ""}, "search", "qryNtcYear", {type:"", selectAll:"Y", multiYn:"N"});
+    setMultiSelect("", {cls: "CMM_1", id: "ccNtcSmt", cdg : "RCT001"}, "search", "qryNtcSmt", {type:"", selectAll:"Y", multiYn:"N"});

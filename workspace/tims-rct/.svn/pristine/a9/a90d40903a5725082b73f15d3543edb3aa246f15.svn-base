@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.rcp.dao.Rcp1100eDao">
+
+	<select id="selectList" resultType="com.atsys.model.Rcp1100eVo">
+		SELECT * 
+		  FROM (
+				  SELECT T.*
+						   , ROWNUM AS RNUM 
+				    FROM (
+				   			SELECT A.APP_CD
+				   				   , A.NTC_CD
+								   , A.FIELD_CD
+								   , A.NM
+								   , A.HANJA_NM  
+								   , A.APP_STATUS
+								   , FN_GET_CODE_NM('RCT009', A.APP_STATUS) AS APP_STATUS_NM
+								   , REGEXP_REPLACE(A.MOB_PHONE, '([0-9]{3})([0-9]{3,4})([0-9]{4})', '\1-\2-\3') AS MOB_PHONE
+								   , A.QUAL_YN
+								   , A.NOT_QUAL_REASON
+								   , A.CAREER_PERIOD
+								   , A.CAREER_REASON
+								   , U.BIRTH_DATE
+								   , FN_GET_DEPT_NM(D.COLLEGE_CD) AS COLLEGE_CD  
+								   , FN_GET_DEPT_NM(D.DEPT_CD) AS DEPT_CD 
+								   , D.MAJOR_NM
+								   , D.STAFF_TYPE
+								   , FN_GET_CODE_NM('RCT004', D.STAFF_TYPE) AS STAFF_TYPE_NM
+								   , D.NTC_YEAR
+								   , D.NTC_SMT
+								   , D.NTC_NM 
+								   , TO_CHAR(A.SUB_DATE, 'YYYY-MM-DD HH24:MI') AS SUB_DATE
+								   , A.DEL_YN 
+							FROM   TB_APP A
+							JOIN TB_APP_USR U 
+	         				  ON A.APP_USR_CD = U.APP_USR_CD 
+						JOIN   	(
+									SELECT B.NTC_CD
+										   , B.NTC_NUM
+										   , B.NTC_TYPE
+										   , B.NTC_YEAR
+										   , B.NTC_SMT
+										   , B.NTC_NM
+										   , B.NTC_STATUS 
+										   , B.REQUIRED_CNT
+										   , C.FIELD_CD
+										   , C.COLLEGE_CD  
+										   , C.DEPT_CD 
+										   , C.MAJOR_NM
+										   , C.STAFF_TYPE
+									FROM TB_NTC B
+									JOIN TB_NTC_FIELD C
+									ON B.NTC_CD = C.NTC_CD
+									WHERE B.DEL_YN = 'N'
+								)D
+						   ON A.FIELD_CD = D.FIELD_CD 
+						WHERE A.DEL_YN = 'N'
+						  AND A.APP_STATUS != '1' 
+						<if test="qryNtcYear != null and qryNtcYear !=''">
+						  AND D.NTC_YEAR = #{qryNtcYear}
+						</if>
+						<if test="qryNtcSmt != null and qryNtcSmt !=''">
+						  AND D.NTC_SMT = #{qryNtcSmt}
+						</if>
+						<if test="qryNtcCd != null and qryNtcCd !=''">
+						  AND A.NTC_CD = #{qryNtcCd}
+						</if>
+						<if test="qryStaffType != null and qryStaffType !=''">
+						  AND D.STAFF_TYPE = #{qryStaffType}
+						</if>
+						<if test="qryCollegeCd != null and qryCollegeCd !=''">
+						  AND D.COLLEGE_CD = #{qryCollegeCd}
+						</if> 
+						<if test="qryDeptCd != null and qryDeptCd !=''">
+						  AND D.DEPT_CD = #{qryDeptCd}
+						</if>
+						<if test="qryAppStatus != null and qryAppStatus !=''">
+						  AND A.APP_STATUS = #{qryAppStatus}
+						</if>
+						ORDER BY A.APP_CD, D.FIELD_CD
+					 ) T
+				   WHERE	ROWNUM <![CDATA[<=]]> #{end}
+			   ) 
+		WHERE	RNUM >= #{start}		 
+	</select>
+	
+	<select id="selectTotalCount" resultType="int">
+		SELECT	COUNT(1) AS TOT_CNT
+		FROM 	 TB_APP A JOIN   ( 
+									SELECT B.NTC_CD
+										   , C.FIELD_CD
+										   , B.NTC_YEAR
+										   , B.NTC_SMT
+										   , C.STAFF_TYPE
+										   , C.COLLEGE_CD
+										   , C.DEPT_CD 
+									FROM TB_NTC B
+									JOIN TB_NTC_FIELD C
+									ON B.NTC_CD = C.NTC_CD
+									WHERE B.DEL_YN = 'N'
+								)D  ON   A.FIELD_CD = D.FIELD_CD 
+		WHERE A.DEL_YN = 'N'
+			<if test="qryNtcYear != null and qryNtcYear !=''">
+			  AND D.NTC_YEAR = #{qryNtcYear}
+			</if>
+			<if test="qryNtcSmt != null and qryNtcSmt !=''">
+			  AND D.NTC_SMT = #{qryNtcSmt}
+			</if>
+			<if test="qryNtcCd != null and qryNtcCd !=''">
+			  AND A.NTC_CD = #{qryNtcCd}
+			</if>
+			<if test="qryStaffType != null and qryStaffType !=''">
+			  AND D.STAFF_TYPE = #{qryStaffType}
+			</if>
+			<if test="qryCollegeCd != null and qryCollegeCd !=''">
+			  AND D.COLLEGE_CD = #{qryCollegeCd}
+			</if> 
+			<if test="qryDeptCd != null and qryDeptCd !=''">
+			  AND D.DEPT_CD = #{qryDeptCd}
+			</if>
+			<if test="qryAppStatus != null and qryAppStatus !=''">
+			  AND A.APP_STATUS = #{qryAppStatus}
+			</if>
+	</select>
+	
+	<update id ="updateAppstatus">
+		UPDATE TB_APP
+		   SET APP_STATUS = #{appStatus}
+		       <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+	     WHERE APP_CD = #{appCd}
+		   AND DEL_YN = 'N'      
+	</update>
+	
+	
+	<update id="updateQualYnAndReason">
+		UPDATE	TB_APP
+		SET		QUAL_YN = #{qualYn}
+				, NOT_QUAL_REASON = #{notQualReason}
+				, APP_STATUS = CASE 
+								WHEN #{qualYn} = 'N' THEN '4' 
+								WHEN #{qualYn} = 'Y' THEN '2' 
+								ELSE APP_STATUS END
+				<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE	APP_CD = #{appCd}
+		AND		DEL_YN = 'N' 
+	</update>
+	
+	<select id="selectQualData" resultType="com.atsys.model.TbAppVo">
+		 SELECT QUAL_YN
+		  		, NOT_QUAL_REASON
+  		   FROM TB_APP 
+  		  WHERE APP_CD = #{appCd}
+  		    AND DEL_YN='N' 
+	</select>
+	
+	<select id="selectCareerList" resultType="com.atsys.model.TbAppCareerVo">
+		SELECT CAREER_CD
+		       , APP_CD
+		       , TO_CHAR(WORK_START_DATE, 'YYYY-MM-DD') AS WORK_START_DATE
+   			   , TO_CHAR(WORK_END_DATE, 'YYYY-MM-DD') AS WORK_END_DATE
+		       , WORK_PERIOD
+		       , COMPANY_NM
+		       , POSITION
+		       , EMPLOYED_YN
+		       , TASK_DESC
+		  FROM TB_APP_CAREER 
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}
+	</select>
+	
+	<update id="updateCareerPeriodAndReason">
+		UPDATE	TB_APP
+		SET		CAREER_PERIOD = #{careerPeriod}
+				, CAREER_REASON = #{careerReason}
+				<include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+		WHERE	APP_CD = #{appCd}
+		AND		DEL_YN = 'N'  
+	</update>
+	
+	<select id="selectCareerData" resultType="com.atsys.model.TbAppVo">
+		 SELECT CAREER_PERIOD
+		  		, CAREER_REASON
+  		   FROM TB_APP 
+  		  WHERE APP_CD = #{appCd}
+  		    AND DEL_YN='N' 
+	</select>
+	
+	<select id="selectAppNmAndMob" resultType="com.atsys.model.TbAppVo">
+		 SELECT APP_CD 
+				, NM
+				, MOB_PHONE
+				, NTC_CD
+		FROM TB_APP 
+  		  WHERE APP_CD = #{appCd}
+  		    AND DEL_YN='N' 
+	</select>
+	
+	<select id="selectOneApp" resultType="com.atsys.model.TbAppVo">
+		SELECT (SELECT NTC_NM FROM TB_NTC WHERE NTC_CD = A.NTC_CD) AS NTC_CD
+		       , (SELECT MAJOR_NM FROM TB_NTC_FIELD WHERE FIELD_CD = A.FIELD_CD) AS FIELD_CD
+		       , FN_GET_CODE_NM('RCT002', (SELECT NTC_TYPE FROM TB_NTC WHERE NTC_CD = A.NTC_CD)) AS NTC_TYPE
+		       , A.NM
+		       , A.HANJA_NM
+		       , A.ENG_NM
+		       , A.HOME_PHONE
+		       , A.OFFICE_PHONE
+		       , REGEXP_REPLACE(A.MOB_PHONE, '([0-9]{3})([0-9]{3,4})([0-9]{4})', '\1-\2-\3') AS MOB_PHONE
+		       , A.POSTAL_CODE
+		       , A.ADDRESS
+		       , FN_GET_CODE_NM('RCT031', A.MIL_TYPE) AS MIL_TYPE
+		       , A.MIL_RANK
+		       , TO_CHAR(A.MIL_START_DATE, 'YYYY-MM-DD') AS MIL_START_DATE 
+		       , TO_CHAR(A.MIL_END_DATE, 'YYYY-MM-DD') AS MIL_END_DATE
+		       , CASE A.VETERAN_YN  WHEN 'Y' THEN '해당'
+								    WHEN 'N' THEN '해당 없음' 
+								    END AS VETERAN_YN
+		       , CASE A.DISABLED_YN WHEN 'Y' THEN '해당'
+								    WHEN 'N' THEN '해당 없음' 
+								    END AS DISABLED_YN
+		       , A.PHOTO_UPLD_FILE_CD
+		       , A.DEL_YN
+		       , B.BIRTH_DATE 
+		  FROM TB_APP A
+		  JOIN TB_APP_USR B
+		    ON A.APP_USR_CD = B.APP_USR_CD
+		 WHERE A.DEL_YN = 'N'
+		   AND A.APP_CD = #{appCd} 
+	</select>
+	
+	<select id="selectAppEduList" resultType="com.atsys.model.TbAppEduVo">
+		SELECT EDU_CD
+			   , APP_CD 
+			   , FN_GET_CODE_NM('RCT040', EDU_TYPE) AS EDU_TYPE
+			   , TO_CHAR(EDU_START_DATE, 'YYYY-MM-DD') AS EDU_START_DATE 
+			   , TO_CHAR(EDU_END_DATE, 'YYYY-MM-DD') AS EDU_END_DATE  
+			   , FN_GET_CODE_NM('RCT042', COUNTRY_CD) AS COUNTRY_CD
+			   , SCHOOL_CD
+			   , SCHOOL_NM
+			   , MAJOR
+			   , MAJOR_DETAIL
+			   , DEGREE_NM
+			   , FN_GET_CODE_NM('RCT043', ACQ_TYPE) AS ACQ_TYPE
+			   , GPA
+			   , MAX_GPA 
+		  FROM TB_APP_EDU 
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd} 
+	</select>
+	
+	<select id="selectAppCareerList" resultType="com.atsys.model.TbAppCareerVo">
+		SELECT CAREER_CD
+			   , APP_CD
+			   , TO_CHAR(WORK_START_DATE, 'YYYY-MM-DD') AS WORK_START_DATE 
+		 	   , TO_CHAR(WORK_END_DATE, 'YYYY-MM-DD') AS WORK_END_DATE 
+		 	   , CASE EMPLOYED_YN WHEN 'N' THEN '재직중 아님'
+		 	   					  WHEN 'Y' THEN '재직중' 
+		 	   					  END AS EMPLOYED_YN 
+		 	   , WORK_PERIOD
+		 	   , COMPANY_NM
+		 	   , POSITION 
+		 	   , TASK_DESC
+		  FROM TB_APP_CAREER
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}   
+	</select>
+	
+	<select id="selectAppAwardList" resultType="com.atsys.model.TbAppAwardVo">
+		SELECT AWARD_CD
+			   , APP_CD
+			   , FN_GET_CODE_NM('RCT050', AWARD_TYPE) AS AWARD_TYPE
+			   , AWARD_NM
+			   , TO_CHAR(ISSUE_DATE, 'YYYY-MM-DD') AS ISSUE_DATE  
+			   , ISSUER
+			   , AWARD_DESC
+		  FROM TB_APP_AWARD
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}   
+	</select>
+	
+	<select id="selectAppRecList" resultType="com.atsys.model.TbAppRecVo">
+		SELECT REC_CD
+		       , APP_CD
+		       , NM
+		       , ORG
+		       , POSITION
+		       , RELATION
+		       , REMARKS
+		  FROM TB_APP_REC
+		 WHERE DEL_YN = 'N'
+		   AND APP_CD = #{appCd}    
+	</select>
+	 
+	<select id="selectSelfIntro" resultType="com.atsys.model.TbAppSelfIntroVo">
+		SELECT INTRO_CD
+	   		  , APP_CD
+	   		  , INTRO_CNTS
+	     FROM TB_APP_SELF_INTRO
+	    WHERE DEL_YN = 'N'
+	      AND APP_CD = #{appCd}     		 
+	</select>
+	
+	<select id="selectNtcDocList" resultType="com.atsys.model.TbNtcDocVo">
+		SELECT A.NTC_DOC_CD
+			   , A.DOC_SEQ
+			   , A.NTC_INFO_CD
+			   , A.DOC_CD
+			   , A.DOC_DESC
+			   , A.FILE_EXTN
+			   , A.REQUIRED_YN
+		  FROM TB_NTC_DOC A 
+		  JOIN TB_NTC_INFO B 
+		    ON A.NTC_INFO_CD = B.NTC_INFO_CD
+		   AND B.NTC_CD = #{ntcCd}    
+		 WHERE A.DEL_YN = 'N' 
+	</select>
+	
+</mapper>

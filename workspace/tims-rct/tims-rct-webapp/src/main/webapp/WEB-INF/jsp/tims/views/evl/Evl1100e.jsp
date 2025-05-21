@@ -94,9 +94,9 @@ const evalColumns = [
         name: "evalMgtBtn", 
         btnText: "심사관리", 
         btnUrl: btnUrlMap.evalMgtBtn,
-        showCondition: function(row) {
+/*         showCondition: function(row) {
             return row.ntcStatusNm === '심사평가중' || row.ntcStatusNm === '합격자발표';
-        }
+        } */
     },
     { 
         type: "button", 

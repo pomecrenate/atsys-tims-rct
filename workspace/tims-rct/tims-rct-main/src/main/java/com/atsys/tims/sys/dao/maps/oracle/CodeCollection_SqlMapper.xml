@@ -39,17 +39,7 @@
 		, DEPT_LVL 
 		, DEPT_NM AS CD_NM
 		, USE_YN
-	</sql> 
-	
-	<sql id="sqlColumnsFLD_2">
-		DEPT_CD AS LRG_CD
-		, DEPT_CD AS SMALL_CD
-		, DEPT_LVL 
-		, DEPT_NM AS CD_NM
-		, USE_YN
-	</sql> 
-	
-	
+	</sql>   
 
 	<select id="selectList" resultType="com.atsys.model.CodeSelectionVo">
 		<if test="codeColls != null and codeColls.size() > 0">

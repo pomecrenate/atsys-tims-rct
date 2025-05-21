@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atsys.tims.evl.dao.Evl1103eDao">
+    <!-- 차수, 채용구분, 평가위원 목록 조회 -->
+    <select id="selectInfo" parameterType="map" resultType="com.atsys.model.Evl1103eVo">
+        SELECT
+            S.JDG_CD AS USR_CD,
+            S.FIELD_CD,
+            S.JDG_DIV,
+            FN_GET_CODE_NM('RCT011', S.JDG_DIV) AS JDG_DIV_NM,
+            S.USR_ID,
+            S.NM,
+            S.CHAIR_YN,
+            S.OATH_AGREE_YN,
+            S.OATH_AGREE_DATE,
+            S.CONFIRMED_YN,
+            NS.STEP_CD,
+            NS.NTC_CD,
+            NS.STEP,
+            N.NTC_TYPE,
+            FN_GET_CODE_NM('RCT002', N.NTC_TYPE) AS NTC_TYPE_NM,
+            CASE 
+                WHEN S.JDG_DIV = '1' THEN FS.ORG
+                WHEN S.JDG_DIV = '2' THEN EJ.ORG
+                ELSE NULL
+            END AS ORG
+        FROM TB_SEL_EVAL_JDG S
+        JOIN TB_NTC_FIELD F ON S.FIELD_CD = F.FIELD_CD
+        JOIN TB_NTC_STEP NS ON S.STEP_CD = NS.STEP_CD
+        JOIN TB_NTC N ON NS.NTC_CD = N.NTC_CD
+        LEFT JOIN TB_FAC_STAFF FS ON S.JDG_DIV = '1' AND S.USR_ID = FS.EMP_CD AND FS.DEL_YN = 'N'
+        LEFT JOIN TB_EX_EVAL_JDG EJ ON S.JDG_DIV = '2' AND S.USR_ID = EJ.USR_ID AND EJ.DEL_YN = 'N'
+        WHERE S.DEL_YN = 'N'
+        AND F.DEL_YN = 'N'
+        AND NS.DEL_YN = 'N'
+        AND N.DEL_YN = 'N'
+        AND NS.NTC_CD = #{ntcCd}
+        AND NS.STEP_CD = #{stepCd}
+        ORDER BY N.NTC_YEAR DESC, N.NTC_SMT, NS.STEP, S.CHAIR_YN DESC, S.JDG_DIV, S.NM
+    </select>
+    
+    <!-- 평가 결과 코드 조회 -->
+    <select id="selectResultCd" parameterType="map" resultType="string">
+        SELECT RESULT_CD
+        FROM TB_EVAL_RESULT
+        WHERE JDG_CD = #{usrCd}
+        AND APP_CD = #{appCd}
+        AND DEL_YN = 'N'
+        ORDER BY CRE_DATE DESC
+    </select>
+    
+    <!-- 평가위원별 지원자 목록 조회 -->
+    <select id="selectApplicants" parameterType="map" resultType="com.atsys.model.TbEvalResultVo">
+        SELECT
+            A.APP_CD,
+            A.NM AS APP_USR_NM,
+            F.COLLEGE_CD,
+            FN_GET_DEPT_NM(F.COLLEGE_CD) AS COLLEGE_NM,
+            F.DEPT_CD,
+            FN_GET_DEPT_NM(F.DEPT_CD) AS DEPT_NM,
+            F.MAJOR_NM,
+            F.STAFF_TYPE,
+            CASE 
+                WHEN SUBSTR(F.STAFF_TYPE, 1, 2) = '40' THEN FN_GET_CODE_NM('RCT005', F.STAFF_TYPE)
+                ELSE FN_GET_CODE_NM('RCT004', F.STAFF_TYPE)
+            END AS STAFF_TYPE_NM,
+            R.RESULT_CD,
+            R.CONFIRMED_YN
+        FROM TB_SEL_EVAL_JDG J
+        JOIN TB_NTC_FIELD F ON J.FIELD_CD = F.FIELD_CD
+        JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
+        LEFT JOIN TB_EVAL_RESULT R ON A.APP_CD = R.APP_CD AND J.JDG_CD = R.JDG_CD
+        WHERE J.JDG_CD = #{usrCd}
+        AND J.DEL_YN = 'N'
+        AND A.DEL_YN = 'N'
+        AND A.APP_STATUS = '3'
+        ORDER BY A.NM
+    </select>
+    
+    <!-- 평가 상세 정보 통합 조회 (평가결과, 문항, 점수) -->
+    <select id="selectEvalDetails" parameterType="map" resultType="com.atsys.model.TbEvalScoreVo">
+        SELECT
+            S.SCORE_CD,
+            Q.QST_CD,
+            S.RESULT_CD,
+            S.RESULT_SCORE,
+            Q.SHEET_CD,
+            R.OPINION,
+            R.MINUTES,
+            Q.QST_TYPE,
+            FN_GET_CODE_NM('RCT012', Q.QST_TYPE) AS QST_TYPE_NM,
+            Q.QST_NM,
+            Q.QST_SCORE,
+            Q.IND_NM,
+            Q.IND_SCORE,
+            Q.SCORE_CRITERIA,
+            Q.SORT_ORDER
+        FROM TB_EVAL_SHEET_QST Q
+        JOIN TB_EVAL_SHEET ES ON Q.SHEET_CD = ES.SHEET_CD
+        LEFT JOIN (
+            SELECT *
+            FROM TB_EVAL_RESULT 
+            WHERE JDG_CD = #{usrCd}
+            AND APP_CD = #{appCd}
+            AND DEL_YN = 'N'
+        ) R ON ES.SHEET_CD = R.SHEET_CD
+        LEFT JOIN (
+            SELECT *
+            FROM TB_EVAL_SCORE
+            WHERE DEL_YN = 'N'
+        ) S ON R.RESULT_CD = S.RESULT_CD AND Q.QST_CD = S.QST_CD
+        WHERE Q.SHEET_CD = (
+            SELECT SHEET_CD
+            FROM TB_EVAL_SHEET ES
+            JOIN TB_NTC_FIELD F ON ES.STAFF_TYPE = F.STAFF_TYPE
+            JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
+            WHERE A.APP_CD = #{appCd}
+            AND ES.DEL_YN = 'N'
+            AND F.DEL_YN = 'N'
+            AND A.DEL_YN = 'N'
+        )
+        AND Q.DEL_YN = 'N'
+        AND ES.DEL_YN = 'N'
+        ORDER BY Q.SORT_ORDER, Q.QST_TYPE
+    </select>
+    
+    <!-- sheetCd를 통해 평가표 조회 -->
+    <select id="selectSheetCdByAppCd" parameterType="string" resultType="string">
+        SELECT ES.SHEET_CD
+        FROM TB_EVAL_SHEET ES
+        JOIN TB_NTC_FIELD F ON ES.STAFF_TYPE = F.STAFF_TYPE
+        JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
+        WHERE A.APP_CD = #{_parameter}
+        AND ES.DEL_YN = 'N'
+        AND F.DEL_YN = 'N'
+        AND A.DEL_YN = 'N'
+    </select>
+    
+    <!-- 결과코드로 점수코드 목록 조회 -->
+    <select id="selectScoreCdsByResultCd" parameterType="string" resultType="map">
+        SELECT SCORE_CD, QST_CD
+        FROM TB_EVAL_SCORE
+        WHERE RESULT_CD = #{_parameter}
+        AND DEL_YN = 'N'
+    </select>
+    
+    <!-- 평가 결과 등록 -->
+    <insert id="insertEvalResult" parameterType="com.atsys.model.TbEvalResultVo">
+        INSERT INTO TB_EVAL_RESULT (
+            RESULT_CD,
+            JDG_CD,
+            APP_CD,
+            SHEET_CD,
+            OPINION,
+            MINUTES,
+            CONFIRMED_YN
+            <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+        ) VALUES (
+            FN_GET_PK_CD(),
+            #{jdgCd},
+            #{appCd},
+            #{sheetCd},
+            #{opinion},
+            #{minutes},
+            #{confirmedYn}
+            <include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+        )
+    </insert>
+    
+    <!-- 평가 결과 수정 -->
+    <update id="updateEvalResult" parameterType="com.atsys.model.TbEvalResultVo">
+        UPDATE TB_EVAL_RESULT
+        SET OPINION = #{opinion}
+          , MINUTES = #{minutes}
+          , CONFIRMED_YN = #{confirmedYn}
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE RESULT_CD = #{resultCd}
+        AND DEL_YN = 'N'
+    </update>
+    
+<!--     결과표 삭제
+    <update id="deleteEvalResult" parameterType="string">
+        UPDATE TB_EVAL_RESULT
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE RESULT_CD = #{_parameter}
+        AND DEL_YN = 'N'
+    </update>
+    
+    결과표에 속한 모든 점수 삭제
+    <update id="deleteEvalScoresByResultCd" parameterType="string">
+        UPDATE TB_EVAL_SCORE
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE RESULT_CD = #{_parameter}
+        AND DEL_YN = 'N'
+    </update>
+    
+    결과표 삭제 가능 여부 확인
+    <select id="checkResultDeletable" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+        FROM TB_EVAL_TOTAL_SCORE T
+        WHERE T.STEP_CD = #{stepCd}
+        AND T.APP_CD = #{appCd}
+        AND T.DEL_YN = 'N'
+    </select> -->
+    
+    <!-- 평가 점수 등록 -->
+    <insert id="insertEvalScore" parameterType="com.atsys.model.TbEvalScoreVo">
+        INSERT INTO TB_EVAL_SCORE (
+            SCORE_CD,
+            QST_CD,
+            RESULT_CD,
+            RESULT_SCORE
+            <include refid="com.atsys.base.dao.common.CommonDao.allLogColumns"/>
+        ) VALUES (
+            FN_GET_PK_CD(),
+            #{qstCd},
+            #{resultCd},
+            #{resultScore}
+            <include refid="com.atsys.base.dao.common.CommonDao.insertLog"/>
+        )
+    </insert>
+    
+    <!-- 평가 점수 수정 -->
+    <update id="updateEvalScore" parameterType="com.atsys.model.TbEvalScoreVo">
+        UPDATE TB_EVAL_SCORE
+        SET RESULT_SCORE = #{resultScore}
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE SCORE_CD = #{scoreCd}
+        AND DEL_YN = 'N'
+    </update>
+    
+    <!-- 평가 점수 삭제 -->
+    <update id="deleteEvalScore" parameterType="string">
+        UPDATE TB_EVAL_SCORE
+        SET DEL_YN = 'Y'
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE SCORE_CD = #{_parameter}
+        AND DEL_YN = 'N'
+    </update>
+    
+	<!-- 평가 결과 확정여부 변경 -->
+    <update id="confirmResult" parameterType="map">
+        UPDATE TB_EVAL_RESULT
+        SET CONFIRMED_YN = #{confirmedYn}
+          <include refid="com.atsys.base.dao.common.CommonDao.updateLog"/>
+        WHERE RESULT_CD = #{resultCd}
+        AND DEL_YN = 'N'
+    </update>
+    
+    <!-- 평가 확정 취소 가능 여부 확인 -->
+    <select id="checkConfirmCancelable" parameterType="map" resultType="int">
+        SELECT COUNT(1)
+        FROM TB_EVAL_TOTAL_SCORE T
+        WHERE T.STEP_CD = #{stepCd}
+        AND T.APP_CD = #{appCd}
+        AND DEL_YN = 'N'
+    </select>
+</mapper>

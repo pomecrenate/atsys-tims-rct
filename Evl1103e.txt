@@ -1,0 +1,12 @@
+우측최상단의 돌아가기 버튼은 기존 페이지와 같다.
+상단 패널에는 채용공고 차수(step), 채용구분(ntcTypeNm), 해당 채용공고에서 선택된 평가위원(TbSelEvalJdgVo select option)이 있다.(ntcCd, stepCd로 select, List<Evl1103eVo> 반환)
+좌측 하단에는 select option으로 선택된 평가위원이 담당한 초빙분야의 지원서 목록이 있다.
+지원서 목록은 지원자 성명(TB_APP의 NM), 지원분야(TB_NTC_FIELD의 COLLEGE_NM, DEPT_NM, MAJOR_NM, STAFF_TYPE_NM), 심사여부(TB_EVAL_RESULT의 CONFIRMED_YN) 컬럼이 있다.(jdgCd로 select, List<TbEvalResultVo> 반환)
+지원서를 선택하면 우측하단에는 채용공고의 평가표가 로드(stepCd, staffType으로 select, List<TbEvalScoreVo> 반환)되며 평가위원은 우측 끝에 평가 점수를 입력할 수 있다.
+소견서는 평가위원 모두 입력 가능하고 평가위원 별로 저장된다.
+모든 평가점수가 최저점일 경우 반드시 소견서에 사유를 기재해야 한다.
+회의록은 위원장만 입력 가능하다.
+최하단에는 지원자의 총점(평가 점수의 총합)이 표시된다.
+평가표의 컬럼은 심사구분, 항목, 배점, 평가지표, 세부배점, 점수 기준, 평가 점수이다.
+평가표의 심사구분, 항목, 배점의 경우, 같은 컬럼 내의 셀 값이 서로 같으면 셀 병합되어 표시된다.
+평가표 위의 확정 버튼을 누르면 점수가 저장되고 해당 지원서 목록의 심사여부(confirmedYn) 컬럼이 "O"로 바뀌며 TB_EVAL_RESULT의 CONFIRMED_YN이 Y로 바뀐다.(TbEvalResultVo으로 insert, update, int 반환/TbEvalScoreVo으로 insert, update, int 반환)

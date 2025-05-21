@@ -26,8 +26,7 @@ import com.atsys.base.ui.ViewHelper;
 public class Evl1104eController {
 	
 	private static final String ADM_PATH  = ConstantsUtils.getAdmViewRoot() + "/evl/"; 
-	private final String viewList		  = ADM_PATH + "Evl1104e"; 
-	private final String annSelectPop	  = ADM_PATH + "popup/" + "Evl1104p1";
+	private final String viewList		  = ADM_PATH + "Evl1104e";
 	
 	@Autowired
 	ViewHelper viewHelper;
@@ -37,13 +36,6 @@ public class Evl1104eController {
 		model.addAllAttributes(so);
 		session.setAttribute("userRole", "ADMIN");
 		return viewHelper.createModelAndView(viewList);
-	} 
-	
-	@RequestMapping(value="/popup/annSelect")
-	public ModelAndView popupQualynSelect(@RequestParam Map<String, Object> so, Model model, HttpSession session) throws Exception {  
-		model.addAllAttributes(so);
-		session.setAttribute("userRole", "ADMIN");
-		return viewHelper.createModelAndViewPopup(annSelectPop);
 	} 
 	
 	

@@ -130,7 +130,13 @@
         ) VALUES (
             FN_GET_PK_CD()
           , #{sheetCd}
-          , #{qstType}
+          , CASE 
+              WHEN #{qstTypeNm} = '기초심사' THEN '10'
+              WHEN #{qstTypeNm} = '전공심사' THEN '20'
+              WHEN #{qstTypeNm} = '세미나' THEN '30'
+              WHEN #{qstTypeNm} = '면접' THEN '40'
+              ELSE #{qstType}
+            END
           , #{qstNm}
           , #{qstScore}
           , #{indNm}
@@ -144,7 +150,13 @@
     <!-- 평가표문항 수정 -->
     <update id="updateEvalSheetQst" parameterType="com.atsys.model.TbEvalSheetQstVo">
         UPDATE TB_EVAL_SHEET_QST
-        SET QST_TYPE = #{qstType}
+        SET QST_TYPE = CASE 
+                         WHEN #{qstTypeNm} = '기초심사' THEN '10'
+                         WHEN #{qstTypeNm} = '전공심사' THEN '20'
+                         WHEN #{qstTypeNm} = '세미나' THEN '30'
+                         WHEN #{qstTypeNm} = '면접' THEN '40'
+                         ELSE #{qstType}
+                       END
           , QST_NM = #{qstNm}
           , QST_SCORE = #{qstScore}
           , IND_NM = #{indNm}

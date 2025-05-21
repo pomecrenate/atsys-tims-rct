@@ -1,0 +1,61 @@
+/*************************************************************
+ 프로그램명 : Rcp1100eDao.java
+ 설명 : 지원서관리
+ 작성자 : 백세진
+ 일자 : 2025.04.09
+*************************************************************/
+package com.atsys.tims.rcp.dao;
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.atsys.model.Rcp1100eVo;
+import com.atsys.model.TbAppAwardVo;
+import com.atsys.model.TbAppCareerVo;
+import com.atsys.model.TbAppEduVo;
+import com.atsys.model.TbAppRecVo;
+import com.atsys.model.TbAppSelfIntroVo;
+import com.atsys.model.TbAppVo;
+import com.atsys.model.TbNtcDocVo;
+
+@Repository
+@Mapper 
+public interface Rcp1100eDao {
+
+	public List<Rcp1100eVo> selectList(Map<String, Object> so);
+
+	public int selectTotalCount(Map<String, Object> so);
+
+	public int updateQualYnAndReason(TbAppVo vo);
+
+	public TbAppVo selectQualData(TbAppVo vo);
+
+	public List<TbAppCareerVo> selectCareerList(TbAppCareerVo vo);
+
+	public int updateCareerPeriodAndReason(TbAppVo vo);
+
+	public TbAppVo selectCareerData(TbAppVo vo);
+
+	public TbAppVo selectAppNmAndMob(TbAppVo vo);
+
+	public TbAppVo selectOneApp(String appCd);
+
+	public List<TbAppEduVo> selectAppEduList(String appCd);
+
+	public List<TbAppCareerVo> selectAppCareerList(String appCd);
+
+	public List<TbAppAwardVo> selectAppAwardList(String appCd);
+
+	public List<TbAppRecVo> selectAppRecList(String appCd);
+
+	public TbAppSelfIntroVo selectSelfIntro(String appCd);
+
+	public List<TbNtcDocVo> selectNtcDocList(TbNtcDocVo vo);
+
+	public int updateAppstatus(TbAppVo vo);
+
+}

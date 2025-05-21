@@ -12,8 +12,9 @@
 							       , A.APP_CD
 								   , A.APP_USR_CD
 								   , A.NTC_CD
+								   , A.FIELD_CD
 								   , A.NM
-								   , A.MOB_PHONE
+								   , REGEXP_REPLACE(A.MOB_PHONE, '([0-9]{3})([0-9]{3,4})([0-9]{4})', '\1-\2-\3') AS MOB_PHONE
 								   , A.EMAIL
 								   , A.DEL_YN
 								   , A.PASS_STEP
@@ -29,6 +30,7 @@
 							  			SELECT C.APP_CD
 											   , C.APP_USR_CD
 											   , C.NTC_CD
+											   , C.FIELD_CD
 											   , C.NM
 											   , C.MOB_PHONE
 											   , C.PASS_STEP
@@ -44,6 +46,7 @@
 								     		   , E.STEP
 								     		   , F.COLLEGE_CD
 								     		   , F.DEPT_CD 
+								     		   , F.FIELD_CD
 								   		  FROM TB_NTC_STEP E
 								   		  JOIN TB_NTC_FIELD F ON E.NTC_CD = F.NTC_CD
 								   		 WHERE E.NTC_CD =  #{ntcCd} 
@@ -51,6 +54,7 @@
 								   		   AND E.DEL_YN = 'N'
 					  		   	   ) B
 							    ON A.NTC_CD = B.NTC_CD
+							   AND A.FIELD_CD = B.FIELD_CD
 						 LEFT JOIN (
 						 		   		SELECT APP_CD
 						 		   			   , SCH_CD
@@ -65,6 +69,7 @@
 						 		   ) G 
 					 		    ON A.APP_CD = G.APP_CD AND B.STEP_CD = G.STEP_CD   
 					         WHERE A.DEL_YN = 'N'  
+					           AND A.PASS_STEP = #{step}
 				         ) T
 				   WHERE	ROWNUM <![CDATA[<=]]> #{end}
 			   ) 

@@ -186,6 +186,7 @@
             SELECT 1 
             FROM TB_EVAL_RESULT R
             WHERE R.JDG_CD = J.JDG_CD
+            AND R.CONFIRMED_YN = 'Y'
             AND R.DEL_YN = 'N'
         )
     </select>
