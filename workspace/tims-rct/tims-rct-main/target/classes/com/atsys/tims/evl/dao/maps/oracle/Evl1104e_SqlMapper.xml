@@ -62,6 +62,7 @@
         WHERE 
             A.DEL_YN = 'N'
             AND C.STAFF_TYPE = #{staffType}
+            AND A.APP_STATUS = '3'
         ORDER BY
             EXCEPTED_AVG DESC,
             A.NM
