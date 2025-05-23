@@ -157,7 +157,7 @@ public class Evl1102eServiceImpl implements Evl1102eService {
                 
                 qstVo.setQstCd(existingQstCd);
                 qstVo.setSheetCd(sheetCd);
-                qstVo.setQstType((String) qstMap.get("qstType"));
+                qstVo.setQstTypeNm((String) qstMap.get("qstTypeNm"));
                 qstVo.setQstNm((String) qstMap.get("qstNm"));
                 qstVo.setQstScore((Integer) qstMap.get("qstScore"));
                 qstVo.setIndNm((String) qstMap.get("indNm"));
@@ -185,7 +185,7 @@ public class Evl1102eServiceImpl implements Evl1102eService {
                 TbEvalSheetQstVo qstVo = new TbEvalSheetQstVo();
                 
                 qstVo.setSheetCd(sheetCd);
-                qstVo.setQstType((String) qstMap.get("qstType"));
+                qstVo.setQstTypeNm((String) qstMap.get("qstTypeNm"));
                 qstVo.setQstNm((String) qstMap.get("qstNm"));
                 qstVo.setQstScore((Integer) qstMap.get("qstScore"));
                 qstVo.setIndNm((String) qstMap.get("indNm"));

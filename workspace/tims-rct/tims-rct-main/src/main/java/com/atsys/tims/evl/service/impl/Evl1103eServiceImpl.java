@@ -64,7 +64,7 @@ public class Evl1103eServiceImpl implements Evl1103eService {
         String resultCd = (String) result.get("resultCd");
         String opinion = (String) result.get("opinion");
         String minutes = (String) result.get("minutes");
-        
+            
         // sheetCd 가져오기
         String sheetCd = (String) result.get("sheetCd");
         if (sheetCd == null || sheetCd.isEmpty()) {
@@ -73,35 +73,35 @@ public class Evl1103eServiceImpl implements Evl1103eService {
         
         // 평가결과 처리
         boolean isNew = (resultCd == null || resultCd.isEmpty());
-        
+            
         if (isNew) {
-            // 신규 평가결과 생성
-            TbEvalResultVo evalResult = new TbEvalResultVo();
-            evalResult.setJdgCd(jdgCd);
-            evalResult.setAppCd(appCd);
-            evalResult.setSheetCd(sheetCd);
-            evalResult.setOpinion(opinion);
-            evalResult.setMinutes(minutes);
-            evalResult.setConfirmedYn("Y");
-            
-            // 평가 결과 저장
-            evl1103eDao.insertEvalResult(evalResult);
-            
-            // 생성된 결과코드 가져오기
-            Map<String, Object> params = new HashMap<>();
-            params.put("usrCd", jdgCd);
-            params.put("appCd", appCd);
-            resultCd = evl1103eDao.selectResultCd(params);
+        	// 신규 평가결과 생성
+        	TbEvalResultVo evalResult = new TbEvalResultVo();
+        	evalResult.setJdgCd(jdgCd);
+        	evalResult.setAppCd(appCd);
+        	evalResult.setSheetCd(sheetCd);
+        	evalResult.setOpinion(opinion);
+        	evalResult.setMinutes(minutes);
+        	evalResult.setConfirmedYn("Y");
+                
+        	// 평가 결과 저장
+        	evl1103eDao.insertEvalResult(evalResult);
+                
+        	// 생성된 결과코드 가져오기
+        	Map<String, Object> params = new HashMap<>();
+        	params.put("usrCd", jdgCd);
+        	params.put("appCd", appCd);
+        	resultCd = evl1103eDao.selectResultCd(params);
         } else {
-            // 기존 평가결과 업데이트
-            TbEvalResultVo evalResult = new TbEvalResultVo();
-            evalResult.setResultCd(resultCd);
-            evalResult.setOpinion(opinion);
-            evalResult.setMinutes(minutes);
-            evalResult.setConfirmedYn("Y");
-            
-            // 평가 결과 업데이트
-            evl1103eDao.updateEvalResult(evalResult);
+        	// 기존 평가결과 업데이트
+        	TbEvalResultVo evalResult = new TbEvalResultVo();
+        	evalResult.setResultCd(resultCd);
+        	evalResult.setOpinion(opinion);
+        	evalResult.setMinutes(minutes);
+        	evalResult.setConfirmedYn("Y");
+                
+        	// 평가 결과 업데이트
+        	evl1103eDao.updateEvalResult(evalResult);
         }
         
         // 기존 점수 목록 조회
@@ -142,7 +142,7 @@ public class Evl1103eServiceImpl implements Evl1103eService {
         if (deleteCnt > 0) {
             Utilities.regSearchHst("D", deleteCnt);
         }
-        
+            
         // 2. 기존 점수 중 새로운 목록에도 있는 점수는 업데이트
         for (String qstCd : existingScoreMap.keySet()) {
             if (newQstCds.contains(qstCd)) {
@@ -172,19 +172,19 @@ public class Evl1103eServiceImpl implements Evl1103eService {
             evalScore.setQstCd(qstCd);
             evalScore.setResultCd(resultCd);
             evalScore.setResultScore(Integer.parseInt(score.get("resultScore").toString()));
-            
+                    
             insertCnt += evl1103eDao.insertEvalScore(evalScore);
         }
-        
+            
         if (insertCnt > 0) {
-            Utilities.regSearchHst("I", insertCnt);
+        	Utilities.regSearchHst("I", insertCnt);
         }
-        
+            
         // 결과 카운트를 리스트에 저장
         cnt.add(insertCnt);
         cnt.add(deleteCnt);
         cnt.add(updateCnt);
-        
+            
         return cnt;
     }
     
@@ -223,4 +223,4 @@ public class Evl1103eServiceImpl implements Evl1103eService {
         // 평가위원 코드(usrCd)와 지원자 코드(appCd)로 결과코드 조회
         return evl1103eDao.selectResultCd(so);
     }
-}
+} 

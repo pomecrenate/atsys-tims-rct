@@ -12,6 +12,7 @@ public class TbSelEvalJdgVo extends TbUsrBo {
     private String oathAgreeYn;
     private String oathAgreeDate;
     private String confirmedYn;
+    private String totalScore;
     
 	public String getStepCd() {
 		return stepCd;
@@ -60,5 +61,11 @@ public class TbSelEvalJdgVo extends TbUsrBo {
 	}
 	public void setConfirmedYn(String confirmedYn) {
 		this.confirmedYn = confirmedYn;
+	}
+	public String getTotalScore() {
+		return totalScore;
+	}
+	public void setTotalScore(String totalScore) {
+		this.totalScore = totalScore;
 	}
 }

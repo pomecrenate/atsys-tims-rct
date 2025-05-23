@@ -135,7 +135,7 @@
               WHEN #{qstTypeNm} = '전공심사' THEN '20'
               WHEN #{qstTypeNm} = '세미나' THEN '30'
               WHEN #{qstTypeNm} = '면접' THEN '40'
-              ELSE #{qstType}
+              ELSE '10'
             END
           , #{qstNm}
           , #{qstScore}
@@ -155,7 +155,7 @@
                          WHEN #{qstTypeNm} = '전공심사' THEN '20'
                          WHEN #{qstTypeNm} = '세미나' THEN '30'
                          WHEN #{qstTypeNm} = '면접' THEN '40'
-                         ELSE #{qstType}
+                         ELSE '10'
                        END
           , QST_NM = #{qstNm}
           , QST_SCORE = #{qstScore}

@@ -103,9 +103,9 @@ const evalColumns = [
         name: "inspMgtBtn", 
         btnText: "사정관리", 
         btnUrl: btnUrlMap.inspMgtBtn,
-        showCondition: function(row) {
+/*         showCondition: function(row) {
             return row.ntcStatusNm === '심사평가중' || row.ntcStatusNm === '합격자발표';
-        }
+        } */
     },
     { 
         type: "button", 

@@ -8,6 +8,9 @@ public class TbEvalTotalScoreVo extends TbEvalTotalScoreBo {
     private int totalAvg;
     private int exceptedAvg;
     private String passYn;
+    private String stepStartDate;
+	private String stepEndDate;
+	private String stepAnnDate;
     
 	public String getTotalCd() {
 		return totalCd;
@@ -32,5 +35,23 @@ public class TbEvalTotalScoreVo extends TbEvalTotalScoreBo {
 	}
 	public void setPassYn(String passYn) {
 		this.passYn = passYn;
+	}
+	public String getStepStartDate() {
+		return stepStartDate;
+	}
+	public void setStepStartDate(String stepStartDate) {
+		this.stepStartDate = stepStartDate;
+	}
+	public String getStepEndDate() {
+		return stepEndDate;
+	}
+	public void setStepEndDate(String stepEndDate) {
+		this.stepEndDate = stepEndDate;
+	}
+	public String getStepAnnDate() {
+		return stepAnnDate;
+	}
+	public void setStepAnnDate(String stepAnnDate) {
+		this.stepAnnDate = stepAnnDate;
 	}
 }
