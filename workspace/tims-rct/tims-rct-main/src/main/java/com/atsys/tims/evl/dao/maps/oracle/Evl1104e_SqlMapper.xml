@@ -59,10 +59,14 @@
             TB_EVAL_TOTAL_SCORE B ON A.APP_CD = B.APP_CD AND B.STEP_CD = #{stepCd} AND B.DEL_YN = 'N'
         INNER JOIN
             TB_NTC_FIELD C ON A.FIELD_CD = C.FIELD_CD
+        INNER JOIN
+            TB_NTC_STEP D ON D.STEP_CD = #{stepCd} AND D.NTC_CD = C.NTC_CD AND D.DEL_YN = 'N'
         WHERE 
             A.DEL_YN = 'N'
             AND C.STAFF_TYPE = #{staffType}
+            AND C.DEL_YN = 'N'
             AND A.APP_STATUS = '3'
+            AND A.PASS_STEP = #{step}
         ORDER BY
             EXCEPTED_AVG DESC,
             A.NM
@@ -99,6 +103,7 @@
             TB_EVAL_RESULT B ON A.JDG_CD = B.JDG_CD AND B.APP_CD = #{appCd} AND B.DEL_YN = 'N'
         WHERE
             A.FIELD_CD = C.FIELD_CD
+            AND A.STEP_CD = #{stepCd}
             AND A.DEL_YN = 'N'
         ORDER BY
             A.CHAIR_YN DESC,

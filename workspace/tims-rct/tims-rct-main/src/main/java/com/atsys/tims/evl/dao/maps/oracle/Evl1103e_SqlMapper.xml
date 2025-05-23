@@ -72,9 +72,11 @@
         JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
         LEFT JOIN TB_EVAL_RESULT R ON A.APP_CD = R.APP_CD AND J.JDG_CD = R.JDG_CD
         WHERE J.JDG_CD = #{usrCd}
+        AND J.STEP_CD = #{stepCd}
         AND J.DEL_YN = 'N'
         AND A.DEL_YN = 'N'
         AND A.APP_STATUS = '3'
+        AND A.PASS_STEP = #{step}
         ORDER BY A.NM
     </select>
     
@@ -116,9 +118,11 @@
             JOIN TB_NTC_FIELD F ON ES.STAFF_TYPE = F.STAFF_TYPE
             JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
             WHERE A.APP_CD = #{appCd}
+            AND ES.STEP_CD = #{stepCd}
             AND ES.DEL_YN = 'N'
             AND F.DEL_YN = 'N'
             AND A.DEL_YN = 'N'
+            AND ROWNUM = 1
         )
         AND Q.DEL_YN = 'N'
         AND ES.DEL_YN = 'N'
@@ -126,15 +130,17 @@
     </select>
     
     <!-- sheetCd를 통해 평가표 조회 -->
-    <select id="selectSheetCdByAppCd" parameterType="string" resultType="string">
+    <select id="selectSheetCdByAppCd" parameterType="map" resultType="string">
         SELECT ES.SHEET_CD
         FROM TB_EVAL_SHEET ES
         JOIN TB_NTC_FIELD F ON ES.STAFF_TYPE = F.STAFF_TYPE
         JOIN TB_APP A ON F.FIELD_CD = A.FIELD_CD
-        WHERE A.APP_CD = #{_parameter}
+        WHERE A.APP_CD = #{appCd}
+        AND ES.STEP_CD = #{stepCd}
         AND ES.DEL_YN = 'N'
         AND F.DEL_YN = 'N'
         AND A.DEL_YN = 'N'
+        AND ROWNUM = 1
     </select>
     
     <!-- 결과코드로 점수코드 목록 조회 -->
