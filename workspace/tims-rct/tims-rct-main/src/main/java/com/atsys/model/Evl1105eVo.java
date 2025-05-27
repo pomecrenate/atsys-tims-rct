@@ -19,7 +19,6 @@ public class Evl1105eVo extends BaseVo {
     private String collegeNm;
     private String deptCd;
     private String deptNm;
-    private String majorCd;
     private String majorNm;
     private String staffType;
     private String staffTypeNm;
@@ -86,12 +85,6 @@ public class Evl1105eVo extends BaseVo {
 	}
 	public void setDeptNm(String deptNm) {
 		this.deptNm = deptNm;
-	}
-	public String getMajorCd() {
-		return majorCd;
-	}
-	public void setMajorCd(String majorCd) {
-		this.majorCd = majorCd;
 	}
 	public String getMajorNm() {
 		return majorNm;
