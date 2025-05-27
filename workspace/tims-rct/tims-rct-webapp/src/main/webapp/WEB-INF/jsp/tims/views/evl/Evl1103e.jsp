@@ -13,7 +13,7 @@
 <c:set var="svnm" value="${serviceBathPath}/evl1103e"/>    
 <c:set var="svnmSearch" value="${svnm}/search"/>    
 <c:set var="svnmGetApp" value="${svnm}/getApplicant"/>  
-<c:set var="svnmGetSheet" value="${svnm}/getSheet"/>
+<c:set var="svnmGetSheet" value="${svnm}/getSheet"/>   
 <c:set var="svnmConfirmResult" value="${svnm}/confirmResult"/>
 <c:set var="svnmCancelConfirmResult" value="${svnm}/cancelConfirmResult"/>
 <c:set var="svnmGetResultCd" value="${svnm}/getResultCd"/>
@@ -72,7 +72,7 @@
 					</div>
 					<div class="rgt-area">
 						<div class="btn-group">
-							<button id="btn-confirm" data-action="confirmResult" type="button" class="n_btn btn_md btn_c02">확정</button>
+							<button id="btn-confirm" data-action="confirmResult" type="button" class="n_btn btn_md btn_c02" style="display:none;">확정</button>
 							<button id="btn-cancel-confirm" data-action="cancelConfirmResult" type="button" class="n_btn btn_md btn_c04" style="display:none;">확정취소</button>
 						</div>
 					</div>
@@ -95,7 +95,7 @@
 								<th>세부배점</th>
 								<th>점수 기준</th>
 								<th>평가 점수</th>
-							</tr> 
+		            </tr> 
 						</thead>
 						<tbody id="sheet-tbody"></tbody>
 					</table> 
@@ -124,9 +124,9 @@
 <script>
 // 테이블 컬럼 정의
 const applicantColumns = [
-    { type: "text", name: "appUsrNm", readonly: true },
-    { type: "text", name: "fieldInfo", readonly: true },
-    { type: "text", name: "confirmedStatus", readonly: true }
+    { type: "text", name: "appUsrNm" },
+    { type: "text", name: "fieldInfo" },
+    { type: "text", name: "confirmedStatus" }
 ];
 
 const sheetColumns = [
@@ -159,7 +159,7 @@ function initEventListeners() {
         location.href = '${serviceBathPath}/' + $(this).data('url');
     });
     
-    // 평가위원 선택 시 지원자 목록 로드 (자동 조회)
+    // 평가위원 선택 시 지원자 목록 로드
     $(document).on('change', '#usrCd', function() {
         if ($(this).val()) {
             loadApplicants($(this).val());
@@ -206,11 +206,20 @@ function loadJudgesSelectBox(judges) {
     });
 }
 
+// 지원자 목록 초기화
+function clearApplicants() {
+    $('#app-tbody').empty();
+    $('#appCd').val('');
+    $('#resultCd').val('');
+    clearEvalSheet();
+    toggleConfirmButtons(false);
+}
+
 // 지원자 목록 로드
 function loadApplicants(usrCd) {
     if (!usrCd) return;
     
-    const params = { 
+    const params = {
     	stepCd: $('#stepCd').val(),
     	usrCd: usrCd,
     	step: $('#step').text()
@@ -259,20 +268,10 @@ function loadApplicants(usrCd) {
         
         // 평가표 로드
         loadEvalSheet(appCd);
-        
-        // 평가 상태에 따라 UI 상태 변경
-        updateUiState($tr);
     });
 }
 
-// 지원자 목록 초기화
-function clearApplicants() {
-    $('#app-tbody').empty();
-    $('#appCd').val('');
-    $('#resultCd').val('');
-}
-
-    // 평가표 로드
+// 평가표 로드
 function loadEvalSheet(appCd) {
     const stepCd = $('#stepCd').val();
     const usrCd = $('#usrCd').val();
@@ -347,14 +346,30 @@ function loadEvalSheet(appCd) {
     if ($selectedRow.length > 0) {
         const isConfirmed = $selectedRow.find('td:eq(2)').text() === 'O';
         // 확정 상태에 따라 버튼 토글
-        if (isConfirmed) {
-            $('#btn-confirm').hide();
-            $('#btn-cancel-confirm').show();
-        } else {
-            $('#btn-confirm').show();
-            $('#btn-cancel-confirm').hide();
-        }
+        updateConfirmButtonState(isConfirmed);
         updateUiState($selectedRow);
+    }
+}
+
+// 확정 버튼 상태 업데이트
+function updateConfirmButtonState(isConfirmed) {
+    toggleConfirmButtons(true);
+    
+    if (isConfirmed) {
+        $('#btn-confirm').hide();
+        $('#btn-cancel-confirm').show();
+    } else {
+        $('#btn-confirm').show();
+        $('#btn-cancel-confirm').hide();
+    }
+}
+
+// 확정 버튼 토글
+function toggleConfirmButtons(show) {
+    if (show) {
+        $('#btn-confirm, #btn-cancel-confirm').not(':visible').show();
+    } else {
+        $('#btn-confirm, #btn-cancel-confirm').hide();
     }
 }
 
@@ -369,6 +384,9 @@ function clearEvalSheet() {
     
     // 소견서, 총점 영역 숨기기
     $('.opinion_area, .total_score').hide();
+    
+    // 버튼 숨기기
+    toggleConfirmButtons(false);
 }
 
 // 총점 계산
@@ -578,10 +596,10 @@ function cancelConfirmResult() {
     }
     
     // 확정취소 요청 데이터
-    const data = {
+        const data = {
         usrCd: usrCd,
-        appCd: appCd,
-        resultCd: resultCd,
+            appCd: appCd,
+            resultCd: resultCd,
         stepCd: stepCd
     };
     
@@ -600,7 +618,7 @@ function cancelConfirmResult() {
         
         // UI 상태 업데이트
         updateUiState($selectedRow);
-    } else {
+        } else {
         alert("이미 점수 집계가 완료되어 확정 취소가 불가능합니다.");
     }
 }

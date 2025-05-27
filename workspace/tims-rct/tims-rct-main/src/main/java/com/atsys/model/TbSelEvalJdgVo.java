@@ -6,6 +6,7 @@ public class TbSelEvalJdgVo extends TbUsrBo {
     
     private String stepCd;
     private String fieldCd;
+    private String resultCd;
     private String jdgDiv;
 	private String jdgDivNm;
     private String chairYn;
@@ -25,6 +26,12 @@ public class TbSelEvalJdgVo extends TbUsrBo {
 	}
 	public void setFieldCd(String fieldCd) {
 		this.fieldCd = fieldCd;
+	}
+	public String getResultCd() {
+		return resultCd;
+	}
+	public void setResultCd(String resultCd) {
+		this.resultCd = resultCd;
 	}
 	public String getJdgDiv() {
 		return jdgDiv;

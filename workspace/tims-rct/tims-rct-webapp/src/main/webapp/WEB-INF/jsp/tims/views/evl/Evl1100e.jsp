@@ -112,9 +112,9 @@ const evalColumns = [
         name: "resMgtBtn", 
         btnText: "결과관리", 
         btnUrl: btnUrlMap.resMgtBtn,
-        showCondition: function(row) {
+/*         showCondition: function(row) {
             return row.ntcStatusNm === '심사평가중' || row.ntcStatusNm === '합격자발표';
-        }
+        } */
     }
 ];
 

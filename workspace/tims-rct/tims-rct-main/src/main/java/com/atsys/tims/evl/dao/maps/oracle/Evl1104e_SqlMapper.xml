@@ -75,7 +75,7 @@
     <!-- 평가위원 목록 조회 -->
     <select id="selectJudges" parameterType="map" resultType="com.atsys.model.TbSelEvalJdgVo">
         SELECT 
-            A.JDG_CD,
+            A.JDG_CD AS USR_CD,
             A.JDG_DIV,
             FN_GET_CODE_NM('RCT011', A.JDG_DIV) AS JDG_DIV_NM,
             A.NM,

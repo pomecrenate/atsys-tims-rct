@@ -277,6 +277,7 @@ function loadJudges(fieldCd) {
         // 평가위원 데이터를 행별로 저장
         const judgeDataMap = {};
         obj.list.forEach(judge => {
+        	judge.chairYn = judge.chairYn === 'Y' ? 'O' : 'X';
             judgeDataMap[judge.usrCd] = judge;
         });
         

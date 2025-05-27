@@ -2,20 +2,20 @@ package com.atsys.model;
 
 import com.atsys.base.model.BaseVo;
 
-public class Evl1104eVo extends BaseVo {
+public class Evl1105eVo extends BaseVo {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4731060073795898428L;
 	
-	private String appCd;
-	private String nm;
-	private String birthDate;
-	private String mobPhone;
-	private int totalAvg;
-    private int exceptedAvg;
-    private String collegeCd;
+	private String ntcCd;
+	private String fieldCd;
+	private String stepCd;
+	private String step;
+	private String ntcType;
+	private String ntcTypeNm;
+	private String collegeCd;
     private String collegeNm;
     private String deptCd;
     private String deptNm;
@@ -23,45 +23,45 @@ public class Evl1104eVo extends BaseVo {
     private String majorNm;
     private String staffType;
     private String staffTypeNm;
-    private String qualifiedYn;
-    private String passStep;
-    private int rank;
+	private int requiredCnt;
+    private int qualifiedCnt;
+    private String unqualifiedCnt;
     
-	public String getAppCd() {
-		return appCd;
+	public String getNtcCd() {
+		return ntcCd;
 	}
-	public void setAppCd(String appCd) {
-		this.appCd = appCd;
+	public void setNtcCd(String ntcCd) {
+		this.ntcCd = ntcCd;
 	}
-	public String getNm() {
-		return nm;
+	public String getFieldCd() {
+		return fieldCd;
 	}
-	public void setNm(String nm) {
-		this.nm = nm;
+	public void setFieldCd(String fieldCd) {
+		this.fieldCd = fieldCd;
 	}
-	public String getBirthDate() {
-		return birthDate;
+	public String getStepCd() {
+		return stepCd;
 	}
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+	public void setStepCd(String stepCd) {
+		this.stepCd = stepCd;
 	}
-	public String getMobPhone() {
-		return mobPhone;
+	public String getStep() {
+		return step;
 	}
-	public void setMobPhone(String mobPhone) {
-		this.mobPhone = mobPhone;
+	public void setStep(String step) {
+		this.step = step;
 	}
-	public int getTotalAvg() {
-		return totalAvg;
+	public String getNtcType() {
+		return ntcType;
 	}
-	public void setTotalAvg(int totalAvg) {
-		this.totalAvg = totalAvg;
+	public void setNtcType(String ntcType) {
+		this.ntcType = ntcType;
 	}
-	public int getExceptedAvg() {
-		return exceptedAvg;
+	public String getNtcTypeNm() {
+		return ntcTypeNm;
 	}
-	public void setExceptedAvg(int exceptedAvg) {
-		this.exceptedAvg = exceptedAvg;
+	public void setNtcTypeNm(String ntcTypeNm) {
+		this.ntcTypeNm = ntcTypeNm;
 	}
 	public String getCollegeCd() {
 		return collegeCd;
@@ -111,22 +111,22 @@ public class Evl1104eVo extends BaseVo {
 	public void setStaffTypeNm(String staffTypeNm) {
 		this.staffTypeNm = staffTypeNm;
 	}
-	public String getQualifiedYn() {
-		return qualifiedYn;
+	public int getRequiredCnt() {
+		return requiredCnt;
 	}
-	public void setQualifiedYn(String qualifiedYn) {
-		this.qualifiedYn = qualifiedYn;
+	public void setRequiredCnt(int requiredCnt) {
+		this.requiredCnt = requiredCnt;
 	}
-	public String getPassStep() {
-		return passStep;
+	public int getQualifiedCnt() {
+		return qualifiedCnt;
 	}
-	public void setPassStep(String passStep) {
-		this.passStep = passStep;
+	public void setQualifiedCnt(int qualifiedCnt) {
+		this.qualifiedCnt = qualifiedCnt;
 	}
-	public int getRank() {
-		return rank;
+	public String getUnqualifiedCnt() {
+		return unqualifiedCnt;
 	}
-	public void setRank(int rank) {
-		this.rank = rank;
+	public void setUnqualifiedCnt(String unqualifiedCnt) {
+		this.unqualifiedCnt = unqualifiedCnt;
 	}
 }

@@ -117,20 +117,20 @@
 <script>
 // 테이블 컬럼 정의
 const applicantColumns = [
-    { type: "text", name: "nm", readonly: true },
-    { type: "text", name: "birthDate", readonly: true },
-    { type: "text", name: "mobPhone", readonly: true },
-    { type: "text", name: "totalAvg", readonly: true },
-    { type: "text", name: "exceptedAvg", readonly: true },
-    { type: "text", name: "rank", readonly: true }
+    { type: "text", name: "nm" },
+    { type: "text", name: "birthDate" },
+    { type: "text", name: "mobPhone" },
+    { type: "text", name: "totalAvg" },
+    { type: "text", name: "exceptedAvg" },
+    { type: "text", name: "rank" }
 ];
 
 const judgeColumns = [
-    { type: "text", name: "jdgDivNm", readonly: true },
-    { type: "text", name: "chairYn", readonly: true },
-    { type: "text", name: "nm", readonly: true },
-    { type: "text", name: "confirmedYn", readonly: true },
-    { type: "text", name: "totalScore", readonly: true }
+    { type: "text", name: "jdgDivNm" },
+    { type: "text", name: "chairYn" },
+    { type: "text", name: "nm" },
+    { type: "text", name: "confirmedYn" },
+    { type: "text", name: "totalScore" }
 ];
 
 $(document).ready(function() {
@@ -246,17 +246,8 @@ function loadApplicants(staffType) {
         // 평가위원 목록 로드
         loadJudges(appCd);
         
-        // 총점 존재 여부에 따라 UI 상태 변경
-        const totalAvg = $tr.find('td:eq(3)').text();
-        const isCalculated = totalAvg && totalAvg !== "0";
-        
-        if (isCalculated) {
-            $('#btn-calc').hide();
-            $('#btn-cancel-calc').show();
-        } else {
-            $('#btn-calc').show();
-            $('#btn-cancel-calc').hide();
-        }
+        // 평가 상태에 따라 UI 상태 변경
+        updateCalcButtonState($tr);
     });
 }
 
@@ -300,11 +291,37 @@ function calculateRanks(applicants) {
     });
 }
 
+// 사정 버튼 상태 업데이트
+function updateCalcButtonState($tr) {
+    const totalAvg = $tr.find('td:eq(3)').text();
+    const isCalculated = totalAvg && totalAvg !== "0";
+    
+    toggleCalcButtons(true);
+    
+    if (isCalculated) {
+        $('#btn-calc').hide();
+        $('#btn-cancel-calc').show();
+    } else {
+        $('#btn-calc').show();
+        $('#btn-cancel-calc').hide();
+    }
+}
+
+// 사정 버튼 토글
+function toggleCalcButtons(show) {
+    if (show) {
+        $('#btn-calc, #btn-cancel-calc').not(':visible').show();
+    } else {
+        $('#btn-calc, #btn-cancel-calc').hide();
+    }
+}
+
 // 지원자 목록 초기화
 function clearApplicants() {
     $('#app-tbody').empty();
     $('#appCd').val('');
     clearJudges();
+    toggleCalcButtons(false);
 }
 
 // 평가위원 목록 로드
@@ -322,21 +339,32 @@ function loadJudges(appCd) {
         return;
     }
     
+    // 위원장여부와 확정여부 Y/N을 O/X로 변환
+    obj.list.forEach(judge => {
+        judge.chairYn = judge.chairYn === 'Y' ? 'O' : 'X';
+        judge.confirmedYn = judge.confirmedYn === 'Y' ? 'O' : 'X';
+    });
+    
     // 총점코드 저장
     if (obj.totalCd) {
         $('#totalCd').val(obj.totalCd);
+        // 사정 취소 버튼 활성화
+        updateCalcButtonState($('#app-tbody tr.active'));
     } else {
         $('#totalCd').val('');
+        // 사정 버튼 활성화
+        updateCalcButtonState($('#app-tbody tr.active'));
     }
     
     // 테이블 렌더링
-    RctUtil.renderTable("judges-tbody", judgeColumns, obj.list, null, null, "jdgCd");
+    RctUtil.renderTable("judges-tbody", judgeColumns, obj.list, null, null, "usrCd");
 }
 
 // 평가위원 목록 초기화
 function clearJudges() {
     $('#judges-tbody').empty();
     $('#totalCd').val('');
+    toggleCalcButtons(false);
 }
 
 // 점수 사정
@@ -352,11 +380,11 @@ function calcScores() {
     // 모든 평가위원이 확정했는지 확인
     const allConfirmed = $("#judges-tbody tr").toArray().every(row => {
         const confirmedYn = $(row).find("td:eq(3)").text().trim();
-        return confirmedYn === 'Y';
+        return confirmedYn === 'O';
     });
     
     if (!allConfirmed) {
-        alert("모든 평가위원의 확정여부가 'Y'여야 사정이 가능합니다.");
+        alert("모든 평가위원의 확정여부가 'O'여야 사정이 가능합니다.");
         return;
     }
     

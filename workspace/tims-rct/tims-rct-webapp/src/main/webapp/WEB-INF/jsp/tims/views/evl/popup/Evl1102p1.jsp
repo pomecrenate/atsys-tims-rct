@@ -119,7 +119,7 @@ function initEventListeners() {
 
     // 행 더블클릭 시 선택 처리
     $(document).on("dblclick", "#sheet-list-tbody tr", function() {
-    	const tr = $(this)
+    	const tr = $(this);
         const stepCd = tr.find('td:eq(0)').text();
         const staffType = tr.find('td:eq(1)').text();
         
