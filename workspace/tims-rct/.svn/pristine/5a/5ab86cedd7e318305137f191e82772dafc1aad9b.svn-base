@@ -1,0 +1,132 @@
+package com.atsys.model;
+
+import com.atsys.base.model.BaseVo;
+
+public class Evl1104eVo extends BaseVo {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4731060073795898428L;
+	
+	private String appCd;
+	private String nm;
+	private String birthDate;
+	private String mobPhone;
+	private int totalAvg;
+    private int exceptedAvg;
+    private String collegeCd;
+    private String collegeNm;
+    private String deptCd;
+    private String deptNm;
+    private String majorCd;
+    private String majorNm;
+    private String staffType;
+    private String staffTypeNm;
+    private String qualifiedYn;
+    private String passStep;
+    private int rank;
+    
+	public String getAppCd() {
+		return appCd;
+	}
+	public void setAppCd(String appCd) {
+		this.appCd = appCd;
+	}
+	public String getNm() {
+		return nm;
+	}
+	public void setNm(String nm) {
+		this.nm = nm;
+	}
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+	public String getMobPhone() {
+		return mobPhone;
+	}
+	public void setMobPhone(String mobPhone) {
+		this.mobPhone = mobPhone;
+	}
+	public int getTotalAvg() {
+		return totalAvg;
+	}
+	public void setTotalAvg(int totalAvg) {
+		this.totalAvg = totalAvg;
+	}
+	public int getExceptedAvg() {
+		return exceptedAvg;
+	}
+	public void setExceptedAvg(int exceptedAvg) {
+		this.exceptedAvg = exceptedAvg;
+	}
+	public String getCollegeCd() {
+		return collegeCd;
+	}
+	public void setCollegeCd(String collegeCd) {
+		this.collegeCd = collegeCd;
+	}
+	public String getCollegeNm() {
+		return collegeNm;
+	}
+	public void setCollegeNm(String collegeNm) {
+		this.collegeNm = collegeNm;
+	}
+	public String getDeptCd() {
+		return deptCd;
+	}
+	public void setDeptCd(String deptCd) {
+		this.deptCd = deptCd;
+	}
+	public String getDeptNm() {
+		return deptNm;
+	}
+	public void setDeptNm(String deptNm) {
+		this.deptNm = deptNm;
+	}
+	public String getMajorCd() {
+		return majorCd;
+	}
+	public void setMajorCd(String majorCd) {
+		this.majorCd = majorCd;
+	}
+	public String getMajorNm() {
+		return majorNm;
+	}
+	public void setMajorNm(String majorNm) {
+		this.majorNm = majorNm;
+	}
+	public String getStaffType() {
+		return staffType;
+	}
+	public void setStaffType(String staffType) {
+		this.staffType = staffType;
+	}
+	public String getStaffTypeNm() {
+		return staffTypeNm;
+	}
+	public void setStaffTypeNm(String staffTypeNm) {
+		this.staffTypeNm = staffTypeNm;
+	}
+	public String getQualifiedYn() {
+		return qualifiedYn;
+	}
+	public void setQualifiedYn(String qualifiedYn) {
+		this.qualifiedYn = qualifiedYn;
+	}
+	public String getPassStep() {
+		return passStep;
+	}
+	public void setPassStep(String passStep) {
+		this.passStep = passStep;
+	}
+	public int getRank() {
+		return rank;
+	}
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+}

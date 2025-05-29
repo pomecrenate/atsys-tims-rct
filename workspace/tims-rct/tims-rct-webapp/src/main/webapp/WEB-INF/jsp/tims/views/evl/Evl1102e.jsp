@@ -378,7 +378,7 @@ function validateSheet() {
 // 심사표 팝업 열기
 function openSheetPopup() {
     const url = '${svnmSheetPop}';
-    RctUtil.urlDialog('심사표 불러오기', url, 800, 600);
+    RctUtil.urlDialog('심사표 불러오기', url, 900, 600);
 }
 
 // 심사표 선택 후 처리 (팝업에서 호출)

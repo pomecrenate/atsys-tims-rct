@@ -23,9 +23,8 @@ public class Evl1100eServiceImpl implements Evl1100eService{
 	private Evl1100eDao evl1100eDao;
 	
 	@Override 
-	public List<TbNtcStepVo> selectList(Map<String, Object> so) throws Exception { 
-		List<TbNtcStepVo> list = evl1100eDao.selectList(so); 
-		return list; 
+	public List<TbNtcStepVo> selectList(Map<String, Object> so) throws Exception {
+		return evl1100eDao.selectList(so);  
 	}
 
 	@Override

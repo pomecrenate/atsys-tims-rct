@@ -84,7 +84,7 @@
 					</div>
 					<div class="rgt-area">
 						<div class="btn-group">
-							<button id="btn-calc" data-action="calcScores" type="button" class="n_btn btn_md btn_c02" style="display:none;">사정</button>
+							<button id="btn-calc" data-action="calcScores" type="button" class="n_btn btn_md btn_c02">사정</button>
 							<button id="btn-cancel-calc" data-action="cancelCalcScores" type="button" class="n_btn btn_md btn_c04" style="display:none;">사정취소</button>
 						</div>
 					</div>
@@ -207,9 +207,6 @@ function generateStaffTypeRadios(staffTypeList) {
             $radioGroup.append($label);
         });
     }
-    
-    // 초기에는 버튼 숨기기
-    toggleCalcButtons(false);
 }
 
 // 지원자 목록 로드
@@ -313,7 +310,7 @@ function updateCalcButtonState($tr) {
 // 사정 버튼 토글
 function toggleCalcButtons(show) {
     if (show) {
-        $('#btn-calc, #btn-cancel-calc').show();
+        $('#btn-calc, #btn-cancel-calc').not(':visible').show();
     } else {
         $('#btn-calc, #btn-cancel-calc').hide();
     }

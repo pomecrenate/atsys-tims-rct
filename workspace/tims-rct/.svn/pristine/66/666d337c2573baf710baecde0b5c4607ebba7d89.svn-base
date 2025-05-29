@@ -107,7 +107,7 @@ function initFilters() {
 // 이벤트 리스너 초기화
 function initEventListeners() {
     // 버튼 이벤트
-    $(document).one("click", "button[data-action]", function() {
+    $(document).on("click", "button[data-action]", function() {
         const action = $(this).data('action');
         
         switch(action) {
@@ -118,7 +118,7 @@ function initEventListeners() {
     });
 
     // 행 더블클릭 시 선택 처리
-    $(document).one("dblclick", "#sheet-list-tbody tr", function() {
+    $(document).on("dblclick", "#sheet-list-tbody tr", function() {
     	const tr = $(this);
         const stepCd = tr.find('td:eq(0)').text();
         const staffType = tr.find('td:eq(1)').text();

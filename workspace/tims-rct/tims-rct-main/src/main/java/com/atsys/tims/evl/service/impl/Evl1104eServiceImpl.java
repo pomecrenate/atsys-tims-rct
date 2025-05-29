@@ -35,7 +35,13 @@ public class Evl1104eServiceImpl implements Evl1104eService {
     
     @Override
     public List<Evl1104eVo> getApplicants(Map<String, Object> so) throws Exception {
-        return evl1104eDao.selectApplicants(so);
+    	List<Evl1104eVo> appList = evl1104eDao.selectApplicants(so);
+    	for (Evl1104eVo app : appList) {
+    		if (app.getMobPhone() != null) {
+    			app.setMobPhone(Utilities.getPhoneNumberFormat(app.getMobPhone()));
+        	}
+    	}
+        return appList;
     }
     
     @Override

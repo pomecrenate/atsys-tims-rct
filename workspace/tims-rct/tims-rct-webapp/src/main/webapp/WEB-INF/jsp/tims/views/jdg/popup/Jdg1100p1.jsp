@@ -58,7 +58,7 @@ $(document).ready(function() {
     RctUtil.insertRow(judgeColumns, '#judge-pre-table');
     
     // 버튼 이벤트 처리
-    $(document).on("click", "button[data-action]", function() {
+    $(document).one("click", "button[data-action]", function() {
         const action = $(this).data("action");
         
         switch(action) {
